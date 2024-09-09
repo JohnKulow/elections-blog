@@ -7,11 +7,11 @@ categories: []
 tags: []
 ---
 
-## Introduction
+## **Introduction**
 
-insert introduction paragraph here
+In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election.
 
-## Historical Two-Party Vote Share
+## **Historical Two-Party Vote Share**
 ### National Results:
 
 insert national 2pv paragraph here
@@ -24,7 +24,7 @@ insert state winner and state margin paragraphs here
 
 insert state swing paragraph here
 
-## Initial Predictions
+## **Initial Predictions**
 ### Prediction 1: Based off of Past Election Results
 
 Prediction one paragraph here
