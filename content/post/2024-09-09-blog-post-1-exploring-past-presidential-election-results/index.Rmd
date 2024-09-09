@@ -20,7 +20,7 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warnings = FALSE)
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warnings = FALSE)
 ```
 
 ```{r, include=FALSE}
