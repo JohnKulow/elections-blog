@@ -29,7 +29,7 @@ library(maps)
 library(tidyverse)
 ```
 
-```{r}
+```{r, include=FALSE}
 d_popvote <- read_csv("data/popvote_1948-2020.csv")
 
 d_popvote_wide <- d_popvote |>
@@ -41,37 +41,161 @@ d_popvote_wide <- d_popvote_wide |>
 
 ```
 
-Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. 
+Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. However, while elections have remained fairly competitive over the last roughly 85 years, the national popular vote margin has seemingly gotten narrower in recent decades. 
+
+```{r, include=FALSE}
+my_pretty_theme <- theme_bw() + 
+    theme(panel.border = element_blank(),
+          plot.title = element_text(size = 15, hjust = 0.5), 
+          axis.text.x = element_text(angle = 45, hjust = 1),
+          axis.text = element_text(size = 12),
+          strip.text = element_text(size = 18),
+          axis.line = element_line(colour = "black"),
+          legend.position = "top",
+          legend.text = element_text(size = 12))
+```
 
 ```{r}
 d_popvote |>
-  ggplot(aes(x = year, y = pv2p, color = party)) +
-  geom_line() + 
-  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
-  theme_bw()
+  mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
+  ggplot(aes(x = year, y = pv2p, colour = party)) +
+  geom_line(stat = "identity") +
+  scale_color_manual(values = c("dodgerblue4", "firebrick1"), name = "") +
+  xlab("") + ## no need to label an obvious axis
+  ylab("Two-Party National Popular Vote (%)") +
+  ggtitle("Presidential Vote Share (1948-2020)") + 
+  scale_x_continuous(breaks = seq(1948, 2020, 4)) +
+  my_pretty_theme
 ```
 
 
 ### State-Level Results:
 
-insert state winner and state margin paragraphs here
+This was only the national popular vote, however, and because the United States notoriously elects its presidents using the electoral college rather than the nationwide popular vote, it is important to analyze the history of state-level presidential election results as well. The below graphic shows which party won in each state in every election since 1980:
+
+```{r, include=FALSE}
+states_map <- map_data("state")
+d_pvstate_wide <- read_csv("data/clean_wide_state_2pv_1948_2020.csv")
+d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+
+pv_map <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  left_join(states_map, by = "region")
+
+pv_win_map <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  left_join(states_map, by = "region") |>
+  mutate(winner = ifelse(R_pv > D_pv, "republican", "democrat"))
+```
+
+
+```{r}
+d_pvstate_wide |>
+  filter(year >= 1980) |>
+  left_join(states_map, by = "region") |>
+  mutate(winner = ifelse(R_pv > D_pv, "republican", "democrat")) |>
+  ggplot(aes(long, lat, group = group)) +
+  facet_wrap(facets = year ~.) +
+  geom_polygon(aes(fill = winner), color = "white") +
+  scale_fill_manual(values = c("dodgerblue4", "firebrick1")) +
+  theme_void() +
+  ggtitle("Presidential Victor by State (1980-2020)") +
+  theme(strip.text = element_text(size = 12),
+        aspect.ratio = .75)
+```
+
+As can be seen above, there are significant changes to which states Democrats and Republicans win between 1980 and 2020. That said, it can also clearly be seen that many states, Wyoming and Montana for example, stay remarkably stable for Republicans and Democrats respectively. But this graphic obscures how close each of these states are. For example, while Minnesota has voted Democratic in every above presidential election, in 2016 Democrat Hillary Clinton narrowly carried it by a less than 2-point margin in the 2-party popular vote. To see how competitive states have been in past elections, we must analyze not just the winner, but the margin by which they won. The below graphic does just that.
+
+```{r}
+d_pvstate_wide |>
+  mutate(margin2p = D_pv2p - R_pv2p) |>
+  filter(year >= 1980) |>
+  left_join(states_map, by = "region") |>
+  ggplot(aes(long, lat, group = group)) +
+  facet_wrap(facets = year ~.) +
+  geom_polygon(aes(fill = margin2p), color = "black") +
+  scale_fill_gradient2(low = "firebrick1",
+                       mid = "white",
+                       high = "dodgerblue4",
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-60, 60)) +
+  theme_void() +
+  ggtitle("Presidential Vote Margin by State (1980-2020)") +
+  theme(strip.text = element_text(size = 12),
+        aspect.ratio = .75)
+```
+
+As can be seen, the presidential battleground states have changed over the years. 45 years ago, California, New York, and Tennessee were battleground states, while Nevada, Arizona, and Virginia were all safely Republican. In 2000, Oregon, West Virginia, and Tennessee all saw close elections while Republicans won Georgia and North Carolina fairly easily. Now in 2020, California, New York, Tennessee, Oregon, and West Virginia all went fairly strongly for one party or the other, while Nevada, Arizona, Georgia, North Carolina, and, to a lesser extent, Virginia all saw tight elections, with Democrats narrowly flipping Georgia for the first time since Bill Clinton's strong 1992 victory.
 
 ### State-Level Swings:
 
-insert state swing paragraph here
+We can also visualize these changes by looking how states "swung" from election to election. The below graphic shows how many percentage points each state swung relative to the prior election.
 
-## **Initial Predictions**
+```{r}
+d_pvstate_wide |>
+  mutate(D_swing2p = D_pv2p - D_pv_lag1) |>
+  filter(year >= 1980) |>
+  left_join(states_map, by = "region") |>
+  ggplot(aes(long, lat, group = group)) +
+  facet_wrap(facets = year ~.) +
+  geom_polygon(aes(fill = D_swing2p), color = "black") +
+  scale_fill_gradient2(low = "firebrick1",
+                       mid = "white",
+                       high = "dodgerblue4",
+                       breaks = c(-25, -10, 0, 10, 25),
+                       limits = c(-25, 25)) +
+  theme_void() +
+  ggtitle("Presidential Vote Swing by State (1980-2020)") +
+  theme(strip.text = element_text(size = 12),
+        aspect.ratio = .75)
+```
+
+These maps are useful in understanding which regions trend differently from the rest of the nation. For example, while the national popular vote remained relatively stable between 1980 and 1984, ticking slightly up for Republicans, these gains were heavily concentrated in the south, while Democrats, despite doing worse nationwide, made notable gains in the West, Great Plains, and the Northeast. Another great example is in 2012. While Republicans made modest gains nationwide while trying to defeat President Obama's reelection bid, the majority-Mormon state of Utah stands out as a state that swung particularly strongly for Republicans. This can easily be understood given that Republicans' nomination of Mitt Romney made him the first Mormon major party nominee for president in American history.
+
+## **Initial Prediction**
 ### Prediction 1: Based off of Past Election Results
 
-Prediction one paragraph here
+Given what we have learned above about the history of presidential results and state-level trends, we can use recent electoral history to make a rough prediction of what the 2024 election results may be. Specifically, we can make a Simplified Electoral Cycle Model of *Y_2024 = 0.75(Y_2020) + 0.25(Y_2016)* where Y_*year* is the presidential margin in any given state in that year. We can then graph these results and tabulate how many electoral college votes each party would earn under this model.
 
-### Prediction 2: Adding in OLS
+```{r, include=FALSE}
+pv2p_2024_states <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  group_by(state) |>
+  summarize(D_pv2p_2024 = 0.75*D_pv2p + 0.25*D_pv_lag1,
+            R_pv2p_2024 = 0.75*R_pv2p + 0.25*R_pv2p_lag1) |>
+  mutate(pv2p_2024_margin = R_pv2p_2024 - D_pv2p_2024,
+         region = tolower(state))
+```
 
-OLS prediction 2 paragraph here
+```{r}
+pv2p_2024_states |>
+  left_join(states_map, by = "region") |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = pv2p_2024_margin), color = "black") +
+  scale_fill_gradient2(high = "firebrick1",
+                       mid = "white",
+                       low = "dodgerblue4",
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50, 50)) +
+  theme_void()
+```
 
+```{r, include=FALSE}
+ec <- read_csv("data/ec_full.csv")
 
+pv2p_2024_states <- pv2p_2024_states |>
+  mutate(year = 2024,
+         winner = ifelse(R_pv2p_2024 > D_pv2p_2024, "R", "D")) |>
+  left_join(ec, by = c("state", "year"))
+```
 
+```{r, include=FALSE}
+pv2p_2024_states |>
+  group_by(winner) |>
+  summarize(electoral_votes = sum(electors))
+```
 
+We can see that under this scenario, Republicans would flip back Arizona, Georgia, and Wisconsin, earning them 272 electoral college votes compared to Democrats' 266, narrowly being enough for Republicans to flip back the presidency.
 
 
 
