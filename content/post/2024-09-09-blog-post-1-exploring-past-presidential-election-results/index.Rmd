@@ -19,7 +19,7 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 
 
 
-```{r setup, include=FALSE}
+```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warnings = FALSE)
 ```
 
@@ -55,7 +55,7 @@ my_pretty_theme <- theme_bw() +
           legend.text = element_text(size = 12))
 ```
 
-```{r, warnings = FALSE, echo=FALSE}
+```{r, warning = FALSE, echo=FALSE}
 d_popvote |>
   mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
   ggplot(aes(x = year, y = pv2p, colour = party)) +
@@ -89,7 +89,7 @@ pv_win_map <- d_pvstate_wide |>
 ```
 
 
-```{r, warnings = FALSE, echo=FALSE}
+```{r, warning = FALSE, echo=FALSE}
 d_pvstate_wide |>
   filter(year >= 1980) |>
   left_join(states_map, by = "region") |>
@@ -106,7 +106,7 @@ d_pvstate_wide |>
 
 As can be seen above, there are significant changes to which states Democrats and Republicans win between 1980 and 2020. That said, it can also clearly be seen that many states, Wyoming and Montana for example, stay remarkably stable for Republicans and Democrats respectively. But this graphic obscures how close each of these states are. For example, while Minnesota has voted Democratic in every above presidential election, in 2016 Democrat Hillary Clinton narrowly carried it by a less than 2-point margin in the 2-party popular vote. To see how competitive states have been in past elections, we must analyze not just the winner, but the margin by which they won. The below graphic does just that.
 
-```{r, warnings = FALSE, echo=FALSE}
+```{r, warning = FALSE, echo=FALSE}
 d_pvstate_wide |>
   mutate(margin2p = D_pv2p - R_pv2p) |>
   filter(year >= 1980) |>
@@ -131,7 +131,7 @@ As can be seen, the presidential battleground states have changed over the years
 
 We can also visualize these changes by looking how states "swung" from election to election. The below graphic shows how many percentage points each state swung relative to the prior election.
 
-```{r, warnings = FALSE, echo=FALSE}
+```{r, warning = FALSE, echo=FALSE}
 d_pvstate_wide |>
   mutate(D_swing2p = D_pv2p - D_pv_lag1) |>
   filter(year >= 1980) |>

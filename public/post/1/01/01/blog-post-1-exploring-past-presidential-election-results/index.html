@@ -40,30 +40,12 @@
 <img src="https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 <h3 id="state-level-results">State-Level Results:</h3>
 <p>This was only the national popular vote, however, and because the United States notoriously elects its presidents using the electoral college rather than the nationwide popular vote, it is important to analyze the history of state-level presidential election results as well. The below graphic shows which party won in each state in every election since 1980:</p>
-<pre><code>## Warning in left_join(filter(d_pvstate_wide, year &gt;= 1980), states_map, by = &quot;region&quot;): Detected an unexpected many-to-many relationship between `x` and `y`.
-## ℹ Row 1 of `x` matches multiple rows in `y`.
-## ℹ Row 1 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship =
-##   &quot;many-to-many&quot;` to silence this warning.
-</code></pre>
 <img src="https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 <p>As can be seen above, there are significant changes to which states Democrats and Republicans win between 1980 and 2020. That said, it can also clearly be seen that many states, Wyoming and Montana for example, stay remarkably stable for Republicans and Democrats respectively. But this graphic obscures how close each of these states are. For example, while Minnesota has voted Democratic in every above presidential election, in 2016 Democrat Hillary Clinton narrowly carried it by a less than 2-point margin in the 2-party popular vote. To see how competitive states have been in past elections, we must analyze not just the winner, but the margin by which they won. The below graphic does just that.</p>
-<pre><code>## Warning in left_join(filter(mutate(d_pvstate_wide, margin2p = D_pv2p - R_pv2p), : Detected an unexpected many-to-many relationship between `x` and `y`.
-## ℹ Row 1 of `x` matches multiple rows in `y`.
-## ℹ Row 1 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship =
-##   &quot;many-to-many&quot;` to silence this warning.
-</code></pre>
 <img src="https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <p>As can be seen, the presidential battleground states have changed over the years. 45 years ago, California, New York, and Tennessee were battleground states, while Nevada, Arizona, and Virginia were all safely Republican. In 2000, Oregon, West Virginia, and Tennessee all saw close elections while Republicans won Georgia and North Carolina fairly easily. Now in 2020, California, New York, Tennessee, Oregon, and West Virginia all went fairly strongly for one party or the other, while Nevada, Arizona, Georgia, North Carolina, and, to a lesser extent, Virginia all saw tight elections, with Democrats narrowly flipping Georgia for the first time since Bill Clinton&rsquo;s strong 1992 victory.</p>
 <h3 id="state-level-swings">State-Level Swings:</h3>
 <p>We can also visualize these changes by looking how states &ldquo;swung&rdquo; from election to election. The below graphic shows how many percentage points each state swung relative to the prior election.</p>
-<pre><code>## Warning in left_join(filter(mutate(d_pvstate_wide, D_swing2p = D_pv2p - : Detected an unexpected many-to-many relationship between `x` and `y`.
-## ℹ Row 1 of `x` matches multiple rows in `y`.
-## ℹ Row 1 of `y` matches multiple rows in `x`.
-## ℹ If a many-to-many relationship is expected, set `relationship =
-##   &quot;many-to-many&quot;` to silence this warning.
-</code></pre>
 <img src="https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 <p>These maps are useful in understanding which regions trend differently from the rest of the nation. For example, while the national popular vote remained relatively stable between 1980 and 1984, ticking slightly up for Republicans, these gains were heavily concentrated in the south, while Democrats, despite doing worse nationwide, made notable gains in the West, Great Plains, and the Northeast. Another great example is in 2012. While Republicans made modest gains nationwide while trying to defeat President Obama&rsquo;s reelection bid, the majority-Mormon state of Utah stands out as a state that swung particularly strongly for Republicans. This can easily be understood given that Republicans&rsquo; nomination of Mitt Romney made him the first Mormon major party nominee for president in American history.</p>
 <h2 id="initial-prediction"><strong>Initial Prediction</strong></h2>
