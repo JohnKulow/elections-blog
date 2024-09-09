@@ -33,6 +33,47 @@
 <h2 id="historical-two-party-vote-share"><strong>Historical Two-Party Vote Share</strong></h2>
 <h3 id="national-results">National Results:</h3>
 <p>insert national 2pv paragraph here</p>
+<pre><code class="language-r">library(ggplot2)
+library(maps)
+library(tidyverse)
+</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ purrr::map()    masks maps::map()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
+</code></pre>
+<pre><code class="language-r">d_popvote &lt;- read_csv(&quot;data/popvote_1948-2020.csv&quot;)
+</code></pre>
+<pre><code>## Rows: 38 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): party, candidate
+## dbl (3): year, pv, pv2p
+## lgl (4): winner, incumbent, incumbent_party, prev_admin
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+</code></pre>
+<pre><code class="language-r">d_popvote_wide &lt;- d_popvote |&gt;
+    select(year, party, pv2p) |&gt;
+    pivot_wider(names_from = party, values_from = pv2p)
+d_popvote_wide &lt;- d_popvote_wide |&gt; 
+    mutate(winner = case_when(democrat &gt; republican ~ &quot;D&quot;,
+                              TRUE ~ &quot;R&quot;))
+</code></pre>
+<pre><code class="language-r">d_popvote |&gt;
+  ggplot(aes(x = year, y = pv2p, color = party)) +
+  geom_line() + 
+  scale_color_manual(values = c(&quot;dodgerblue4&quot;, &quot;firebrick1&quot;)) +
+  theme_bw()
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 <h3 id="state-level-results">State-Level Results:</h3>
 <p>insert state winner and state margin paragraphs here</p>
 <h3 id="state-level-swings">State-Level Swings:</h3>

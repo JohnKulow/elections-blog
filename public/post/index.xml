@@ -12,7 +12,7 @@
       <link>https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/</guid>
-      <description>Introduction In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election.&#xA;Historical Two-Party Vote Share National Results: insert national 2pv paragraph here&#xA;State-Level Results: insert state winner and state margin paragraphs here</description>
+      <description>Introduction In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election.&#xA;Historical Two-Party Vote Share National Results: insert national 2pv paragraph here&#xA;library(ggplot2) library(maps) library(tidyverse) ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.</description>
     </item>
   </channel>
 </rss>
