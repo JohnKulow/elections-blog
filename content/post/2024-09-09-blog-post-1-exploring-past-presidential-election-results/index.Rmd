@@ -9,18 +9,21 @@ tags: []
 
 ## **Introduction**
 
-In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election.
+In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election and will help seek answers to the following questions:
+
+- How competitive are presidential elections in the United States?
+- Which states vote blue/red and how consistently?
 
 ## **Historical Two-Party Vote Share**
 ### National Results:
 
-insert national 2pv paragraph here
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include=FALSE}
 library(ggplot2)
 library(maps)
 library(tidyverse)
@@ -37,6 +40,8 @@ d_popvote_wide <- d_popvote_wide |>
                               TRUE ~ "R"))
 
 ```
+
+Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. 
 
 ```{r}
 d_popvote |>
