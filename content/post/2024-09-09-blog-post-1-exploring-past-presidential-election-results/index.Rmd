@@ -16,6 +16,37 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 
 insert national 2pv paragraph here
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(maps)
+library(tidyverse)
+```
+
+```{r}
+d_popvote <- read_csv("data/popvote_1948-2020.csv")
+
+d_popvote_wide <- d_popvote |>
+    select(year, party, pv2p) |>
+    pivot_wider(names_from = party, values_from = pv2p)
+d_popvote_wide <- d_popvote_wide |> 
+    mutate(winner = case_when(democrat > republican ~ "D",
+                              TRUE ~ "R"))
+
+```
+
+```{r}
+d_popvote |>
+  ggplot(aes(x = year, y = pv2p, color = party)) +
+  geom_line() + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  theme_bw()
+```
+
+
 ### State-Level Results:
 
 insert state winner and state margin paragraphs here
