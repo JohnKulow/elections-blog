@@ -1,0 +1,10 @@
+---
+title: 'Blog Post 1: Exploring Past Presidential Election Results'
+author: John Kulow
+date: '2024-09-09'
+slug: blog-post-1-exploring-past-presidential-election-results
+categories: []
+tags: []
+---
+
+Hi! This is John
