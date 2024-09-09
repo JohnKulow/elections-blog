@@ -2,19 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.org/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</loc>
-    <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+    <loc>https://johnkulow.github.io/elections-blog/about/</loc>
   </url><url>
-    <loc>https://example.org/</loc>
-    <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+    <loc>https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/</loc>
   </url><url>
-    <loc>https://example.org/post/</loc>
-    <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+    <loc>https://johnkulow.github.io/elections-blog/categories/</loc>
   </url><url>
-    <loc>https://example.org/about/</loc>
+    <loc>https://johnkulow.github.io/elections-blog/</loc>
   </url><url>
-    <loc>https://example.org/categories/</loc>
+    <loc>https://johnkulow.github.io/elections-blog/post/</loc>
   </url><url>
-    <loc>https://example.org/tags/</loc>
+    <loc>https://johnkulow.github.io/elections-blog/tags/</loc>
   </url>
 </urlset>

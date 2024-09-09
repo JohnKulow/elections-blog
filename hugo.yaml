@@ -1,4 +1,4 @@
-baseurl: "https://example.org/"  # please update this to your actual URL
+baseurl: "https://johnkulow.github.io/elections-blog/"  # please update this to your actual URL
 languageCode: "en-us"
 title: "John Kulow Gov 1347 Election Blog"
 theme: "hugo-xmin"
@@ -16,7 +16,7 @@ menu:
     - name: Home
       url: ""
       weight: 1
-    - name: About
+    - name: About John
       url: "about/"
       weight: 2
 

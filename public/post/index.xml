@@ -2,18 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on John Kulow Gov 1347 Election Blog</title>
-    <link>https://example.org/post/</link>
+    <link>https://johnkulow.github.io/elections-blog/post/</link>
     <description>Recent content in Posts on John Kulow Gov 1347 Election Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Sep 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://johnkulow.github.io/elections-blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog Post 1: Exploring Past Presidential Election Results</title>
-      <link>https://example.org/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</link>
-      <pubDate>Mon, 09 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://example.org/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</guid>
-      <description>Hi! This is John</description>
+      <link>https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://johnkulow.github.io/elections-blog/post/1/01/01/blog-post-1-exploring-past-presidential-election-results/</guid>
+      <description>Introduction insert introduction paragraph here&#xA;Historical Two-Party Vote Share National Results: insert national 2pv paragraph here&#xA;State-Level Results: insert state winner and state margin paragraphs here&#xA;State-Level Swings: insert state swing paragraph here&#xA;Initial Predictions Prediction 1: Based off of Past Election Results Prediction one paragraph here&#xA;Prediction 2: Adding in OLS OLS prediction 2 paragraph here</description>
     </item>
   </channel>
 </rss>
