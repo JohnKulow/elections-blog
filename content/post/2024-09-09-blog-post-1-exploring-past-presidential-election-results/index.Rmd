@@ -23,13 +23,13 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 library(ggplot2)
 library(maps)
 library(tidyverse)
 ```
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 d_popvote <- read_csv("data/popvote_1948-2020.csv")
 
 d_popvote_wide <- d_popvote |>
@@ -43,7 +43,7 @@ d_popvote_wide <- d_popvote_wide |>
 
 Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. However, while elections have remained fairly competitive over the last roughly 85 years, the national popular vote margin has seemingly gotten narrower in recent decades. 
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 my_pretty_theme <- theme_bw() + 
     theme(panel.border = element_blank(),
           plot.title = element_text(size = 15, hjust = 0.5), 
@@ -55,7 +55,7 @@ my_pretty_theme <- theme_bw() +
           legend.text = element_text(size = 12))
 ```
 
-```{r}
+```{r, echo=FALSE}
 d_popvote |>
   mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
   ggplot(aes(x = year, y = pv2p, colour = party)) +
@@ -73,7 +73,7 @@ d_popvote |>
 
 This was only the national popular vote, however, and because the United States notoriously elects its presidents using the electoral college rather than the nationwide popular vote, it is important to analyze the history of state-level presidential election results as well. The below graphic shows which party won in each state in every election since 1980:
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 states_map <- map_data("state")
 d_pvstate_wide <- read_csv("data/clean_wide_state_2pv_1948_2020.csv")
 d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
@@ -89,7 +89,7 @@ pv_win_map <- d_pvstate_wide |>
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 d_pvstate_wide |>
   filter(year >= 1980) |>
   left_join(states_map, by = "region") |>
@@ -106,7 +106,7 @@ d_pvstate_wide |>
 
 As can be seen above, there are significant changes to which states Democrats and Republicans win between 1980 and 2020. That said, it can also clearly be seen that many states, Wyoming and Montana for example, stay remarkably stable for Republicans and Democrats respectively. But this graphic obscures how close each of these states are. For example, while Minnesota has voted Democratic in every above presidential election, in 2016 Democrat Hillary Clinton narrowly carried it by a less than 2-point margin in the 2-party popular vote. To see how competitive states have been in past elections, we must analyze not just the winner, but the margin by which they won. The below graphic does just that.
 
-```{r}
+```{r, echo=FALSE}
 d_pvstate_wide |>
   mutate(margin2p = D_pv2p - R_pv2p) |>
   filter(year >= 1980) |>
@@ -131,7 +131,7 @@ As can be seen, the presidential battleground states have changed over the years
 
 We can also visualize these changes by looking how states "swung" from election to election. The below graphic shows how many percentage points each state swung relative to the prior election.
 
-```{r}
+```{r, echo=FALSE}
 d_pvstate_wide |>
   mutate(D_swing2p = D_pv2p - D_pv_lag1) |>
   filter(year >= 1980) |>
@@ -157,7 +157,7 @@ These maps are useful in understanding which regions trend differently from the 
 
 Given what we have learned above about the history of presidential results and state-level trends, we can use recent electoral history to make a rough prediction of what the 2024 election results may be. Specifically, we can make a Simplified Electoral Cycle Model of *Y_2024 = 0.75(Y_2020) + 0.25(Y_2016)* where Y_*year* is the presidential margin in any given state in that year. We can then graph these results and tabulate how many electoral college votes each party would earn under this model.
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 pv2p_2024_states <- d_pvstate_wide |>
   filter(year == 2020) |>
   group_by(state) |>
@@ -167,7 +167,7 @@ pv2p_2024_states <- d_pvstate_wide |>
          region = tolower(state))
 ```
 
-```{r}
+```{r, echo=FALSE}
 pv2p_2024_states |>
   left_join(states_map, by = "region") |>
   ggplot(aes(long, lat, group = group)) +
@@ -177,10 +177,12 @@ pv2p_2024_states |>
                        low = "dodgerblue4",
                        breaks = c(-50, -25, 0, 25, 50),
                        limits = c(-50, 50)) +
-  theme_void()
+  theme_void() +
+  ggtitle("Predicted Presidential Vote by State for the 2024 Election") +
+  theme(aspect.ratio = .75)
 ```
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 ec <- read_csv("data/ec_full.csv")
 
 pv2p_2024_states <- pv2p_2024_states |>
@@ -189,13 +191,13 @@ pv2p_2024_states <- pv2p_2024_states |>
   left_join(ec, by = c("state", "year"))
 ```
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 pv2p_2024_states |>
   group_by(winner) |>
   summarize(electoral_votes = sum(electors))
 ```
 
-We can see that under this scenario, Republicans would flip back Arizona, Georgia, and Wisconsin, earning them 272 electoral college votes compared to Democrats' 266, narrowly being enough for Republicans to flip back the presidency.
+We can see that under this scenario, Republicans would flip back Arizona, Georgia, and Wisconsin, earning them 272 electoral college votes compared to Democrats' 266, narrowly being enough for Republicans to flip back the presidency. In part, this makes sense. 2020 was a relatively good year for Democrats, particularly in the crucial, historically Republican states of Arizona and Georgia, while Wisconsin only narrowly swung left in 2020 despite that nationwide shift towards Democrats. Thus, we might expect Arizona and Georgia to regress towards their Republican roots while Wisconsin may continue to trend rightwards relative to the nation. This said, we should not base our 2024 prediction solely off of past election results, especially given that  my basic model above only looks at the past two elections. Thus, I look forward to exploring other metrics by which to predict the 2024 election in the coming weeks!
 
 
 
