@@ -20,7 +20,7 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warnings = FALSE)
 ```
 
 ```{r, include=FALSE}
@@ -179,7 +179,7 @@ pv2p_2024_states |>
                        limits = c(-50, 50)) +
   theme_void() +
   ggtitle("Predicted Presidential Vote by State for the 2024 Election") +
-  theme(aspect.ratio = .75)
+  theme(aspect.ratio = .60)
 ```
 
 ```{r, include=FALSE}
