@@ -22,31 +22,8 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 
 
 
-```
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
-## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ purrr::map()    masks maps::map()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
 
 
-```
-## Rows: 38 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (2): party, candidate
-## dbl (3): year, pv, pv2p
-## lgl (4): winner, incumbent, incumbent_party, prev_admin
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
 
 Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. However, while elections have remained fairly competitive over the last roughly 85 years, the national popular vote margin has seemingly gotten narrower in recent decades. 
 
@@ -60,16 +37,6 @@ Looking at the graphic below, which displays the two-party national popular vote
 This was only the national popular vote, however, and because the United States notoriously elects its presidents using the electoral college rather than the nationwide popular vote, it is important to analyze the history of state-level presidential election results as well. The below graphic shows which party won in each state in every election since 1980:
 
 
-```
-## Rows: 959 Columns: 14
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr  (1): state
-## dbl (13): year, D_pv, R_pv, D_pv2p, R_pv2p, D_pv_lag1, R_pv_lag1, D_pv2p_lag...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
 
 
 
@@ -125,25 +92,8 @@ Given what we have learned above about the history of presidential results and s
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 
-```
-## Rows: 936 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): state
-## dbl (2): electors, year
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
 
 
-```
-## # A tibble: 2 × 2
-##   winner electoral_votes
-##   <chr>            <dbl>
-## 1 D                  266
-## 2 R                  272
-```
 
 We can see that under this scenario, Republicans would flip back Arizona, Georgia, and Wisconsin, earning them 272 electoral college votes compared to Democrats' 266, narrowly being enough for Republicans to flip back the presidency. In part, this makes sense. 2020 was a relatively good year for Democrats, particularly in the crucial, historically Republican states of Arizona and Georgia, while Wisconsin only narrowly swung left in 2020 despite that nationwide shift towards Democrats. Thus, we might expect Arizona and Georgia to regress towards their Republican roots while Wisconsin may continue to trend rightwards relative to the nation. This said, we should not base our 2024 prediction solely off of past election results, especially given that  my basic model above only looks at the past two elections. Thus, I look forward to exploring other metrics by which to predict the 2024 election in the coming weeks!
 

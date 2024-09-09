@@ -23,13 +23,13 @@ In this first blog post, I seek to gain a better understanding of past U.S. pres
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 library(ggplot2)
 library(maps)
 library(tidyverse)
 ```
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 d_popvote <- read_csv("data/popvote_1948-2020.csv")
 
 d_popvote_wide <- d_popvote |>
@@ -43,7 +43,7 @@ d_popvote_wide <- d_popvote_wide |>
 
 Looking at the graphic below, which displays the two-party national popular vote in U.S. presidential elections after FDR, it becomes clear that in the modern era presidential elections in the United States are consistently competitive. Even in blowout electoral victories, such as those in 1964, 1972, and 1984, the losing party's candidate still wins roughly 40% of the vote. Meanwhile, partisan control of the presidency regularly switches hands between the two major parties. However, while elections have remained fairly competitive over the last roughly 85 years, the national popular vote margin has seemingly gotten narrower in recent decades. 
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 my_pretty_theme <- theme_bw() + 
     theme(panel.border = element_blank(),
           plot.title = element_text(size = 15, hjust = 0.5), 
@@ -73,7 +73,7 @@ d_popvote |>
 
 This was only the national popular vote, however, and because the United States notoriously elects its presidents using the electoral college rather than the nationwide popular vote, it is important to analyze the history of state-level presidential election results as well. The below graphic shows which party won in each state in every election since 1980:
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 states_map <- map_data("state")
 d_pvstate_wide <- read_csv("data/clean_wide_state_2pv_1948_2020.csv")
 d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
@@ -157,7 +157,7 @@ These maps are useful in understanding which regions trend differently from the 
 
 Given what we have learned above about the history of presidential results and state-level trends, we can use recent electoral history to make a rough prediction of what the 2024 election results may be. Specifically, we can make a Simplified Electoral Cycle Model of *Y_2024 = 0.75(Y_2020) + 0.25(Y_2016)* where Y_*year* is the presidential margin in any given state in that year. We can then graph these results and tabulate how many electoral college votes each party would earn under this model.
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 pv2p_2024_states <- d_pvstate_wide |>
   filter(year == 2020) |>
   group_by(state) |>
@@ -182,7 +182,7 @@ pv2p_2024_states |>
   theme(aspect.ratio = .75)
 ```
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 ec <- read_csv("data/ec_full.csv")
 
 pv2p_2024_states <- pv2p_2024_states |>
@@ -191,7 +191,7 @@ pv2p_2024_states <- pv2p_2024_states |>
   left_join(ec, by = c("state", "year"))
 ```
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 pv2p_2024_states |>
   group_by(winner) |>
   summarize(electoral_votes = sum(electors))
