@@ -6,3 +6,18 @@ slug: blog-post-2-factoring-in-economic-forces
 categories: []
 tags: []
 ---
+
+
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warnings = FALSE)
+```
+
+```{r, include=FALSE}
+library(ggplot2)
+library(maps)
+library(tidyverse)
+library(blogdown)
+```
+
+

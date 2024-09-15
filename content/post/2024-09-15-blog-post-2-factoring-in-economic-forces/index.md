@@ -6,3 +6,11 @@ slug: blog-post-2-factoring-in-economic-forces
 categories: []
 tags: []
 ---
+
+
+
+
+
+
+
+
