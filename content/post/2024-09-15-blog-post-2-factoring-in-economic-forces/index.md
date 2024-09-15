@@ -16,27 +16,12 @@ tags: []
 
 
 
-
-
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label.
-## ℹ This can happen when ggplot fails to infer the correct grouping structure in
-##   the data.
-## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
-##   variable into a factor?
+## Joining with `by = join_by(year)`
+## Joining with `by = join_by(year)`
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-
-```
-## Warning: The following aesthetics were dropped during statistical transformation: label.
-## ℹ This can happen when ggplot fails to infer the correct grouping structure in
-##   the data.
-## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
-##   variable into a factor?
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" />
 
 
 

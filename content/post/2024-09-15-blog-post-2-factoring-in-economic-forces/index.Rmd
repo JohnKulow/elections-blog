@@ -10,7 +10,7 @@ tags: []
 
 
 ```{r setup, warning = FALSE, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warnings = FALSE)
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 ```
 
 ```{r, include=FALSE}
@@ -37,7 +37,7 @@ d_bea <- read_csv("data/bea_econ.csv") |>
          pop = "Population (midperiod, thousands)")
 ```
 
-```{r, include=FALSE}
+```{r}
 ## filtering to Q2 and merging
 d_inc_econ <- d_popvote |> 
   filter(incumbent_party == TRUE) |> 
