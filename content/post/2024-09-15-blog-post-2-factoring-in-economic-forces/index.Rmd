@@ -50,7 +50,7 @@ d_inc_econ_2 <- d_inc_econ |>
   filter(year != 2020)
 ```
 
-```{r, include=FALSE}
+```{r}
 ## With 2020
 d_inc_econ |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 

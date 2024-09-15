@@ -13,7 +13,7 @@
       <link>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</link>
       <pubDate>Sun, 15 Sep 2024 00:00:00 +0000</pubDate>
       <guid>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</guid>
-      <description></description>
+      <description>## Warning: The following aesthetics were dropped during statistical transformation: label. ## ℹ This can happen when ggplot fails to infer the correct grouping structure in ## the data. ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical ## variable into a factor? ## Warning: The following aesthetics were dropped during statistical transformation: label. ## ℹ This can happen when ggplot fails to infer the correct grouping structure in ## the data.</description>
     </item>
     <item>
       <title>Blog Post 1: Exploring Past Presidential Election Results</title>
