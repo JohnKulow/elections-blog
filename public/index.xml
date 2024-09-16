@@ -6,14 +6,14 @@
     <description>Recent content in Home on John Kulow Gov 1347 Election Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Sep 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://johnkulow.github.io/elections-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog Post 2: Factoring in Economic Forces</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</link>
-      <pubDate>Sun, 15 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</guid>
-      <description>## Joining with `by = join_by(year)` ## Joining with `by = join_by(year)` </description>
+      <link>https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/</link>
+      <pubDate>Mon, 16 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/</guid>
+      <description>Introduction During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain &amp;ldquo;fundamental&amp;rdquo; factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.</description>
     </item>
     <item>
       <title>Blog Post 1: Exploring Past Presidential Election Results</title>

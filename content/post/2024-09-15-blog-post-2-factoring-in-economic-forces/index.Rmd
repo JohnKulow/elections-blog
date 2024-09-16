@@ -1,13 +1,20 @@
 ---
 title: 'Blog Post 2: Factoring in Economic Forces'
 author: John Kulow
-date: '2024-09-15'
+date: '2024-09-16'
 slug: blog-post-2-factoring-in-economic-forces
 categories: []
 tags: []
 ---
 
+## Introduction
 
+During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain "fundamental" factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.
+
+## Historical Trends
+###Gross Domestic Product (GDP)
+
+I will begin by looking at GDP growth data in relation to incumbent party vote share. Specifically, I will look at GDP growth in Quarter 2 (between April and June) of each election year, since this period is a fairly good representation of the short term economic outlook leading up to the election. The graphs below show the relationship between Q2 GDP growth and incumbent party vote share. The difference between the two below graphs is that the first includes the 2020 data point while the second graph does not. This difference is important given how much of an outlier 2020 was. Q2 in 2020 was at the height of the Covid-19 lockdown, and the country's economy was in a state of utter chaos. Thus, testing this relationship both with and without 2020 is important. 
 
 ```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
@@ -18,6 +25,9 @@ library(ggplot2)
 library(maps)
 library(tidyverse)
 library(blogdown)
+library(patchwork)
+library(knitr)
+library(sjPlot)
 ```
 
 ```{r, include=FALSE}
@@ -50,9 +60,9 @@ d_inc_econ_2 <- d_inc_econ |>
   filter(year != 2020)
 ```
 
-```{r}
+```{r, warning = FALSE}
 ## With 2020
-d_inc_econ |> 
+inc_econ_plot <- d_inc_econ |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
   geom_smooth(method = "lm", formula = y ~ x) +
@@ -65,7 +75,7 @@ d_inc_econ |>
   theme(plot.title = element_text(size = 18))
 
 ## without 2020
-d_inc_econ_2 |> 
+inc_econ_plot_2 <- d_inc_econ_2 |> 
   ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
   geom_text() + 
   geom_smooth(method = "lm", formula = y ~ x) +
@@ -76,9 +86,234 @@ d_inc_econ_2 |>
        title = "Y = 49.38 + 0.737 * X") + 
   theme_bw() + 
   theme(plot.title = element_text(size = 18))
+
+inc_econ_plot + inc_econ_plot_2
+```
+
+```{r, warning = FALSE}
+reg_econ <- lm(pv2p ~ GDP_growth_quarterly, 
+               data = d_inc_econ)
+reg_econ_2 <- lm(pv2p ~ GDP_growth_quarterly, 
+                         data = d_inc_econ_2)
+
+tab_model(reg_econ, show.se = TRUE, 
+          title = "Q2 GDP Growth Regression Table (1948-2020)", 
+          dv.labels = "Incumbent Party Vote Share")
+```
+
+```{r}
+tab_model(reg_econ_2, show.se = TRUE, 
+          title = "Q2 GDP Growth Regression Table (1948-2016)", 
+          dv.labels = "Incumbent Party Vote Share")
+```
+
+These graphs and their accompanying regression tables show that there is a positive correlation between Q2 election year GDP growth ad incumbent party vote share in the corresponding November election. This relationship is much stronger when we exclude the 2020 outlier case, resulting in the slope of the line of best fit increasing from 0.27 to 0.74. This said, the R squared value of 0.28 for the 1948-2016 model remains fairly low, meaning that now much of the variation from the trendline can be explained by the model. 
+
+### Real Disposable Income (RDI)
+
+Given that Q2 GDP growth clearly has a correlation, but, predictably, does not fully explain election results, it is useful to see how a different measure of the strength of the economy, changes in Real Disposable Income (RDI), relates to the election results. Some argue that RDI, at least in theory, is a better predictor of electoral trends because it is a measure of how much money voters actually have in their pockets, compared to GDP which is a measure of the collective strength of the economy, regardless of how individuals within the economy are fairing. Like the graphs for GDP growth, the two graphs below first include and then exclude the 2020 outlier case, and I look at changes in RDI in Q2 of each election year.
+
+```{r}
+inc_rdi_plot <- d_inc_econ |> 
+  ggplot(aes(x = RDPI_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter RDI Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share", 
+       title = "1948-2020 (Y = 51.97 - 0.03 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+        plot.margin = margin(10, 25, 0, 0))
+
+inc_rdi_plot_2 <- d_inc_econ_2 |> 
+  ggplot(aes(x = RDPI_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter RDI Growth (%)", 
+       y = "Incumbent Party's National Popular Vote Share", 
+       title = "1948-2016 (Y = 49.87 + 0.46 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+       plot.margin = margin(10, 0, 0, 25))
+
+inc_rdi_plot + inc_rdi_plot_2
 ```
 
 
+
+```{r}
+reg_RDI <- lm(pv2p ~ RDPI_growth_quarterly, 
+               data = d_inc_econ)
+reg_RDI_2 <- lm(pv2p ~ RDPI_growth_quarterly, 
+               data = d_inc_econ_2)
+tab_model(reg_RDI, show.se = TRUE, 
+          title = "Q2 RDI Growth Regression Table (1948-2020)", 
+          dv.labels = "Incumbent Party Vote Share")
+```
+
+```{r}
+tab_model(reg_RDI_2, show.se = TRUE, 
+          title = "Q2 RDI Growth Regression Table (1948-2016)", 
+          dv.labels = "Incumbent Party Vote Share")
+```
+
+As can be seen in both the graphs and the coressponding regression tables, the 2020 outlier significantly changes how predictive changes in RDI are, with the slope of the line of best fit jumping from -0.03 to +0.46. This said, this second, better fitting positive correlation is a notably worse relationship than Q2 GDP growth, both in terms of the slope of the trendline being less steep and in terms of the R squared value, which in this case is a very small 0.056. Thus, Q2 GDP growth is a better predictor of electoral results than Q2 RDI growth.
+
+
+## Incumbents vs Incumbents' Heirs
+### GDP growth
+I will now look at whether these relationships hold up when the incumbent party's nominee is not the incumbent themselves. This distinction potentially matters because if the economy is doing particularly well or particularly poorly, voters may not respectively give credit or blame the incumbent party's candidate given that they were not in power to cause these changes. This distinction is of particular importance when looking at the 2024 election given that President Biden has stepped aside to allow his heir, Vice President Harris, to run instead. 
+
+```{r}
+d_incum_econ <- d_popvote |> 
+  filter(incumbent == TRUE, 
+         year != 2020) |> 
+  select(year, pv, pv2p, winner) |> 
+  left_join(d_fred |> filter(quarter == 2)) |> 
+  left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
+
+reg_incum_econ <- lm(pv2p ~ GDP_growth_quarterly, 
+               data = d_incum_econ)
+
+d_heir_econ <- d_popvote |> 
+  filter(incumbent_party == TRUE &
+         incumbent == FALSE) |> 
+  select(year, pv, pv2p, winner) |> 
+  left_join(d_fred |> filter(quarter == 2)) |> 
+  left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
+
+reg_heir_econ <- lm(pv2p ~ GDP_growth_quarterly, 
+               data = d_heir_econ)
+```
+
+```{r}
+incum_econ_plot <- d_incum_econ |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "National Popular Vote Share", 
+       title = "Sitting Presidents (Y = 50.43 + 0.85 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+        plot.margin = margin(10, 25, 0, 0))
+
+heir_econ_plot <- d_heir_econ |> 
+  ggplot(aes(x = GDP_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter GDP Growth (%)", 
+       y = "National Popular Vote Share", 
+       title = "Same-Party Heirs (Y = 48.46 + 0.29 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+        plot.margin = margin(10, 0, 0, 25))
+
+incum_econ_plot + heir_econ_plot
+```
+
+```{r}
+tab_model(reg_incum_econ, reg_heir_econ, show.se = TRUE, 
+          title = "Comparison Regression Table for Q2 GDP Growth (1948-2020)", 
+          dv.labels = c("Sitting Presidents", "Same-Party Heirs"))
+```
+
+These graphs show that there is a much weaker correlation between Q2 GDP growth and incumbent party vote share when the incumbent party's nominee is a successor rather than the incumbent themselves. The slope of the line of best fit drops from 0.85 to 0.29, and the R squared value drops from 0.375 to -0.063. This shows that Q2 GDP growth has very little predictive power when the incumbent themselves is not running for reelection.
+
+### RDI Growth
+
+If we repeat this test for Q2 RDI growth, a similar story plays out
+
+```{r}
+reg_incum_rdi <- lm(pv2p ~ RDPI_growth_quarterly, 
+               data = d_incum_econ)
+reg_heir_rdi <- lm(pv2p ~ RDPI_growth_quarterly, 
+               data = d_heir_econ)
+
+```
+
+
+```{r}
+incum_rdi_plot <- d_incum_econ |> 
+  ggplot(aes(x = RDPI_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter RDI Growth (%)", 
+       y = "National Popular Vote Share", 
+       title = "Sitting Presidents (Y = 50.39 + 0.69 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+        plot.margin = margin(10, 25, 0, 0))
+
+heir_rdi_plot <- d_heir_econ |> 
+  ggplot(aes(x = RDPI_growth_quarterly, y = pv2p, label = year)) + 
+  geom_text() + 
+  geom_smooth(method = "lm", formula = y ~ x) +
+  geom_hline(yintercept = 50, lty = 2) + 
+  geom_vline(xintercept = 0.01, lty = 2) + 
+  labs(x = "Second Quarter RDI Growth (%)", 
+       y = "National Popular Vote Share", 
+       title = "Same-Party Heirs (Y = 51.49 - 0.46 * X)") + 
+  theme_bw() + 
+  theme(plot.title = element_text(size = 14), 
+        plot.margin = margin(10, 0, 0, 25))
+
+incum_rdi_plot + heir_rdi_plot
+```
+
+```{r}
+tab_model(reg_incum_rdi, reg_heir_rdi, show.se = TRUE, 
+          title = "Comparison Regression Table for Q2 RDI Growth (1948-2020)", 
+          dv.labels = c("Sitting Presidents", "Same-Party Heirs"))
+```
+
+As can be seen in the above graphs and regression chart, when the incumbent is not running for reelection the slope of the line of best fit decreases from 0.69 to -0.46, while the R squared value decreases from 0.198 to 0.047. This shows that when the incumbent party has a non-incumbent nominee, there is not even necessarily a positive correlation between Q2 RDI growth and incumbent party vote share, and the R squared value tells us that whatever relationship there is does not explain very much.
+
+## 2024 Prediction
+
+While these models and relationships are certainly imperfect, that does not mean they do not carry any predictive power, as the relative strength or weakness of the economy has an undeniably large impact on the election, even if it does not completely explain to results. As such, I have made the following predictive models for how much of the national popular vote Vice President Harris will win:
+
+
+```{r}
+econ_new <- d_fred |> 
+  filter(year == 2024 & quarter == 2) |> 
+  select(GDP_growth_quarterly)
+
+rdi_new <- d_fred |> 
+  filter(year == 2024 & quarter == 2) |> 
+  select(RDPI_growth_quarterly)
+```
+Based off of Q2 GDP Growth:
+```{r}
+predict(reg_econ_2, econ_new, interval = "prediction")
+```
+
+Based off of Q2 GDP Growth for Incumbent Party Heirs:
+```{r}
+predict(reg_heir_econ, econ_new, interval = "prediction")
+```
+
+Based off of Q2 RDI Growth:
+```{r}
+predict(reg_RDI_2, rdi_new, interval = "prediction")
+```
+
+Based off of Q2 RDI Growth for Incumbent Party Heirs:
+```{r}
+predict(reg_heir_rdi, rdi_new, interval = "prediction")
+```
+
+As can be seen, these four models predict a tight election, but one where Harris should earn slightly above 50% of the national popular vote. This is a promising sign for Harris going into the last 50 days of the election,
 
 
 

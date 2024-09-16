@@ -1,35 +1,42 @@
----
-title: 'Blog Post 2: Factoring in Economic Forces'
-author: John Kulow
-date: '2024-09-16'
-slug: blog-post-2-factoring-in-economic-forces
-categories: []
-tags: []
----
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Post 2: Factoring in Economic Forces | John Kulow Gov 1347 Election Blog</title>
+    <link rel="stylesheet" href="/elections-blog/css/style.css" />
+    <link rel="stylesheet" href="/elections-blog/css/fonts.css" />
+    
+  </head>
 
-## Introduction
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/elections-blog/">Home</a></li>
+      
+      <li><a href="/elections-blog/about/">About</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
 
-During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain "fundamental" factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.
+<div class="article-meta">
+<h1><span class="title">Blog Post 2: Factoring in Economic Forces</span></h1>
+<h2 class="author">John Kulow</h2>
+<h2 class="date">2024/09/16</h2>
+</div>
 
-## Historical Trends
-###Gross Domestic Product (GDP)
-
-I will begin by looking at GDP growth data in relation to incumbent party vote share. Specifically, I will look at GDP growth in Quarter 2 (between April and June) of each election year, since this period is a fairly good representation of the short term economic outlook leading up to the election. The graphs below show the relationship between Q2 GDP growth and incumbent party vote share. The difference between the two below graphs is that the first includes the 2020 data point while the second graph does not. This difference is important given how much of an outlier 2020 was. Q2 in 2020 was at the height of the Covid-19 lockdown, and the country's economy was in a state of utter chaos. Thus, testing this relationship both with and without 2020 is important. 
-
-
-
-
-
-
-
-
-```
+<main>
+<h2 id="introduction">Introduction</h2>
+<p>During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain &ldquo;fundamental&rdquo; factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.</p>
+<h2 id="historical-trends">Historical Trends</h2>
+<p>###Gross Domestic Product (GDP)</p>
+<p>I will begin by looking at GDP growth data in relation to incumbent party vote share. Specifically, I will look at GDP growth in Quarter 2 (between April and June) of each election year, since this period is a fairly good representation of the short term economic outlook leading up to the election. The graphs below show the relationship between Q2 GDP growth and incumbent party vote share. The difference between the two below graphs is that the first includes the 2020 data point while the second graph does not. This difference is important given how much of an outlier 2020 was. Q2 in 2020 was at the height of the Covid-19 lockdown, and the country&rsquo;s economy was in a state of utter chaos. Thus, testing this relationship both with and without 2020 is important.</p>
+<pre><code>## Joining with `by = join_by(year)`
 ## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Q2 GDP Growth Regression Table (1948-2020)</caption>
 <tr>
@@ -65,9 +72,7 @@ I will begin by looking at GDP growth data in relation to incumbent party vote s
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.188 / 0.140</td>
 </tr>
-
 </table>
-
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Q2 GDP Growth Regression Table (1948-2016)</caption>
 <tr>
@@ -103,19 +108,11 @@ I will begin by looking at GDP growth data in relation to incumbent party vote s
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.325 / 0.283</td>
 </tr>
-
 </table>
-
-These graphs and their accompanying regression tables show that there is a positive correlation between Q2 election year GDP growth ad incumbent party vote share in the corresponding November election. This relationship is much stronger when we exclude the 2020 outlier case, resulting in the slope of the line of best fit increasing from 0.27 to 0.74. This said, the R squared value of 0.28 for the 1948-2016 model remains fairly low, meaning that now much of the variation from the trendline can be explained by the model. 
-
-### Real Disposable Income (RDI)
-
-Given that Q2 GDP growth clearly has a correlation, but, predictably, does not fully explain election results, it is useful to see how a different measure of the strength of the economy, changes in Real Disposable Income (RDI), relates to the election results. Some argue that RDI, at least in theory, is a better predictor of electoral trends because it is a measure of how much money voters actually have in their pockets, compared to GDP which is a measure of the collective strength of the economy, regardless of how individuals within the economy are fairing. Like the graphs for GDP growth, the two graphs below first include and then exclude the 2020 outlier case, and I look at changes in RDI in Q2 of each election year.
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-
-
-
+<p>These graphs and their accompanying regression tables show that there is a positive correlation between Q2 election year GDP growth ad incumbent party vote share in the corresponding November election. This relationship is much stronger when we exclude the 2020 outlier case, resulting in the slope of the line of best fit increasing from 0.27 to 0.74. This said, the R squared value of 0.28 for the 1948-2016 model remains fairly low, meaning that now much of the variation from the trendline can be explained by the model.</p>
+<h3 id="real-disposable-income-rdi">Real Disposable Income (RDI)</h3>
+<p>Given that Q2 GDP growth clearly has a correlation, but, predictably, does not fully explain election results, it is useful to see how a different measure of the strength of the economy, changes in Real Disposable Income (RDI), relates to the election results. Some argue that RDI, at least in theory, is a better predictor of electoral trends because it is a measure of how much money voters actually have in their pockets, compared to GDP which is a measure of the collective strength of the economy, regardless of how individuals within the economy are fairing. Like the graphs for GDP growth, the two graphs below first include and then exclude the 2020 outlier case, and I look at changes in RDI in Q2 of each election year.</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Q2 RDI Growth Regression Table (1948-2020)</caption>
 <tr>
@@ -151,9 +148,7 @@ Given that Q2 GDP growth clearly has a correlation, but, predictably, does not f
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.003 / -0.056</td>
 </tr>
-
 </table>
-
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Q2 RDI Growth Regression Table (1948-2016)</caption>
 <tr>
@@ -189,26 +184,17 @@ Given that Q2 GDP growth clearly has a correlation, but, predictably, does not f
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.111 / 0.056</td>
 </tr>
-
 </table>
-
-As can be seen in both the graphs and the coressponding regression tables, the 2020 outlier significantly changes how predictive changes in RDI are, with the slope of the line of best fit jumping from -0.03 to +0.46. This said, this second, better fitting positive correlation is a notably worse relationship than Q2 GDP growth, both in terms of the slope of the trendline being less steep and in terms of the R squared value, which in this case is a very small 0.056. Thus, Q2 GDP growth is a better predictor of electoral results than Q2 RDI growth.
-
-
-## Incumbents vs Incumbents' Heirs
-### GDP growth
-I will now look at whether these relationships hold up when the incumbent party's nominee is not the incumbent themselves. This distinction potentially matters because if the economy is doing particularly well or particularly poorly, voters may not respectively give credit or blame the incumbent party's candidate given that they were not in power to cause these changes. This distinction is of particular importance when looking at the 2024 election given that President Biden has stepped aside to allow his heir, Vice President Harris, to run instead. 
-
-
-```
+<p>As can be seen in both the graphs and the coressponding regression tables, the 2020 outlier significantly changes how predictive changes in RDI are, with the slope of the line of best fit jumping from -0.03 to +0.46. This said, this second, better fitting positive correlation is a notably worse relationship than Q2 GDP growth, both in terms of the slope of the trendline being less steep and in terms of the R squared value, which in this case is a very small 0.056. Thus, Q2 GDP growth is a better predictor of electoral results than Q2 RDI growth.</p>
+<h2 id="incumbents-vs-incumbents-heirs">Incumbents vs Incumbents&rsquo; Heirs</h2>
+<h3 id="gdp-growth">GDP growth</h3>
+<p>I will now look at whether these relationships hold up when the incumbent party&rsquo;s nominee is not the incumbent themselves. This distinction potentially matters because if the economy is doing particularly well or particularly poorly, voters may not respectively give credit or blame the incumbent party&rsquo;s candidate given that they were not in power to cause these changes. This distinction is of particular importance when looking at the 2024 election given that President Biden has stepped aside to allow his heir, Vice President Harris, to run instead.</p>
+<pre><code>## Joining with `by = join_by(year)`
 ## Joining with `by = join_by(year)`
 ## Joining with `by = join_by(year)`
 ## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
-
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Comparison Regression Table for Q2 GDP Growth (1948-2020)</caption>
 <tr>
@@ -259,20 +245,11 @@ I will now look at whether these relationships hold up when the incumbent party'
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.437 / 0.375</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.114 / -0.063</td>
 </tr>
-
 </table>
-
-These graphs show that there is a much weaker correlation between Q2 GDP growth and incumbent party vote share when the incumbent party's nominee is a successor rather than the incumbent themselves. The slope of the line of best fit drops from 0.85 to 0.29, and the R squared value drops from 0.375 to -0.063. This shows that Q2 GDP growth has very little predictive power when the incumbent themselves is not running for reelection.
-
-### RDI Growth
-
-If we repeat this test for Q2 RDI growth, a similar story plays out
-
-
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-
+<p>These graphs show that there is a much weaker correlation between Q2 GDP growth and incumbent party vote share when the incumbent party&rsquo;s nominee is a successor rather than the incumbent themselves. The slope of the line of best fit drops from 0.85 to 0.29, and the R squared value drops from 0.375 to -0.063. This shows that Q2 GDP growth has very little predictive power when the incumbent themselves is not running for reelection.</p>
+<h3 id="rdi-growth">RDI Growth</h3>
+<p>If we repeat this test for Q2 RDI growth, a similar story plays out</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/16/blog-post-2-factoring-in-economic-forces/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Comparison Regression Table for Q2 RDI Growth (1948-2020)</caption>
 <tr>
@@ -323,75 +300,41 @@ If we repeat this test for Q2 RDI growth, a similar story plays out
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.279 / 0.198</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.206 / 0.047</td>
 </tr>
-
 </table>
-
-As can be seen in the above graphs and regression chart, when the incumbent is not running for reelection the slope of the line of best fit decreases from 0.69 to -0.46, while the R squared value decreases from 0.198 to 0.047. This shows that when the incumbent party has a non-incumbent nominee, there is not even necessarily a positive correlation between Q2 RDI growth and incumbent party vote share, and the R squared value tells us that whatever relationship there is does not explain very much.
-
-## 2024 Prediction
-
-While these models and relationships are certainly imperfect, that does not mean they do not carry any predictive power, as the relative strength or weakness of the economy has an undeniably large impact on the election, even if it does not completely explain to results. As such, I have made the following predictive models for how much of the national popular vote Vice President Harris will win:
-
-
-
-Based off of Q2 GDP Growth:
-
-```
-##        fit      lwr     upr
+<p>As can be seen in the above graphs and regression chart, when the incumbent is not running for reelection the slope of the line of best fit decreases from 0.69 to -0.46, while the R squared value decreases from 0.198 to 0.047. This shows that when the incumbent party has a non-incumbent nominee, there is not even necessarily a positive correlation between Q2 RDI growth and incumbent party vote share, and the R squared value tells us that whatever relationship there is does not explain very much.</p>
+<h2 id="2024-prediction">2024 Prediction</h2>
+<p>While these models and relationships are certainly imperfect, that does not mean they do not carry any predictive power, as the relative strength or weakness of the economy has an undeniably large impact on the election, even if it does not completely explain to results. As such, I have made the following predictive models for how much of the national popular vote Vice President Harris will win:</p>
+<p>Based off of Q2 GDP Growth:</p>
+<pre><code>##        fit      lwr     upr
 ## 1 51.58486 41.85982 61.3099
-```
-
-Based off of Q2 GDP Growth for Incumbent Party Heirs:
-
-```
-##        fit     lwr      upr
+</code></pre>
+<p>Based off of Q2 GDP Growth for Incumbent Party Heirs:</p>
+<pre><code>##        fit     lwr      upr
 ## 1 49.33617 40.6918 57.98053
-```
-
-Based off of Q2 RDI Growth:
-
-```
-##        fit      lwr      upr
+</code></pre>
+<p>Based off of Q2 RDI Growth:</p>
+<pre><code>##        fit      lwr      upr
 ## 1 50.32576 38.89587 61.75566
-```
-
-Based off of Q2 RDI Growth for Incumbent Party Heirs:
-
-```
-##        fit      lwr      upr
+</code></pre>
+<p>Based off of Q2 RDI Growth for Incumbent Party Heirs:</p>
+<pre><code>##        fit      lwr      upr
 ## 1 51.02614 42.04159 60.01069
-```
+</code></pre>
+<p>As can be seen, these four models predict a tight election, but one where Harris should earn slightly above 50% of the national popular vote. This is a promising sign for Harris going into the last 50 days of the election,</p>
 
-As can be seen, these four models predict a tight election, but one where Harris should earn slightly above 50% of the national popular vote. This is a promising sign for Harris going into the last 50 days of the election,
+</main>
 
+  <footer>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/auto-render.min.js,npm/@xiee/utils/js/render-katex.js" defer></script>
 
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.min.js" defer></script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  <hr/>
+  Theme from Yihui Xie.
+  
+  </footer>
+  </body>
+</html>
 
