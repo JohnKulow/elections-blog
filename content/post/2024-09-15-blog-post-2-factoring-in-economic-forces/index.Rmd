@@ -1,7 +1,7 @@
 ---
 title: 'Blog Post 2: Factoring in Economic Forces'
 author: John Kulow
-date: '2024-09-16'
+date: '2024-09-15'
 slug: blog-post-2-factoring-in-economic-forces
 categories: []
 tags: []
@@ -72,7 +72,7 @@ inc_econ_plot <- d_inc_econ |>
        y = "Incumbent Party's National Popular Vote Share", 
        title = "Y = 51.25 + 0.274 * X") + 
   theme_bw() + 
-  theme(plot.title = element_text(size = 18))
+  theme(plot.title = element_text(size = 15))
 
 ## without 2020
 inc_econ_plot_2 <- d_inc_econ_2 |> 
@@ -85,7 +85,7 @@ inc_econ_plot_2 <- d_inc_econ_2 |>
        y = "Incumbent Party's National Popular Vote Share", 
        title = "Y = 49.38 + 0.737 * X") + 
   theme_bw() + 
-  theme(plot.title = element_text(size = 18))
+  theme(plot.title = element_text(size = 15))
 
 inc_econ_plot + inc_econ_plot_2
 ```
