@@ -12,7 +12,7 @@ tags: []
 During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain "fundamental" factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.
 
 ## Historical Trends
-###Gross Domestic Product (GDP)
+### Gross Domestic Product (GDP)
 
 I will begin by looking at GDP growth data in relation to incumbent party vote share. Specifically, I will look at GDP growth in Quarter 2 (between April and June) of each election year, since this period is a fairly good representation of the short term economic outlook leading up to the election. The graphs below show the relationship between Q2 GDP growth and incumbent party vote share. The difference between the two below graphs is that the first includes the 2020 data point while the second graph does not. This difference is important given how much of an outlier 2020 was. Q2 in 2020 was at the height of the Covid-19 lockdown, and the country's economy was in a state of utter chaos. Thus, testing this relationship both with and without 2020 is important. 
 
@@ -23,10 +23,6 @@ I will begin by looking at GDP growth data in relation to incumbent party vote s
 
 
 
-```
-## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
@@ -200,21 +196,15 @@ As can be seen in both the graphs and the coressponding regression tables, the 2
 I will now look at whether these relationships hold up when the incumbent party's nominee is not the incumbent themselves. This distinction potentially matters because if the economy is doing particularly well or particularly poorly, voters may not respectively give credit or blame the incumbent party's candidate given that they were not in power to cause these changes. This distinction is of particular importance when looking at the 2024 election given that President Biden has stepped aside to allow his heir, Vice President Harris, to run instead. 
 
 
-```
-## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-## Joining with `by = join_by(year)`
-```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 
 <table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">Comparison Regression Table for Q2 GDP Growth (1948-2020)</caption>
+<caption style="font-weight: bold; text-align:left;">Q2 GDP Growth Regression Table</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Sitting Presidents</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Same-Party Heirs</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Incumbent Presidents</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Incumbent Party Heirs</th>
 </tr>
 <tr>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
@@ -274,11 +264,11 @@ If we repeat this test for Q2 RDI growth, a similar story plays out
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 <table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">Comparison Regression Table for Q2 RDI Growth (1948-2020)</caption>
+<caption style="font-weight: bold; text-align:left;">Q2 RDI Growth Regression Table</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Sitting Presidents</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Same-Party Heirs</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Incumbent Presidents</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Incumbent Party Heirs</th>
 </tr>
 <tr>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
@@ -326,7 +316,7 @@ If we repeat this test for Q2 RDI growth, a similar story plays out
 
 </table>
 
-As can be seen in the above graphs and regression chart, when the incumbent is not running for reelection the slope of the line of best fit decreases from 0.69 to -0.46, while the R squared value decreases from 0.198 to 0.047. This shows that when the incumbent party has a non-incumbent nominee, there is not even necessarily a positive correlation between Q2 RDI growth and incumbent party vote share, and the R squared value tells us that whatever relationship there is does not explain very much.
+As can be seen in the above graphs and regression table, when the incumbent is not running for reelection the slope of the line of best fit decreases from 0.69 to -0.46, while the R squared value decreases from 0.198 to 0.047. This shows that when the incumbent party has a non-incumbent nominee, there is not even necessarily a positive correlation between Q2 RDI growth and incumbent party vote share, and the R squared value tells us that whatever relationship there is does not explain very much.
 
 ## 2024 Prediction
 
