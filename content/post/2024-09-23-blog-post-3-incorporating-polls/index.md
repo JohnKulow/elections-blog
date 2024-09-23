@@ -26,16 +26,21 @@ To begin with, I have graphed below the polling averages for the Democratic and 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
-
+In each of the six elections, key events during the campaigns can be seen clearly in the corresponding graphs above. For example, in 2000 the RNC and DNC yielded a small bump for Bush but then an even larger surge right afterwards for Al Gore. In 2012, President Obama's polling numbers cratered following his disastrous performance at the first debate at the start of October, falling beneath Romney's numbers   briefly before ultimately pulling back ahead in the last week or so. In 2016, after gaining on Secretary Clinton throughout most of August and September, Trump's numbers fell sharply in early October following the release of the Access Hollywood tapes. While, of course, there is no way to officially prove a causal relationship between these "game changer" moments and the temporally corresponding jumps or free falls in polling number, these shifts in poll averages help us understand how the public reacts to key moments in these campaigns.
 
 ## Looking at 2024
 ### 2024 So Far
 
-
+Now looking towards this year's election in 2024, we can see in the graph below a similar narrative play out.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
+After narrowly trailing former President Trump in the polls throughout the late spring and summer, President Biden had closed the gap with his opponent by the time the first presidential debate arrived in late June. However, in the two weeks following President Biden's abysmal performance, Trump's lead expanded to the largest it had been in the polling average since March. Trump's numbers then saw a sudden jump following the failed assassination attempt against him and the RNC which immediately followed it. However, shortly after the RNC ended, President Biden announced that he was withdrawing from the race and endorsing Vice President Harris, who immediately surged in the polls as she consolidated support among Democrats. In the following month ad a half, Harris has steadily climbed in the polls, though Trump has slightly narrowed the gap in September. Throughout this month and a half long period following Harris' entry into the race, she has led Trump by roughly 3-4 points on average.
+
 ### Modeling 2024 National Two-Party Vote Based off of Polling
+
+Now that we have and can see the polling data so far for 2024, we can compare it to past elections to try to predict where Harris' numbers will end up on election day. To do this, I will look at the September polling data, since it is the most recent information we have, and use an Ordinary Least Squares (OLS) regression to compare this data with past trends in presidential polling vs presidential election results. Below is the regression table for that relationship between September polling and November election results.
+
 
 
 <table style="border-collapse:collapse; border:none;">
@@ -76,7 +81,7 @@ To begin with, I have graphed below the polling averages for the Democratic and 
 
 </table>
 
-
+From this, we can see that the slope of the line of best fit is 0.6, which represents a fairly strong positive correlation between poll numbers and election results, and the adjusted R squared value of 0.677 means that a sizable portion of the deviation from the trend line can be explained by the model. We can now use this regression model to predict how Vice President Harris will do in the 2024 election based off of polling averages so far in September.
 
 
 
@@ -92,9 +97,11 @@ To begin with, I have graphed below the polling averages for the Democratic and 
 |-----------------:|-----------:|-----------:|
 |             51.99|       37.62|       66.36|
 
-
+For the data I have, I weighted polling data that is closer to election day more than data farther out. The result of this weighted model show Harris winning the two-party popular vote with roughly 51.99%. This said, there is a large range between the upper bound of my model (66.36%) and the lower bound (37.62), so there is not a high level of certainty in this model, however that range would likely decrease notably if I shrunk my confidence interval to 80% instead of 95% as some predictive modelers of elections do.
 
 ### Modeling 2024 State Two-Party Vote Based off of Polling
+
+This caveat aside, we can apply this same technique to state-level polling, which is important since, as was demonstrated in 2016, Vice President Harris can win the popular vote but if she falls short in the key swing states she will still lose the election. Below is the regression table for the relationship between state-level polling and state-level election results.
 
 
 
@@ -136,7 +143,7 @@ To begin with, I have graphed below the polling averages for the Democratic and 
 
 </table>
 
-
+As can be seen, there is again a strong positive correlation, with an even higher R squared value than the national polling. Applying this model to September state-level polling in 2024 yields the following predictions:
 
 
 
@@ -158,7 +165,7 @@ To begin with, I have graphed below the polling averages for the Democratic and 
 |Virginia       |      55.79|       33.60|       77.99|
 |Wisconsin      |      54.56|       32.36|       76.75|
 
-
+Once again, the caveat of high upper and lower bounds to the distributions for each state in this model is important to note. This said, state-level polling seems fairly optimistic for Harris, with this model having her win by over 5-point margins in the two party vote in all seven key swing states, including North Carolina which Trump won in 2020. This model also has Harris narrowly flipping previously Trump-won Florida, and falling just 0.4% behind Trump in Texas. This all said, these models are based off of data that is still a month and a half out from the November election, and the accuracy of polling averages in predicting electoral results gets better as the election draws nearer.
 
 
 

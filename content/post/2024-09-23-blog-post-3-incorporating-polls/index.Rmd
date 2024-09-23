@@ -46,7 +46,7 @@ poll_graph_2020 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -63,7 +63,7 @@ poll_graph_2016 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -80,7 +80,7 @@ poll_graph_2012 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -97,7 +97,7 @@ poll_graph_2008 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -115,7 +115,7 @@ poll_graph_2004 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -132,7 +132,7 @@ poll_graph_2000 <- d_pollav_natl |>
   geom_point(size = 1) + 
   geom_line() + 
   scale_x_date(date_labels = "%b",
-               date_breaks = "1 month") + 
+               date_breaks = "2 months") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -152,12 +152,12 @@ poll_graph_2000 + poll_graph_2004 + poll_graph_2008 + poll_graph_2012 + poll_gra
   
 ```
 
-
+In each of the six elections, key events during the campaigns can be seen clearly in the corresponding graphs above. For example, in 2000 the RNC and DNC yielded a small bump for Bush but then an even larger surge right afterwards for Al Gore. In 2012, President Obama's polling numbers cratered following his disastrous performance at the first debate at the start of October, falling beneath Romney's numbers   briefly before ultimately pulling back ahead in the last week or so. In 2016, after gaining on Secretary Clinton throughout most of August and September, Trump's numbers fell sharply in early October following the release of the Access Hollywood tapes. While, of course, there is no way to officially prove a causal relationship between these "game changer" moments and the temporally corresponding jumps or free falls in polling number, these shifts in poll averages help us understand how the public reacts to key moments in these campaigns.
 
 ## Looking at 2024
 ### 2024 So Far
 
-
+Now looking towards this year's election in 2024, we can see in the graph below a similar narrative play out.
 
 ```{r, warning = FALSE}
 # Plot 5. Poll Averages for 2024
@@ -179,7 +179,11 @@ d_pollav_natl |>
   )
 ```
 
+After narrowly trailing former President Trump in the polls throughout the late spring and summer, President Biden had closed the gap with his opponent by the time the first presidential debate arrived in late June. However, in the two weeks following President Biden's abysmal performance, Trump's lead expanded to the largest it had been in the polling average since March. Trump's numbers then saw a sudden jump following the failed assassination attempt against him and the RNC which immediately followed it. However, shortly after the RNC ended, President Biden announced that he was withdrawing from the race and endorsing Vice President Harris, who immediately surged in the polls as she consolidated support among Democrats. In the following month ad a half, Harris has steadily climbed in the polls, though Trump has slightly narrowed the gap in September. Throughout this month and a half long period following Harris' entry into the race, she has led Trump by roughly 3-4 points on average.
+
 ### Modeling 2024 National Two-Party Vote Based off of Polling
+
+Now that we have and can see the polling data so far for 2024, we can compare it to past elections to try to predict where Harris' numbers will end up on election day. To do this, I will look at the September polling data, since it is the most recent information we have, and use an Ordinary Least Squares (OLS) regression to compare this data with past trends in presidential polling vs presidential election results. Below is the regression table for that relationship between September polling and November election results.
 
 ```{r, include=FALSE}
 # Read election results data. 
@@ -187,6 +191,7 @@ d_vote <- read_csv("data/popvote_1948-2020.csv")
 d_vote$party[d_vote$party == "democrat"] <- "DEM"
 d_vote$party[d_vote$party == "republican"] <- "REP"
 ```
+
 ```{r}
 # Shape and merge polling and election data using September polls. 
 d_sept <- d_pollav_natl |>
@@ -211,7 +216,7 @@ tab_model(reg_sept_1, show.se = TRUE,
           dv.labels = "Democratic Party National Vote Share")
 ```
 
-
+From this, we can see that the slope of the line of best fit is 0.6, which represents a fairly strong positive correlation between poll numbers and election results, and the adjusted R squared value of 0.677 means that a sizable portion of the deviation from the trend line can be explained by the model. We can now use this regression model to predict how Vice President Harris will do in the 2024 election based off of polling averages so far in September.
 
 
 ```{r, include=FALSE}
@@ -250,9 +255,11 @@ knitr::kable(sept_2024_table,
              col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
 ```
 
-
+For the data I have, I weighted polling data that is closer to election day more than data farther out. The result of this weighted model show Harris winning the two-party popular vote with roughly 51.99%. This said, there is a large range between the upper bound of my model (66.36%) and the lower bound (37.62), so there is not a high level of certainty in this model, however that range would likely decrease notably if I shrunk my confidence interval to 80% instead of 95% as some predictive modelers of elections do.
 
 ### Modeling 2024 State Two-Party Vote Based off of Polling
+
+This caveat aside, we can apply this same technique to state-level polling, which is important since, as was demonstrated in 2016, Vice President Harris can win the popular vote but if she falls short in the key swing states she will still lose the election. Below is the regression table for the relationship between state-level polling and state-level election results.
 
 ```{r, include=FALSE}
 d_sept_state <- d_pollav_state |>
@@ -281,7 +288,7 @@ tab_model(reg_sept_state, show.se = TRUE,
           dv.labels = "Democratic Party State-Level Vote Share")
 ```
 
-
+As can be seen, there is again a strong positive correlation, with an even higher R squared value than the national polling. Applying this model to September state-level polling in 2024 yields the following predictions:
 
 ```{r, include=FALSE}
 d_poll_sept_2024_state <- d_pollav_state |>
@@ -313,7 +320,7 @@ knitr::kable(sept_2024_table_state,
              col.names = c("State", "Prediction", "Lower Bound", "Upper Bound"))
 ```
 
-
+Once again, the caveat of high upper and lower bounds to the distributions for each state in this model is important to note. This said, state-level polling seems fairly optimistic for Harris, with this model having her win by over 5-point margins in the two party vote in all seven key swing states, including North Carolina which Trump won in 2020. This model also has Harris narrowly flipping previously Trump-won Florida, and falling just 0.4% behind Trump in Texas. This all said, these models are based off of data that is still a month and a half out from the November election, and the accuracy of polling averages in predicting electoral results gets better as the election draws nearer.
 
 
 
