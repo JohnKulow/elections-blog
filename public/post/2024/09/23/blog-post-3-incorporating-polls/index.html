@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Post 3: Incorporating Polls | John Kulow Gov 1347 Election Blog</title>
+    <link rel="stylesheet" href="/elections-blog/css/style.css" />
+    <link rel="stylesheet" href="/elections-blog/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/elections-blog/">Home</a></li>
+      
+      <li><a href="/elections-blog/about/">About</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Blog Post 3: Incorporating Polls</span></h1>
+<h2 class="author">John Kulow</h2>
+<h2 class="date">2024/09/23</h2>
+</div>
+
+<main>
+<h2 id="introduction">Introduction</h2>
+<p>Public opinion polls are a crucial part of making sure that democracies work. Understanding the opinions of the public can help guide public policy, help politicians win campaigns, and, as many political scientists note, can help give legitimacy to elections. If polls show a politician losing reelection by 80%, but then they narrowly clinch victory, then voters might call into question whether someone tampered with the results. But if polls show a politician winning, and then do end up winning, then even the opponents of that victorious candidate will have a hard time claiming that the election was rigged. Of course, having good public polling can also help us predict the outcomes of elections ahead of time, so examining past polling trends and then factoring into our predictive models that learned information and current polling data can be useful in making our models more accurate.</p>
+<h2 id="looking-at-historical-polling-average-movements">Looking at Historical Polling Average Movements</h2>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<h2 id="looking-at-2024">Looking at 2024</h2>
+<h3 id="2024-so-far">2024 So Far</h3>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<h3 id="modeling-2024-national-two-party-vote-based-off-of-polling">Modeling 2024 National Two-Party Vote Based off of Polling</h3>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">September Polling Regression Table (1948-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Party National Vote Share</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">23.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.88</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">21.40&nbsp;&ndash;&nbsp;24.87</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.60</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.56&nbsp;&ndash;&nbsp;0.64</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">420</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.678 / 0.677</td>
+</tr>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Harris Vote Share</th>
+<th style="text-align:right">Lower Bound</th>
+<th style="text-align:right">Upper Bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">51.99</td>
+<td style="text-align:right">37.62</td>
+<td style="text-align:right">66.36</td>
+</tr>
+</tbody>
+</table>
+<h3 id="modeling-2024-state-two-party-vote-based-off-of-polling">Modeling 2024 State Two-Party Vote Based off of Polling</h3>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">September State-Level Polling Regression Table (2000-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Party State-Level Vote Share</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.52</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.26</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.02&nbsp;&ndash;&nbsp;2.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.08&nbsp;&ndash;&nbsp;1.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">8380</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.807 / 0.807</td>
+</tr>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">State</th>
+<th style="text-align:right">Prediction</th>
+<th style="text-align:right">Lower Bound</th>
+<th style="text-align:right">Upper Bound</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Arizona</td>
+<td style="text-align:right">52.52</td>
+<td style="text-align:right">30.33</td>
+<td style="text-align:right">74.72</td>
+</tr>
+<tr>
+<td style="text-align:left">California</td>
+<td style="text-align:right">66.37</td>
+<td style="text-align:right">44.17</td>
+<td style="text-align:right">88.56</td>
+</tr>
+<tr>
+<td style="text-align:left">Florida</td>
+<td style="text-align:right">50.61</td>
+<td style="text-align:right">28.42</td>
+<td style="text-align:right">72.81</td>
+</tr>
+<tr>
+<td style="text-align:left">Georgia</td>
+<td style="text-align:right">53.17</td>
+<td style="text-align:right">30.97</td>
+<td style="text-align:right">75.37</td>
+</tr>
+<tr>
+<td style="text-align:left">Michigan</td>
+<td style="text-align:right">53.41</td>
+<td style="text-align:right">31.21</td>
+<td style="text-align:right">75.60</td>
+</tr>
+<tr>
+<td style="text-align:left">Minnesota</td>
+<td style="text-align:right">55.88</td>
+<td style="text-align:right">33.68</td>
+<td style="text-align:right">78.07</td>
+</tr>
+<tr>
+<td style="text-align:left">Nevada</td>
+<td style="text-align:right">52.77</td>
+<td style="text-align:right">30.57</td>
+<td style="text-align:right">74.96</td>
+</tr>
+<tr>
+<td style="text-align:left">New Hampshire</td>
+<td style="text-align:right">57.07</td>
+<td style="text-align:right">34.87</td>
+<td style="text-align:right">79.27</td>
+</tr>
+<tr>
+<td style="text-align:left">North Carolina</td>
+<td style="text-align:right">52.92</td>
+<td style="text-align:right">30.72</td>
+<td style="text-align:right">75.11</td>
+</tr>
+<tr>
+<td style="text-align:left">Ohio</td>
+<td style="text-align:right">48.20</td>
+<td style="text-align:right">26.01</td>
+<td style="text-align:right">70.40</td>
+</tr>
+<tr>
+<td style="text-align:left">Pennsylvania</td>
+<td style="text-align:right">53.20</td>
+<td style="text-align:right">31.00</td>
+<td style="text-align:right">75.39</td>
+</tr>
+<tr>
+<td style="text-align:left">Texas</td>
+<td style="text-align:right">49.80</td>
+<td style="text-align:right">27.61</td>
+<td style="text-align:right">72.00</td>
+</tr>
+<tr>
+<td style="text-align:left">Virginia</td>
+<td style="text-align:right">55.79</td>
+<td style="text-align:right">33.60</td>
+<td style="text-align:right">77.99</td>
+</tr>
+<tr>
+<td style="text-align:left">Wisconsin</td>
+<td style="text-align:right">54.56</td>
+<td style="text-align:right">32.36</td>
+<td style="text-align:right">76.75</td>
+</tr>
+</tbody>
+</table>
+
+</main>
+
+  <footer>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/auto-render.min.js,npm/@xiee/utils/js/render-katex.js" defer></script>
+
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.min.js" defer></script>
+
+  
+  <hr/>
+  Theme from Yihui Xie.
+  
+  </footer>
+  </body>
+</html>
+

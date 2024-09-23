@@ -1,0 +1,313 @@
+---
+title: 'Blog Post 3: Incorporating Polls'
+author: John Kulow
+date: '2024-09-23'
+slug: blog-post-3-incorporating-polls
+categories: []
+tags: []
+---
+
+## Introduction
+
+Public opinion polls are a crucial part of making sure that democracies work. Understanding the opinions of the public can help guide public policy, help politicians win campaigns, and, as many political scientists note, can help give legitimacy to elections. If polls show a politician losing reelection by 80%, but then they narrowly clinch victory, then voters might call into question whether someone tampered with the results. But if polls show a politician winning, and then do end up winning, then even the opponents of that victorious candidate will have a hard time claiming that the election was rigged. Of course, having good public polling can also help us predict the outcomes of elections ahead of time, so examining past polling trends and then factoring into our predictive models that learned information and current polling data can be useful in making our models more accurate.
+
+## Looking at Historical Polling Average Movements
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+
+```{r, include=FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(glmnet)
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(sjPlot)
+library(readxl)
+library(kableExtra)
+```
+
+```{r, include=FALSE}
+d_pollav_natl <- read_csv("data/national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
+```
+
+```{r, include=FALSE}
+# Plot 1. Polling Averages Over 2020 Election Cycle with and Without Event Labels. 
+poll_graph_2020 <- d_pollav_natl |> 
+  filter(year == 2020) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2020") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+poll_graph_2016 <- d_pollav_natl |> 
+  filter(year == 2016) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2016") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+poll_graph_2012 <- d_pollav_natl |> 
+  filter(year == 2012) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2012") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+poll_graph_2008 <- d_pollav_natl |> 
+  filter(year == 2008) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2008",
+       color = "Party") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "right"
+  )
+
+poll_graph_2004 <- d_pollav_natl |> 
+  filter(year == 2004) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2004") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+poll_graph_2000 <- d_pollav_natl |> 
+  filter(year == 2000) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "2000") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+```
+
+```{r, warning = FALSE}
+poll_graph_2000 + poll_graph_2004 + poll_graph_2008 + poll_graph_2012 + poll_graph_2016 + poll_graph_2020 +
+  plot_annotation(title = "Presidential Polling Averages Over Time (2000-2020)",
+                  theme = theme(
+                    plot.title = element_text(hjust = 0.5, size = 15)))
+  
+```
+
+## Looking at 2024
+### 2024 So Far
+
+
+
+```{r, warning = FALSE}
+# Plot 5. Poll Averages for 2024
+d_pollav_natl |> 
+  filter(year == 2024) |> 
+  ggplot(aes(x = poll_date, y = poll_support, color = party)) +
+  geom_point(size = 1) + 
+  geom_line() + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "Polling Averages by Date, 2024",
+       color = "Party") + 
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12)
+  )
+```
+
+### Modeling 2024 National Two-Party Vote Based off of Polling
+
+```{r, include=FALSE}
+# Read election results data. 
+d_vote <- read_csv("data/popvote_1948-2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+```
+```{r}
+# Shape and merge polling and election data using September polls. 
+d_sept <- d_pollav_natl |>
+  filter(month(poll_date) == 9) |>
+  group_by(year, party) |>
+  select(-candidate)
+
+
+d_poll_sept <- d_vote |> 
+  left_join(d_sept, by = c("year", "party")) |> 
+  rename(sept_poll = poll_support) |> 
+  filter(year <= 2020, 
+         party == "DEM") |> 
+  drop_na()
+
+reg_sept_1 <- lm(pv2p ~ sept_poll,
+              data = d_poll_sept, 
+              weights = weeks_left)
+
+tab_model(reg_sept_1, show.se = TRUE, 
+          title = "September Polling Regression Table (1948-2020)", 
+          dv.labels = "Democratic Party National Vote Share")
+```
+
+
+
+
+```{r, include=FALSE}
+d_poll_sept_2024 <- d_pollav_natl |>
+  filter(month(poll_date) == 9, 
+         year == 2024, 
+         party == "DEM") |>
+  group_by(year) |>
+  rename(sept_poll = poll_support)
+
+pred_2024 <- predict(reg_sept_1, d_poll_sept_2024, interval = "prediction")
+```
+
+
+
+
+```{r, include=FALSE}
+prediction_national <- pred_2024[, "fit"]
+lower_national <- pred_2024[, "lwr"]
+upper_national <- pred_2024[, "upr"]
+
+```
+
+
+```{r}
+sept_2024_table <- d_poll_sept_2024 |>
+  mutate(predicted_values = prediction_national,
+         lower_bounds = lower_national,
+         upper_bounds = upper_national) |>
+  summarize(mean_prediction = round(weighted.mean(predicted_values, weeks_left, na.rm = TRUE),2), 
+            mean_lower_bound = round(weighted.mean(lower_bounds, weeks_left, na.rm = TRUE),2), 
+            mean_upper_bound = round(weighted.mean(upper_bounds, weeks_left, na.rm = TRUE),2)) |>
+  select(-year)
+
+knitr::kable(sept_2024_table, 
+             col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
+```
+
+
+
+### Modeling 2024 State Two-Party Vote Based off of Polling
+
+```{r, include=FALSE}
+d_sept_state <- d_pollav_state |>
+  filter(month(poll_date) == 9,
+         year > 1996,
+         party == "DEM") |>
+  group_by(year, state) |>
+  select(-candidate) |>
+  rename(sept_poll = poll_support)
+
+state_results <- read_csv("data/clean_wide_state_2pv_1948_2020.csv")
+state_results <- state_results |>
+    select(year, state, D_pv2p)
+
+d_poll_sept_state <- left_join(d_sept_state, state_results, by = c("state", "year")) |>
+  drop_na()
+```
+
+```{r}
+reg_sept_state <- lm(D_pv2p ~ sept_poll,
+              data = d_poll_sept_state, 
+              weights = weeks_left)
+
+tab_model(reg_sept_state, show.se = TRUE, 
+          title = "September State-Level Polling Regression Table (2000-2020)", 
+          dv.labels = "Democratic Party State-Level Vote Share")
+```
+
+
+
+```{r, include=FALSE}
+d_poll_sept_2024_state <- d_pollav_state |>
+  filter(month(poll_date) == 9, 
+         party == "DEM", 
+         year == 2024) |>
+  select(state, weeks_left, poll_date, poll_support) |>
+  rename(sept_poll = poll_support)
+
+pred_2024_state <- predict(reg_sept_state, d_poll_sept_2024_state, interval = "prediction")
+
+prediction_state <- pred_2024_state[, "fit"]
+lower_state <- pred_2024_state[, "lwr"]
+upper_state <- pred_2024_state[, "upr"]
+
+sept_2024_table_state <- d_poll_sept_2024_state |>
+  mutate(predicted_values = prediction_state,
+         lower_bounds = lower_state,
+         upper_bounds = upper_state) |>
+  group_by(state) |>
+  summarize(mean_prediction = round(weighted.mean(predicted_values, weeks_left, na.rm = TRUE),2), 
+            mean_lower_bound = round(weighted.mean(lower_bounds, weeks_left, na.rm = TRUE),2), 
+            mean_upper_bound = round(weighted.mean(upper_bounds, weeks_left, na.rm = TRUE),2)
+            )
+```
+
+```{r}
+knitr::kable(sept_2024_table_state, 
+             col.names = c("State", "Prediction", "Lower Bound", "Upper Bound"))
+```
+
+
+
+
+
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
