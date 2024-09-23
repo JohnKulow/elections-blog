@@ -317,7 +317,7 @@ sept_2024_table_state <- d_poll_sept_2024_state |>
 
 ```{r}
 knitr::kable(sept_2024_table_state, 
-             col.names = c("State", "Prediction", "Lower Bound", "Upper Bound"))
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound"))
 ```
 
 Once again, the caveat of high upper and lower bounds to the distributions for each state in this model is important to note. This said, state-level polling seems fairly optimistic for Harris, with this model having her win by over 5-point margins in the two party vote in all seven key swing states, including North Carolina which Trump won in 2020. This model also has Harris narrowly flipping previously Trump-won Florida, and falling just 0.4% behind Trump in Texas. This all said, these models are based off of data that is still a month and a half out from the November election, and the accuracy of polling averages in predicting electoral results gets better as the election draws nearer.

@@ -148,22 +148,22 @@ As can be seen, there is again a strong positive correlation, with an even highe
 
 
 
-|State          | Prediction| Lower Bound| Upper Bound|
-|:--------------|----------:|-----------:|-----------:|
-|Arizona        |      52.52|       30.33|       74.72|
-|California     |      66.37|       44.17|       88.56|
-|Florida        |      50.61|       28.42|       72.81|
-|Georgia        |      53.17|       30.97|       75.37|
-|Michigan       |      53.41|       31.21|       75.60|
-|Minnesota      |      55.88|       33.68|       78.07|
-|Nevada         |      52.77|       30.57|       74.96|
-|New Hampshire  |      57.07|       34.87|       79.27|
-|North Carolina |      52.92|       30.72|       75.11|
-|Ohio           |      48.20|       26.01|       70.40|
-|Pennsylvania   |      53.20|       31.00|       75.39|
-|Texas          |      49.80|       27.61|       72.00|
-|Virginia       |      55.79|       33.60|       77.99|
-|Wisconsin      |      54.56|       32.36|       76.75|
+|State          | Harris Vote Share| Lower Bound| Upper Bound|
+|:--------------|-----------------:|-----------:|-----------:|
+|Arizona        |             52.52|       30.33|       74.72|
+|California     |             66.37|       44.17|       88.56|
+|Florida        |             50.61|       28.42|       72.81|
+|Georgia        |             53.17|       30.97|       75.37|
+|Michigan       |             53.41|       31.21|       75.60|
+|Minnesota      |             55.88|       33.68|       78.07|
+|Nevada         |             52.77|       30.57|       74.96|
+|New Hampshire  |             57.07|       34.87|       79.27|
+|North Carolina |             52.92|       30.72|       75.11|
+|Ohio           |             48.20|       26.01|       70.40|
+|Pennsylvania   |             53.20|       31.00|       75.39|
+|Texas          |             49.80|       27.61|       72.00|
+|Virginia       |             55.79|       33.60|       77.99|
+|Wisconsin      |             54.56|       32.36|       76.75|
 
 Once again, the caveat of high upper and lower bounds to the distributions for each state in this model is important to note. This said, state-level polling seems fairly optimistic for Harris, with this model having her win by over 5-point margins in the two party vote in all seven key swing states, including North Carolina which Trump won in 2020. This model also has Harris narrowly flipping previously Trump-won Florida, and falling just 0.4% behind Trump in Texas. This all said, these models are based off of data that is still a month and a half out from the November election, and the accuracy of polling averages in predicting electoral results gets better as the election draws nearer.
 
