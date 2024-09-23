@@ -20,8 +20,13 @@ Public opinion polls are a crucial part of making sure that democracies work. Un
 
 
 
+To begin with, I have graphed below the polling averages for the Democratic and Republican presidential nominees between March and November for each presidential election in the 21st century up through 2020.
+
+
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+
 
 ## Looking at 2024
 ### 2024 So Far

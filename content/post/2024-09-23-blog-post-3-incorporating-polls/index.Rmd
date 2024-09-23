@@ -35,6 +35,9 @@ d_pollav_natl <- read_csv("data/national_polls_1968-2024.csv")
 d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
 ```
 
+
+To begin with, I have graphed below the polling averages for the Democratic and Republican presidential nominees between March and November for each presidential election in the 21st century up through 2020.
+
 ```{r, include=FALSE}
 # Plot 1. Polling Averages Over 2020 Election Cycle with and Without Event Labels. 
 poll_graph_2020 <- d_pollav_natl |> 
@@ -42,7 +45,8 @@ poll_graph_2020 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -58,7 +62,8 @@ poll_graph_2016 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -74,7 +79,8 @@ poll_graph_2012 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -90,7 +96,8 @@ poll_graph_2008 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -107,7 +114,8 @@ poll_graph_2004 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -123,7 +131,8 @@ poll_graph_2000 <- d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               date_breaks = "1 month") + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
@@ -143,6 +152,8 @@ poll_graph_2000 + poll_graph_2004 + poll_graph_2008 + poll_graph_2012 + poll_gra
   
 ```
 
+
+
 ## Looking at 2024
 ### 2024 So Far
 
@@ -155,7 +166,8 @@ d_pollav_natl |>
   ggplot(aes(x = poll_date, y = poll_support, color = party)) +
   geom_point(size = 1) + 
   geom_line() + 
-  scale_x_date(date_labels = "%b %d") + 
+  scale_x_date(date_labels = "%b",
+               breaks = seq(as.Date("2024-01-01"), as.Date("2024-12-01"), by = "1 month")) + 
   scale_color_manual(values = c("dodgerblue4", "firebrick1")) +
   labs(x = "Date",
        y = "Average Poll Approval", 
