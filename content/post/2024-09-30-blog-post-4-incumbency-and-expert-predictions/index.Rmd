@@ -1,0 +1,194 @@
+---
+title: 'Blog Post 4: Incumbency and Expert Predictions'
+author: John Kulow
+date: '2024-09-30'
+slug: blog-post-4-incumbency-and-expert-predictions
+categories: []
+tags: []
+---
+
+## Introduction
+Being an incumbent President can theoretically have both electoral advantages and electoral disadvantages. On one hand, incumbent presidents start the race with higher name recognition, they can draw the attention of the media easier given their high profile position, they tend to start with a fundraising advantage, they benefit from voters potentially preferring the so-called "devil they know" to the "devil they don't," and they can use so-called "pork barrel" spending to financially benefit crucial voting blogs to try to win over their votes. However, on the other hand, incumbency can prove detrimental in the sense that incumbent presidents can be viewed as responsible for recessions or insufficient responses to natural disasters and they can face potential voter fatigue. Regardless, in recent elections there have been questions of how much incumbency really helps or hurts incumbents given the United States' increasingly polarized electorate. As such, for my fourth blog post I will explore the issue of incumbency, whether it helps or hurts candidates, and how we might think about incumbency in the unique case of the 2024 election.
+
+
+## Historical Incumbent Advantage
+To begin with, let's take a look at the historical trends of incumbency advantage in presidential elections. The table below shows the proportion of incumbent presidents since World War Two who have ran for reelection and won.
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+
+```{r, include=FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(glmnet)
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(sjPlot)
+library(readxl)
+library(kableExtra)
+library(maps)
+library(RColorBrewer)
+library(viridis)
+library(sf)
+library(stargazer)
+```
+
+```{r, include=FALSE}
+# Read incumbency/vote data.
+d_vote <- read_csv("data/popvote_1948-2020.csv")
+d_state_vote <- read_csv("data/state_popvote_1948_2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+
+# Read economic data.
+d_econ <- read_csv("data/fred_econ.csv") |> 
+  filter(quarter == 2)
+
+# Read polling and election results data. 
+d_pollav_natl <- read_csv("data/national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
+```
+
+```{r, include=FALSE}
+# Shape and merge polling and election data using November polls. 
+d_poll_nov <- d_vote |> 
+  left_join(d_pollav_natl |> 
+              group_by(year, party) |> 
+              top_n(1, poll_date) |> 
+              select(-candidate), 
+            by = c("year", "party")) |> 
+  rename(nov_poll = poll_support) |> 
+  filter(year <= 2020) |> 
+  drop_na()
+
+# Create dataset of polling average by week until the election. 
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+```
+
+
+```{r}
+# A different way of assessing the incumbency advantage 
+# (out of 11 elections where there was at least one incumbent running). 
+inc_tab <- d_vote |> 
+  filter(year > 1948 & year < 2024) |>
+  select(year, party, candidate, incumbent, winner) |> 
+  pivot_wider(names_from = party, 
+              values_from = c(candidate, incumbent, winner)) |> 
+  filter(incumbent_DEM == TRUE | incumbent_REP == TRUE)
+
+
+cat(paste0("Elections with At Least One Incumbent Running: ", nrow(inc_tab), "\n",
+   "Incumbent Victories: ", (sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                             sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM)), "\n",
+    "Percentage: ", round((sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                           sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM))/
+                           nrow(inc_tab)*100, 2)))
+
+# In the six elections since 2000?
+##inc_tab |> 
+##  filter(year >= 2000)
+```
+
+As can be seen, of the 11 post-war elections in which the incumbent president ran for reelection, that incumbent won about 64% of the time. The four incumbent presidents who lost were Gerald Ford, Jimmy Carter, George H.W. Bush, and Donald Trump. However, when we look at the win rate of the incumbent *party*, a different narrative emerges.
+
+```{r}
+# How many post-war elections have there been where the incumbent *party* won? 
+d_vote |> 
+  filter(winner) |> 
+  select(year, win_party = party, win_cand = candidate) |> 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |> 
+  mutate(reelect_party = win_party_last == win_party) |> 
+  filter(year > 1948 & year < 2024) |> 
+  group_by(reelect_party) |> 
+  summarize(N = n()) |> 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |>
+  as.data.frame()
+```
+
+This table shows that, of the 18 post-war presidential elections, the incumbent party has only won 8. As previously shown, 7 of those 8 were times when the incumbent president himself was running, with the 8th case being when George H.W. Bush won following 8 years of being Ronald Reagan's Vice President. This lends credence both to the theory that voters experience voting fatigue for the incumbent party and to the theory that incumbent presidents have a unique strength to them that is different to a successor candidate.
+
+## Pork Barrel Spending Analysis
+
+When trying to see why this might be, many observers often point to so-called "pork barrel spending" which is when politicians use their delineated powers to fund (often frivolous) projects in crucial states or constituencies in order to gain the favor of local voters. To examine whether or not this practice of directing additional funds to swing states actually occurs, I have graphed below federal grant spending between 1988 and 2008, seperated by whether that spending was in a swing state or not and whether the grant occured in an election year or not.
+
+```{r}
+####----------------------------------------------------------#
+#### Pork analysis. 
+####----------------------------------------------------------#
+ 
+# Read federal grants dataset from Kriner & Reeves (2008). 
+d_pork_state <- read_csv("data/fedgrants_bystate_1988-2008.csv")
+```
+
+```{r}
+# What strategy do presidents pursue? 
+d_pork_state |> 
+  filter(!is.na(state_year_type)) |> 
+  group_by(state_year_type) |>
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
+  ggplot(aes(x = state_year_type, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = "identity", fill = "chartreuse4") + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = "Type of State & Year", 
+       y = "Federal Grant Spending (Millions of $)", 
+       title = "Federal Grant Spending (Millions $) by State Election Type") + 
+  theme_minimal() + 
+  theme(plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12))
+```
+
+As can be seen, there is a statistically significant difference between swing states and non-swing states, with those swing states benefiting from additional grant funding. Interestingly enough, there is not statistically significant difference between grant spending in election years and non-election years. This could be explained by the fact that the projects that these grants fund often take more than a single year to complete, so the community might not see tangible benefits from grant spending within the year, thus yielding little benefit for an incumbent to prioritize grant spending in an election year rather than in the years leading up to it.
+
+
+
+```{r}
+# Pork county model. 
+d_pork_county <- read_csv("data/fedgrants_bycounty_1988-2008.csv")
+
+pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year) +
+                          dpc_income + inc_ad_diff + inc_campaign_diff + 
+                          dhousevote_inc + iraq_cas2004 + iraq_cas2008 + 
+                          dpct_popl,
+                        data = d_pork_county)
+
+# I had to ask ChatGPT to help me format this so that it wouldn't look so chaotic
+
+stargazer(pork_mod_county_2, type = "html", 
+          title = "County Model Regression Results",
+          dep.var.labels = "Incumbent Vote Swing",
+          covariate.labels = c("Federal Grants (%)", 
+                               "Competitive State", 
+                               "Federal Grants * Competitive State"),
+          omit = c("year", "dpc_income", "inc_ad_diff", "inc_campaign_diff", 
+                    "dhousevote_inc", "iraq_cas2004", "iraq_cas2008", "dpct_popl"),
+          star.cutoffs = c(0.05, 0.01, 0.001), 
+          notes = "Standard errors are in parentheses.", 
+          omit.stat = c("f", "ser"))
+
+```
+
+
+
+
+
+## Incumbency in 2024?
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
+
+
