@@ -152,7 +152,7 @@ As can be seen, there is a statistically significant difference between swing st
 
 This said, just because more grant money is spent in swing states, does not necessarily mean that the incumbent benefits from said pork barrel spending. To test the relationship between grant spending and incumbent vote swing, I ran the following county-level regression. In this multivariate regression I added in variables about other potential factors like whether the county is in a swing state, the percent change in the county's real disposable income, the difference between the candidates in ad spending, among others. 
 
-```{r, warning = FALSE}
+```{r, include = FALSE}
 # Pork county model. 
 d_pork_county <- read_csv("data/fedgrants_bycounty_1988-2008.csv")
 
@@ -161,7 +161,9 @@ pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year
                           dhousevote_inc + iraq_cas2004 + iraq_cas2008 + 
                           dpct_popl,
                         data = d_pork_county)
+```
 
+```{r}
 summary(pork_mod_county_2)
 
 ```

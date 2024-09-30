@@ -47,15 +47,6 @@
 <img src="https://johnkulow.github.io/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <p>As can be seen, there is a statistically significant difference between swing states and non-swing states, with those swing states benefiting from additional grant funding. Interestingly enough, there is not statistically significant difference between grant spending in election years and non-election years. This could be explained by the fact that the projects that these grants fund often take more than a single year to complete, so the community might not see tangible benefits from grant spending within the year, thus yielding little benefit for an incumbent to prioritize grant spending in an election year rather than in the years leading up to it.</p>
 <p>This said, just because more grant money is spent in swing states, does not necessarily mean that the incumbent benefits from said pork barrel spending. To test the relationship between grant spending and incumbent vote swing, I ran the following county-level regression. In this multivariate regression I added in variables about other potential factors like whether the county is in a swing state, the percent change in the county&rsquo;s real disposable income, the difference between the candidates in ad spending, among others.</p>
-<pre><code>## Rows: 18465 Columns: 16
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (3): state, county, state_abb
-## dbl (13): year, state_FIPS, county_FIPS, dvoteswing_inc, dpct_grants, dpc_in...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = dvoteswing_inc ~ dpct_grants * comp_state + as.factor(year) + 

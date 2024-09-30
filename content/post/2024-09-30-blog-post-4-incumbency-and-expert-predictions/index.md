@@ -55,16 +55,7 @@ As can be seen, there is a statistically significant difference between swing st
 This said, just because more grant money is spent in swing states, does not necessarily mean that the incumbent benefits from said pork barrel spending. To test the relationship between grant spending and incumbent vote swing, I ran the following county-level regression. In this multivariate regression I added in variables about other potential factors like whether the county is in a swing state, the percent change in the county's real disposable income, the difference between the candidates in ad spending, among others. 
 
 
-```
-## Rows: 18465 Columns: 16
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr  (3): state, county, state_abb
-## dbl (13): year, state_FIPS, county_FIPS, dvoteswing_inc, dpct_grants, dpc_in...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
+
 
 ```
 ## 
