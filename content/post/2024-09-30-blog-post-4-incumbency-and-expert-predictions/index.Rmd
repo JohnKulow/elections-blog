@@ -34,7 +34,6 @@ library(maps)
 library(RColorBrewer)
 library(viridis)
 library(sf)
-library(stargazer)
 ```
 
 ```{r, include=FALSE}
@@ -121,7 +120,7 @@ This table shows that, of the 18 post-war presidential elections, the incumbent 
 
 When trying to see why this might be, many observers often point to so-called "pork barrel spending" which is when politicians use their delineated powers to fund (often frivolous) projects in crucial states or constituencies in order to gain the favor of local voters. To examine whether or not this practice of directing additional funds to swing states actually occurs, I have graphed below federal grant spending between 1988 and 2008, seperated by whether that spending was in a swing state or not and whether the grant occured in an election year or not.
 
-```{r}
+```{r, include=FALSE}
 ####----------------------------------------------------------#
 #### Pork analysis. 
 ####----------------------------------------------------------#
@@ -130,7 +129,7 @@ When trying to see why this might be, many observers often point to so-called "p
 d_pork_state <- read_csv("data/fedgrants_bystate_1988-2008.csv")
 ```
 
-```{r}
+```{r, warning = FALSE}
 # What strategy do presidents pursue? 
 d_pork_state |> 
   filter(!is.na(state_year_type)) |> 
@@ -151,9 +150,9 @@ d_pork_state |>
 
 As can be seen, there is a statistically significant difference between swing states and non-swing states, with those swing states benefiting from additional grant funding. Interestingly enough, there is not statistically significant difference between grant spending in election years and non-election years. This could be explained by the fact that the projects that these grants fund often take more than a single year to complete, so the community might not see tangible benefits from grant spending within the year, thus yielding little benefit for an incumbent to prioritize grant spending in an election year rather than in the years leading up to it.
 
+This said, just because more grant money is spent in swing states, does not necessarily mean that the incumbent benefits from said pork barrel spending. To test the relationship between grant spending and incumbent vote swing, I ran the following county-level regression. In this multivariate regression I added in variables about other potential factors like whether the county is in a swing state, the percent change in the county's real disposable income, the difference between the candidates in ad spending, among others. 
 
-
-```{r}
+```{r, warning = FALSE}
 # Pork county model. 
 d_pork_county <- read_csv("data/fedgrants_bycounty_1988-2008.csv")
 
@@ -163,27 +162,23 @@ pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year
                           dpct_popl,
                         data = d_pork_county)
 
-# I had to ask ChatGPT to help me format this so that it wouldn't look so chaotic
-
-stargazer(pork_mod_county_2, type = "html", 
-          title = "County Model Regression Results",
-          dep.var.labels = "Incumbent Vote Swing",
-          covariate.labels = c("Federal Grants (%)", 
-                               "Competitive State", 
-                               "Federal Grants * Competitive State"),
-          omit = c("year", "dpc_income", "inc_ad_diff", "inc_campaign_diff", 
-                    "dhousevote_inc", "iraq_cas2004", "iraq_cas2008", "dpct_popl"),
-          star.cutoffs = c(0.05, 0.01, 0.001), 
-          notes = "Standard errors are in parentheses.", 
-          omit.stat = c("f", "ser"))
+summary(pork_mod_county_2)
 
 ```
 
-
-
-
+As can be seen above, a 1% increase in federal grant spending yields a roughly 0.004% increase in the vote share for the incumbent. Although small, this increase is statistically significant. Furthermore, we can see that the effects of federal grant spending on incumbent vote swing is larger in swing states (~0.006%) than in general. This is likely because the increased ad spending and campaign activity in swing states can bring more attention to these grants and the benefits they bring to the community than they might get in non-competitive states.
 
 ## Incumbency in 2024?
+
+Given the clear impact that incumbency plays in presidential elections, it is worth exploring how incumbency might impact the 2024 election. While the actual incumbent, Joe Biden, has decided not to seek reelection, many have claimed that Trump or Harris could be viewed by some voters as de facto incumbents. 
+
+First off there is Trump, whose candidacy is the second time in all of American history and the first time since the 1800's where a former president has run again. The impact of this unique quality of his campaign is unknown and will be almost impossible to determine, let alone definitively quantify its impact. This view as Trump as a quasi-incumbent has been bolstered by the Harris campaign, who have championed slogans such as "We're Not Going Back."
+
+Then there is Harris herself. As the incumbent Vice President, she and her policies are inherently intertwined with the current administration. She was Joe Biden's preferred successor, and some have claimed that her quick ascension to being the Democratic nominee was a "coronation." At a time when there is doubt about the strength of the economy, there are numerous foreign policy conflict, and there is dissatisfaction with the Biden administration's handling of issues such as the border, Republicans have sought to paint Harris as an incumbent worthy of blame attribution.
+
+In my opinion, if one, and only one, of these two candidates were to be counted as the "incumbent," it would be Vice President Harris. Although Trump is a former president, Harris is the one better able to capitalize on incumbent advantages such as pork barrel spending or the incumbent war chest that Biden had built up which Harris was able to inherit. Harris also faces the potential downsides of incumbency in much more real ways than Trump does. Trump has tried to run much of his campaign by blaming Biden and Harris for inflation and perceived poor economic performance, and voters may feel fatigued by four years of Democratic control of the White House.
+
+Regardless of who is a better fit for the label, it is clear that incumbency in 2024 is no black and white ordeal. Both candidates enjoy some of the benefits and some of the disadvantages of incumbency, and it will be interesting to see how this effects the final stretch of the race, especially as potential "game changers" occur such as Hurricane Helene and the damage it has wrought in North Carolina and, to a lesser extent, Georgia.
 
 
 
