@@ -7,11 +7,14 @@ categories: []
 tags: []
 ---
 
-
 ```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 ```
 
+## Introduction
+For this fifth blog post, I want to look at another, likely final, fundamental factor that crucially impacts American elections: demographics. Throughout America's history, demographic voting divisions have impacted elections, from well-observed racial partisan voting gaps to turnout differences in different age groups to the education divide that helped propel Trump's 2016 victory to the increasingly emerging partisan gender gap. Because of these issues and other demographics related-trends, campaigns must keep track of what a state or district's demographics look like. Additionally, although I will not be exploring it in this blog post, demographic *changes* also are noteworthy to campaigns. For example, the fast-growing, rapidly diversifying Atlanta suburbs will be crucial if Harris wants to win in November, whereas slow-growing or even shrinking rural areas in Wisconsin, Michigan, and Pennsylvania pose a key challenge from the Trump campaign who seeks to rack up votes in those heavily Republican areas. As such, it is important to get a sense of what the demographic makeups are of key states in 2024.
+
+## State-Level Demographic Analysis
 
 ```{r, include=FALSE}
 library(car)
@@ -255,11 +258,7 @@ gender_demo |>
 
 Summarize demographic stats by state
 
-2020 turnout share by age and race by state
-
-2020 vote share by age and race by state
-
-Summarize demographic changes by year
+2020 turnout share by demographics by state
 
 Simulate election based off of new polls
 
