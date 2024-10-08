@@ -1,0 +1,294 @@
+---
+title: 'Blog Post 5: Demographics'
+author: John Kulow
+date: '2024-10-07'
+slug: blog-post-5-demographics
+categories: []
+tags: []
+---
+
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+
+```{r, include=FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(glmnet)
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(sjPlot)
+library(readxl)
+library(kableExtra)
+library(maps)
+library(RColorBrewer)
+library(viridis)
+library(sf)
+library(blogdown)
+```
+
+
+```{r, include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data.
+####----------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("data/popvote_1948_2020.csv")
+d_state_popvote <- read_csv("data/state_popvote_1948_2020.csv")
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("data/corrected_ec_1948_2024.csv")
+
+# Read and merge demographics data. 
+d_demos <- read_csv("data/demographics.csv")[,-1]
+
+# Read primary turnout data. 
+d_turnout <- read_csv("data/turnout_1789_2020.csv")
+d_state_turnout <- read_csv("data/state_turnout_1980_2022.csv")
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read polling data. 
+d_polls <- read_csv("data/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("data/state_polls_1968-2024.csv")
+```
+
+
+```{r, include=FALSE}
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+```
+
+```{r, include=FALSE}
+####----------------------------------------------------------#
+#### Voter file sample data
+####----------------------------------------------------------#
+
+# Read and merge 1% voterfile data into one dataset. 
+voterfile.sample.files <- list.files("data/state_1pc_samples_aug24")
+
+# state level voterfile data
+vf_fl <- read_csv("data/state_1pc_samples_aug24/FL_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_wi <- read_csv("data/state_1pc_samples_aug24/WI_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_mi <- read_csv("data/state_1pc_samples_aug24/MI_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_pa <- read_csv("data/state_1pc_samples_aug24/PA_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_nv <- read_csv("data/state_1pc_samples_aug24/NV_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_az <- read_csv("data/state_1pc_samples_aug24/AZ_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_nc <- read_csv("data/state_1pc_samples_aug24/NC_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_ga <- read_csv("data/state_1pc_samples_aug24/GA_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_tx <- read_csv("data/state_1pc_samples_aug24/TX_sample.csv") |>
+  filter(sii_deceased == 0)
+vf_oh <- read_csv("data/state_1pc_samples_aug24/OH_sample.csv") |>
+  filter(sii_deceased == 0)
+```
+
+```{r, include=FALSE}
+rename_demo_data <- function(data) {
+  data |>
+    mutate(sii_age_range = case_when(
+      sii_age >= 18 & sii_age <= 24 ~ "18-24",
+      sii_age >= 25 & sii_age <= 34 ~ "25-34",
+      sii_age >= 35 & sii_age <= 44 ~ "35-44",
+      sii_age >= 45 & sii_age <= 54 ~ "45-54",
+      sii_age >= 55 & sii_age <= 64 ~ "55-64",
+      sii_age >= 65 ~ "65+",
+      TRUE ~ "Unknown"
+    )) |>
+    mutate(sii_race = case_when(
+      sii_race == "W" ~ "White",
+      sii_race == "B" ~ "Black",
+      sii_race == "H" ~ "Hispanic",
+      sii_race == "A" ~ "Asian",
+      sii_race == "N" ~ "Native American",
+      sii_race == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+    mutate(sii_education_level = case_when(
+      sii_education_level == "A" ~ "Less than High School",
+      sii_education_level == "B" ~ "High School Graduate",
+      sii_education_level == "C" ~ "Some College",
+      sii_education_level == "D" ~ "Bachelor's Degree",
+      sii_education_level == "E" ~ "Graduate Degree",
+      TRUE ~ "Unknown"
+    )) |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      TRUE ~ "Other/Unknown"
+    ))
+}
+```
+
+```{r, include=FALSE}
+vf_oh <- rename_demo_data(vf_oh)
+vf_tx <- rename_demo_data(vf_tx)
+vf_ga <- rename_demo_data(vf_ga)
+vf_nc <- rename_demo_data(vf_nc)
+vf_az <- rename_demo_data(vf_az)
+vf_nv <- rename_demo_data(vf_nv)
+vf_pa <- rename_demo_data(vf_pa)
+vf_mi <- rename_demo_data(vf_mi)
+vf_wi <- rename_demo_data(vf_wi)
+vf_fl <- rename_demo_data(vf_fl)
+```
+
+```{r, include=FALSE}
+vf_across_states <- bind_rows(vf_oh, vf_tx, vf_ga, vf_nc, vf_az, vf_nv, vf_pa, vf_mi, vf_wi, vf_fl)
+```
+
+
+
+
+```{r}
+race_demo <- vf_across_states |>
+  mutate(sii_race = if_else(sii_race == "Other" | sii_race == "Unknown", "Other/Unknown", sii_race)) |>
+  count(sii_state, sii_race) |>
+  group_by(sii_state) |>
+  mutate(percentage = n / sum(n) * 100)
+
+## insert race graph
+race_demo |>
+  mutate(Race = factor(sii_race, levels = c("Native American", "Black", "Hispanic", "Asian", "White", "Other/Unknown"))) |>
+  ggplot(aes(x = sii_state, y = percentage, fill = Race)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("White" = "#84b0fa",
+                               "Black" = "#7bab82",
+                               "Hispanic" = "#e4785c",
+                               "Asian" = "#fbc345",
+                               "Native American" = "#eb6bed",
+                               "Other/Unknown" = "#9d8b8b")) +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),  
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 3) +
+  labs(title = "Racial Democraphics in Key States", 
+       x = "", 
+       y = "Percentage")
+
+```
+
+```{r}
+age_demo <- vf_across_states |>
+  count(sii_state, sii_age_range) |>
+  group_by(sii_state) |>
+  mutate(percentage = n / sum(n) * 100)
+
+## insert age graph
+age_demo |>
+  ggplot(aes(x = sii_state, y = percentage, fill = sii_age_range)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),  
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 3) +
+  labs(title = "Age Democraphics in Key States", 
+       x = "", 
+       y = "Percentage",
+       fill = "Age Range")
+```
+
+```{r}
+edu_demo <- vf_across_states |>
+  count(sii_state, sii_education_level) |>
+  group_by(sii_state) |>
+  mutate(percentage = n / sum(n) * 100)
+
+## insert edu graph
+edu_demo |>
+  mutate(edu_level_corrected = factor(sii_education_level, levels = c("Graduate Degree", "Bachelor's Degree", "Some College", "High School Graduate", "Less than High School", "Unknown"))) |>
+  ggplot(aes(x = sii_state, y = percentage, fill = edu_level_corrected)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),  
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 3) +
+  labs(title = "Education Democraphics in Key States", 
+       x = "", 
+       y = "Percentage",
+       fill = "Education Level")
+```
+
+
+```{r}
+gender_demo <- vf_across_states |>
+  count(sii_state, sii_gender) |>
+  group_by(sii_state) |>
+  mutate(percentage = n / sum(n) * 100)
+
+## insert gender graph
+gender_demo |>
+  ggplot(aes(x = sii_state, y = percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Other/Unknown" = "#bd6afd")) +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),  
+            position = position_stack(vjust = 0.5), 
+            color = "black", size = 3) +
+  labs(title = "Gender Democraphics in Key States", 
+       x = "", 
+       y = "Percentage",
+       fill = "Gender")
+```
+
+
+
+
+
+
+Summarize demographic stats by state
+
+2020 turnout share by age and race by state
+
+2020 vote share by age and race by state
+
+Summarize demographic changes by year
+
+Simulate election based off of new polls
+
+Add in coefficient for the polls?
+
+Combine polling, econ, what else?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```

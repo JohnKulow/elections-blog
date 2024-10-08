@@ -6,8 +6,15 @@
     <description>Recent content in Home on John Kulow Gov 1347 Election Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Sep 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://johnkulow.github.io/elections-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 5: Demographics</title>
+      <link>https://johnkulow.github.io/elections-blog/post/2024/10/07/blog-post-5-demographics/</link>
+      <pubDate>Mon, 07 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://johnkulow.github.io/elections-blog/post/2024/10/07/blog-post-5-demographics/</guid>
+      <description>Summarize demographic stats by state&#xA;2020 turnout share by age and race by state&#xA;2020 vote share by age and race by state&#xA;Summarize demographic changes by year&#xA;Simulate election based off of new polls&#xA;Add in coefficient for the polls?&#xA;Combine polling, econ, what else?</description>
+    </item>
     <item>
       <title>Blog Post 4: Incumbency and Expert Predictions</title>
       <link>https://johnkulow.github.io/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/</link>
