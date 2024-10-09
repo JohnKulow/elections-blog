@@ -64,14 +64,7 @@ d_state_polls <- read_csv("data/state_polls_1968-2024.csv")
 ```
 
 ```{r, include=FALSE}
-# Process state-level polling data. 
-d_pollav_state <- d_state_polls |> 
-  group_by(year, state, party) |>
-  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
-  top_n(1, poll_date) |> 
-  rename(latest_pollav = poll_support) |>
-  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
-  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
 ```
 
 ```{r, include=FALSE}
@@ -122,7 +115,7 @@ rename_demo_data <- function(data) {
       sii_race == "B" ~ "Black",
       sii_race == "H" ~ "Hispanic",
       sii_race == "A" ~ "Asian",
-      sii_race == "N" ~ "Native American",
+      sii_race == "N" ~ "Native",
       sii_race == "O" ~ "Other",
       TRUE ~ "Unknown"
     )) |>
@@ -163,14 +156,14 @@ race_demo <- vf_across_states |>
 
 ## insert race graph
 race_demo |>
-  mutate(Race = factor(sii_race, levels = c("Native American", "Black", "Hispanic", "Asian", "White", "Other/Unknown"))) |>
+  mutate(Race = factor(sii_race, levels = c("Native", "Black", "Hispanic", "Asian", "White", "Other/Unknown"))) |>
   ggplot(aes(x = sii_state, y = percentage, fill = Race)) +
   geom_bar(stat = "identity") +
   scale_fill_manual(values = c("White" = "#84b0fa",
                                "Black" = "#7bab82",
                                "Hispanic" = "#e4785c",
                                "Asian" = "#fbc345",
-                               "Native American" = "#eb6bed",
+                               "Native" = "#eb6bed",
                                "Other/Unknown" = "#9d8b8b")) +
   geom_text(aes(label = paste0(round(percentage, 1), "%")),  
             position = position_stack(vjust = 0.5), 
@@ -201,6 +194,7 @@ age_demo |>
        y = "Percentage",
        fill = "Age Range")
 ```
+
 In terms of the breakdown for age groupings, the clear standout is Wisconsin and their significantly larger "unknown" contingent. This is likely due to either an error or record-keeping practices in the state that seemingly leave the ages of younger registered voters severely under-reported. Putting Wisconsin aside, you can notice certain other differences. For instance, Florida, long a retirement hot-spot, boasts the largest 65+ contingent, while fast-growing Texas and Georgia, and to a lesser extent Nevada, have distributions skewed younger compared to the slow-growing, aging populations in midwestern states like Ohio and Pennsylvania.
 
 ```{r}
@@ -271,7 +265,7 @@ turnout_percents <- function(df) {
 }
 ```
 
-```{r}
+```{r, include=FALSE}
 turnout_az <- turnout_percents(vf_az)
 turnout_nv <- turnout_percents(vf_nv)
 turnout_pa <- turnout_percents(vf_pa)
@@ -286,13 +280,232 @@ turnout_nc <- turnout_percents(vf_nc)
 
 ```{r}
 ## Turnout Graphs
-turnout_az |>
+az_turnout_graph <- turnout_az |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
     mutate(sii_gender = case_when(
       sii_gender == "M" ~ "Male",
       sii_gender == "F" ~ "Female",
       sii_gender == "O" ~ "Other",
       TRUE ~ "Unknown"
     )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Arizona",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+
+fl_turnout_graph <- turnout_fl |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Florida",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+ga_turnout_graph <- turnout_ga |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Georgia",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+mi_turnout_graph <- turnout_mi |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Michigan",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+nc_turnout_graph <- turnout_nc |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in North Carolina",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+nv_turnout_graph <- turnout_nv |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Nevada",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+oh_turnout_graph <- turnout_oh |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Ohio",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+pa_turnout_graph <- turnout_pa |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Pennsylvania",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+tx_turnout_graph <- turnout_tx |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Voter Turnout in Texas",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
+
+wi_turnout_graph <- turnout_wi |>
+  filter(sii_race == "White" | sii_race == "Black" | sii_race == "Hispanic" | sii_race == "Asian" | sii_race == "Native") |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  filter(sii_gender == "Male" | sii_gender == "Female") |>
   ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
   geom_bar(stat = "identity", 
            position = "dodge") +
@@ -300,196 +513,88 @@ turnout_az |>
                                "Male" = "#6a9dfd",
                                "Unknown" = "#bd6afd")) +
   ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Arizona",
+  labs(title = "2020 Voter Turnout in Wisconsin",
        x = "Race",
        y = "Turnout %",
-       fill = "Gender")
-
-
-turnout_fl |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Florida",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_ga |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Georgia",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_mi |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Michigan",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_nc |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in North Carolina",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_nv |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Nevada",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_oh |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Ohio",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_pa |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Pennsylvania",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_tx |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Texas",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
-
-turnout_wi |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      sii_gender == "O" ~ "Other",
-      TRUE ~ "Unknown"
-    )) |>
-  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
-  geom_bar(stat = "identity", 
-           position = "dodge") +
-  scale_fill_manual(values = c("Female" = "#fc9ffd",
-                               "Male" = "#6a9dfd",
-                               "Unknown" = "#bd6afd")) +
-  ylim(0, 100) +
-  labs(title = "2020 Turnout by Race and Gender in Wisconsin",
-       x = "Race",
-       y = "Turnout %",
-       fill = "Gender")
+       fill = "Gender") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12), 
+    legend.position = "none"
+  )
 ```
 
 
+``` {r}
+az_turnout_graph + fl_turnout_graph
+ga_turnout_graph + mi_turnout_graph
+nc_turnout_graph + nv_turnout_graph
+oh_turnout_graph + pa_turnout_graph
+tx_turnout_graph + wi_turnout_graph
 
-still to be done:
 
-2020 turnout share by demographics by state
+## az_turnout_graph + fl_turnout_graph + ga_turnout_graph + mi_turnout_graph + nc_turnout_graph + nc_turnout_graph + oh_turnout_graph + pa_turnout_graph + tx_turnout_graph + wi_turnout_graph
+```
 
-Simulate election based off of new polls
+*insert analysis here, will do after finishing more code*
 
-Add in coefficient for the polls?
+## Updated Polling-Based Model
 
-Combine polling, econ, what else?
+```{r}
+d_sept_state <- d_pollav_state |>
+  filter(month(poll_date) == 9,
+         year > 1996,
+         party == "DEM") |>
+  group_by(year, state) |>
+  select(-candidate) |>
+  rename(sept_poll = poll_support)
 
+
+state_results <- d_state_popvote |>
+    select(year, state, D_pv2p)
+
+d_poll_sept_state <- left_join(d_sept_state, state_results, by = c("state", "year")) |>
+  drop_na()
+
+reg_sept_state <- lm(D_pv2p ~ sept_poll,
+              data = d_poll_sept_state, 
+              weights = weeks_left)
+
+tab_model(reg_sept_state, show.se = TRUE, 
+          title = "September State-Level Polling Regression Table (2000-2020)", 
+          dv.labels = "Democratic Party State-Level Vote Share")
+```
+
+
+```{r}
+d_poll_sept_2024_state <- d_pollav_state |>
+  filter(month(poll_date) == 9, 
+         party == "DEM", 
+         year == 2024) |>
+  select(state, weeks_left, poll_date, poll_support) |>
+  rename(sept_poll = poll_support)
+
+pred_2024_state <- predict(reg_sept_state, d_poll_sept_2024_state, interval = "prediction")
+
+prediction_state <- pred_2024_state[, "fit"]
+lower_state <- pred_2024_state[, "lwr"]
+upper_state <- pred_2024_state[, "upr"]
+
+sept_2024_table_state <- d_poll_sept_2024_state |>
+  mutate(predicted_values = prediction_state,
+         lower_bounds = lower_state,
+         upper_bounds = upper_state) |>
+  group_by(state) |>
+  summarize(mean_prediction = round(weighted.mean(predicted_values, weeks_left, na.rm = TRUE),2), 
+            mean_lower_bound = round(weighted.mean(lower_bounds, weeks_left, na.rm = TRUE),2), 
+            mean_upper_bound = round(weighted.mean(upper_bounds, weeks_left, na.rm = TRUE),2)
+            )
+```
+
+
+```{r}
+knitr::kable(sept_2024_table_state, 
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound"))
+```
 
 
 

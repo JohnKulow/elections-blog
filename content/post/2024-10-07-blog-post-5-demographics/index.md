@@ -35,6 +35,7 @@ To begin with, I will look at the breakdown of electorates in terms of race, age
 The above graphic shows the breakdown of various racial groups in these 10 states. Here, we can see the key differences between the midwest and the sun belt. Over 80% of the voterfile sample in the midwestern states of Michigan, Ohio, Pennsylvania, and Wisconsin were white, showing the importance of white voters, and in particular working class white voters, to winning those states. On the other hand you have the sunbelt, where states either have a high Hispanic population, high Black population, or both. 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
 In terms of the breakdown for age groupings, the clear standout is Wisconsin and their significantly larger "unknown" contingent. This is likely due to either an error or record-keeping practices in the state that seemingly leave the ages of younger registered voters severely under-reported. Putting Wisconsin aside, you can notice certain other differences. For instance, Florida, long a retirement hot-spot, boasts the largest 65+ contingent, while fast-growing Texas and Georgia, and to a lesser extent Nevada, have distributions skewed younger compared to the slow-growing, aging populations in midwestern states like Ohio and Pennsylvania.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
@@ -52,43 +53,80 @@ Finally, in terms of gender we can see that each state has a fairly even distrib
 
 
 
-```
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by 'sii_gender'. You can override using the
-## `.groups` argument.
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-5.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-6.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-7.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-8.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-9.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-10.png" width="672" />
 
 
 
-still to be done:
 
-2020 turnout share by demographics by state
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-5.png" width="672" />
 
-Simulate election based off of new polls
+*insert analysis here, will do after finishing more code*
 
-Add in coefficient for the polls?
+## Updated Polling-Based Model
 
-Combine polling, econ, what else?
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">September State-Level Polling Regression Table (2000-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Party State-Level Vote Share</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.32</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.25</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.82&nbsp;&ndash;&nbsp;1.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.09&nbsp;&ndash;&nbsp;1.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">8391</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.810 / 0.810</td>
+</tr>
 
+</table>
+
+
+
+
+
+
+|State          | Harris Vote Share| Lower Bound| Upper Bound|
+|:--------------|-----------------:|-----------:|-----------:|
+|Arizona        |             52.65|       30.40|       74.89|
+|California     |             66.66|       44.42|       88.91|
+|Florida        |             50.92|       28.68|       73.17|
+|Georgia        |             53.15|       30.90|       75.39|
+|Maryland       |             69.38|       47.13|       91.63|
+|Michigan       |             53.83|       31.58|       76.07|
+|Minnesota      |             55.96|       33.71|       78.20|
+|Missouri       |             46.91|       24.67|       69.16|
+|Montana        |             43.87|       21.63|       66.12|
+|Nebraska Cd 2  |             57.36|       35.11|       79.60|
+|Nevada         |             53.04|       30.80|       75.29|
+|New Hampshire  |             57.30|       35.06|       79.54|
+|New Mexico     |             56.34|       34.10|       78.59|
+|North Carolina |             53.10|       30.85|       75.34|
+|Ohio           |             48.18|       25.94|       70.43|
+|Pennsylvania   |             53.61|       31.37|       75.85|
+|Texas          |             49.89|       27.64|       72.13|
+|Virginia       |             55.99|       33.75|       78.24|
+|Wisconsin      |             54.62|       32.38|       76.87|
 
 
 
