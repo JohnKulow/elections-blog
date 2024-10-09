@@ -59,9 +59,11 @@ Finally, in terms of gender we can see that each state has a fairly even distrib
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-5.png" width="672" />
 
-*insert analysis here, will do after finishing more code*
+As can be seen in the graphs above, among all racial groups and in all 10 key states (besides Ohio Asian-Americans and Pennsylvania Native Americans) women turn out at high rates than men. Furthermore, across these states white voters tend to have some of the highest turnout rates, while Black and Hispanic voters tend to have lower turnout rates. There are some notable exceptions to this. For example, Black women in North Carolina (and to a lesser extent in Pennsylvania) turn out in this sample at almost the same rate as white women in the state. This demographic will be crucial in understanding these electorates, and in future models I will begin to incorporate demographic-based voting trends into my model.
 
 ## Updated Polling-Based Model
+
+For this week's predictive model though, I will briefly update my state polling-based model from week 3. I will use the same model as week three, but incorporate the intervening two weeks of additional polling data into my prediction.
 
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">September State-Level Polling Regression Table (2000-2020)</caption>
@@ -101,7 +103,7 @@ Finally, in terms of gender we can see that each state has a fairly even distrib
 
 </table>
 
-
+As seen above and as similarly shown in my third blog post, this model has a high R squared value of roughly 0.81, signifying a strong positive correlation between September state-level polling and the final results. Inputting the last few weeks of state-level polling data into this model yields the following results:
 
 
 
@@ -128,6 +130,7 @@ Finally, in terms of gender we can see that each state has a fairly even distrib
 |Virginia       |             55.99|       33.75|       78.24|
 |Wisconsin      |             54.62|       32.38|       76.87|
 
+As can be seen above, Harris fairs very well in this model, winning every one of my previously identified 10 key states except for Texas while boasting strong margins elsewhere. This model also represents a small increase in Harris' vote share in these states compared with two weeks ago. This said, this model still shows notably large upper and lower bounds, so this prediction must be taken with a grain of salt, especially given how zealous it is for Harris.
 
 
 
