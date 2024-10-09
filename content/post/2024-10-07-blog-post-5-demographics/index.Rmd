@@ -250,7 +250,7 @@ Finally, in terms of gender we can see that each state has a fairly even distrib
 
 ## Turnout by Demographic Group by State
 
-
+Next, I will briefly look at how different genders and race map onto turnout trends in each of these ten states. Turnout differences between different demographic groups are crucial to understanding how candidates can win, particularly at a time when certain racial groups like Black voters still tend to overwhelmingly favor Democrats and at a time when the gender gap between parties is widening.
 
 ```{r}
 turnout_percents <- function(df) {
