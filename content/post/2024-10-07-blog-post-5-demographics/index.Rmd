@@ -133,11 +133,6 @@ rename_demo_data <- function(data) {
       sii_education_level == "D" ~ "Bachelor's Degree",
       sii_education_level == "E" ~ "Graduate Degree",
       TRUE ~ "Unknown"
-    )) |>
-    mutate(sii_gender = case_when(
-      sii_gender == "M" ~ "Male",
-      sii_gender == "F" ~ "Female",
-      TRUE ~ "Other/Unknown"
     ))
 }
 ```
@@ -232,6 +227,11 @@ In terms of education numbers, the high, unrepresentative proportion of "less th
 
 ```{r}
 gender_demo <- vf_across_states |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      TRUE ~ "Other/Unknown"
+    )) |>
   count(sii_state, sii_gender) |>
   group_by(sii_state) |>
   mutate(percentage = n / sum(n) * 100)
@@ -253,6 +253,230 @@ gender_demo |>
 ```
 
 Finally, in terms of gender we can see that each state has a fairly even distribution of men and women.
+
+## Turnout by Demographic Group by State
+
+
+
+```{r}
+turnout_percents <- function(df) {
+  df |>
+    mutate(voted_2020g = ifelse(is.na(svi_vh_2020g), 0, 1)) |>
+    group_by(sii_gender, sii_race) |>
+    summarise(
+      total_registered = n(),
+      total_voted = sum(voted_2020g, na.rm = TRUE),
+      voting_percentage = (total_voted / total_registered) * 100
+    )
+}
+```
+
+```{r}
+turnout_az <- turnout_percents(vf_az)
+turnout_nv <- turnout_percents(vf_nv)
+turnout_pa <- turnout_percents(vf_pa)
+turnout_wi <- turnout_percents(vf_wi)
+turnout_mi <- turnout_percents(vf_mi)
+turnout_oh <- turnout_percents(vf_oh)
+turnout_tx <- turnout_percents(vf_tx)
+turnout_fl <- turnout_percents(vf_fl)
+turnout_ga <- turnout_percents(vf_ga)
+turnout_nc <- turnout_percents(vf_nc)
+```
+
+```{r}
+## Turnout Graphs
+turnout_az |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Arizona",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+
+turnout_fl |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Florida",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_ga |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Georgia",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_mi |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Michigan",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_nc |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in North Carolina",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_nv |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Nevada",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_oh |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Ohio",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_pa |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Pennsylvania",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_tx |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Texas",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+
+turnout_wi |>
+    mutate(sii_gender = case_when(
+      sii_gender == "M" ~ "Male",
+      sii_gender == "F" ~ "Female",
+      sii_gender == "O" ~ "Other",
+      TRUE ~ "Unknown"
+    )) |>
+  ggplot(aes(x = sii_race, y = voting_percentage, fill = sii_gender)) +
+  geom_bar(stat = "identity", 
+           position = "dodge") +
+  scale_fill_manual(values = c("Female" = "#fc9ffd",
+                               "Male" = "#6a9dfd",
+                               "Unknown" = "#bd6afd")) +
+  ylim(0, 100) +
+  labs(title = "2020 Turnout by Race and Gender in Wisconsin",
+       x = "Race",
+       y = "Turnout %",
+       fill = "Gender")
+```
 
 
 

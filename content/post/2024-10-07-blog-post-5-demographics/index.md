@@ -45,6 +45,38 @@ In terms of education numbers, the high, unrepresentative proportion of "less th
 
 Finally, in terms of gender we can see that each state has a fairly even distribution of men and women.
 
+## Turnout by Demographic Group by State
+
+
+
+
+
+
+```
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by 'sii_gender'. You can override using the
+## `.groups` argument.
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-5.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-6.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-7.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-8.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-9.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-10.png" width="672" />
+
 
 
 still to be done:
