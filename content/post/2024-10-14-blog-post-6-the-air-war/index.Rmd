@@ -1,0 +1,43 @@
+---
+title: 'Blog Post 6: The Air War'
+author: John Kulow
+date: '2024-10-14'
+slug: blog-post-6-the-air-war
+categories: []
+tags: []
+---
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+## Introduction
+
+
+
+
+```{r, include=FALSE}
+library(car)
+library(caret)
+library(CVXR)
+library(glmnet)
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(sjPlot)
+library(readxl)
+library(kableExtra)
+library(maps)
+library(RColorBrewer)
+library(viridis)
+library(sf)
+library(blogdown)
+```
+
+
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
