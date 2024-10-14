@@ -2,59 +2,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on John Kulow Gov 1347 Election Blog</title>
-    <link>https://johnkulow.github.io/elections-blog/</link>
+    <link>http://localhost:4321/elections-blog/</link>
     <description>Recent content in Home on John Kulow Gov 1347 Election Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 14 Oct 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://johnkulow.github.io/elections-blog/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:4321/elections-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog Post 6: The Air War</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</link>
       <pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</guid>
       <description>Introduction Every election cycle, billions of dollars are spent on political campaigns up and down the ballot. But for all of the paid staffers, internal polls, and pricey consultants, presidential campaigns&amp;rsquo; largest expense is almost always campaign ad spending. Every year, these campaigns battle it out with their ads in the so-called &amp;ldquo;Air War,&amp;rdquo; spending hundreds of millions of dollars in key swing states trying to promote themselves and destroy the reputation of their opponents.</description>
     </item>
     <item>
       <title>Blog Post 5: Demographics</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/10/07/blog-post-5-demographics/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/10/07/blog-post-5-demographics/</link>
       <pubDate>Mon, 07 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/10/07/blog-post-5-demographics/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/10/07/blog-post-5-demographics/</guid>
       <description>Introduction For this fifth blog post, I want to look at another, likely final, fundamental factor that crucially impacts American elections: demographics. Throughout America&amp;rsquo;s history, demographic voting divisions have impacted elections, from well-observed racial partisan voting gaps to turnout differences in different age groups to the education divide that helped propel Trump&amp;rsquo;s 2016 victory to the increasingly emerging partisan gender gap. Because of these issues and other demographics related-trends, campaigns must keep track of what a state or district&amp;rsquo;s demographics look like.</description>
     </item>
     <item>
       <title>Blog Post 4: Incumbency and Expert Predictions</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/</link>
       <pubDate>Mon, 30 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/09/30/blog-post-4-incumbency-and-expert-predictions/</guid>
       <description>Introduction Being an incumbent President can theoretically have both electoral advantages and electoral disadvantages. On one hand, incumbent presidents start the race with higher name recognition, they can draw the attention of the media easier given their high profile position, they tend to start with a fundraising advantage, they benefit from voters potentially preferring the so-called &amp;ldquo;devil they know&amp;rdquo; to the &amp;ldquo;devil they don&amp;rsquo;t,&amp;rdquo; and they can use so-called &amp;ldquo;pork barrel&amp;rdquo; spending to financially benefit crucial voting blogs to try to win over their votes.</description>
     </item>
     <item>
       <title>Blog Post 3: Incorporating Polls</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/</link>
       <pubDate>Mon, 23 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/09/23/blog-post-3-incorporating-polls/</guid>
       <description>Introduction Public opinion polls are a crucial part of making sure that democracies work. Understanding the opinions of the public can help guide public policy, help politicians win campaigns, and, as many political scientists note, can help give legitimacy to elections. If polls show a politician losing reelection by 80%, but then they narrowly clinch victory, then voters might call into question whether someone tampered with the results. But if polls show a politician winning, and then do end up winning, then even the opponents of that victorious candidate will have a hard time claiming that the election was rigged.</description>
     </item>
     <item>
       <title>Blog Post 2: Factoring in Economic Forces</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</link>
       <pubDate>Sun, 15 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/09/15/blog-post-2-factoring-in-economic-forces/</guid>
       <description>Introduction During election season, while the media focuses heavy attention on political rallies, fundraising numbers, and the chaotic political headlines that pass with each news cycle, many political scholars and strategists believe that certain &amp;ldquo;fundamental&amp;rdquo; factors, such as the strength or weakness of the economy, drive political trends much more than the billions of dollars presidential campaigns spend or the relative strengths and weaknesses of the candidates themselves. In this second blog post, I will seek to understand how predictive various economic measures, namely GDP growth and RDI growth, are of presidential election results, specifically the national popular vote share for the incumbent party.</description>
     </item>
     <item>
       <title>Blog Post 1: Exploring Past Presidential Election Results</title>
-      <link>https://johnkulow.github.io/elections-blog/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</link>
+      <link>http://localhost:4321/elections-blog/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</link>
       <pubDate>Mon, 09 Sep 2024 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</guid>
+      <guid>http://localhost:4321/elections-blog/post/2024/09/09/blog-post-1-exploring-past-presidential-election-results/</guid>
       <description>Introduction In this first blog post, I seek to gain a better understanding of past U.S. presidential elections that have taken place after World War Two. This analysis, which will include an exploration of national popular vote margins, state-level margins, and state-level swings, will help guide my first predictive model for the 2024 presidential election and will help seek answers to the following questions:&#xA;How competitive are presidential elections in the United States?</description>
     </item>
     <item>
       <title>About Hugo XMin</title>
-      <link>https://johnkulow.github.io/elections-blog/about/</link>
+      <link>http://localhost:4321/elections-blog/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://johnkulow.github.io/elections-blog/about/</guid>
+      <guid>http://localhost:4321/elections-blog/about/</guid>
       <description>XMin is the first Hugo theme I have designed. The original reason that I wrote it was I needed a minimal example of Hugo themes when I was writing the blogdown book. Basically I wanted a simple theme that supports a navigation menu, a home page, other single pages, lists of pages, blog posts, categories, tags, and RSS. That is all. Nothing fancy. In terms of CSS and JavaScript, I really want to keep them minimal.</description>
     </item>
   </channel>

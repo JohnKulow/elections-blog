@@ -1,10 +1,11 @@
 ---
 title: 'Blog Post 6: The Air War'
-author: John Kulow
-date: '2024-10-14'
-slug: blog-post-6-the-air-war
+author: "John Kulow"
+date: "2024-10-14"
+output: pdf_document
 categories: []
 tags: []
+slug: "blog-post-6-the-air-war"
 ---
 
 
@@ -62,13 +63,12 @@ We also can trace the state-by-state expenditure over the years.
 
 
 
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+
+
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
-
-
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
 As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
 
@@ -76,7 +76,7 @@ As you can see in the maps above, the states that campaigns have targeted with a
 
 Knowing how much the campaigns have spent in each of the swing states every cycle and thus knowing how much of an advantage each party had in a given state, we can investigate whether these spending advantages had any impact on the election results in these states. Below are to graphs. The first depicts Democratic party spending advantage in states won or lost by less than 5 points between 2000 and 2020 (excluding 2016) compared to their two-party vote share in each said state. The second graph shows the same thing, except instead of the Democratic two-party vote share, it shows the shift towards (or against) Democrats in the two-party vote share compared to the prior election. The trendlines of each of these relationships are also shown.
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 As can be seen in these two graphs, the relationship between ad spending advantage and vote share is very weak if at all present, and the relationship between spending advantage and shift in how a state votes is slightly stronger but still very weak. If I run three regression models below, a similar story plays out.
 
@@ -201,24 +201,11 @@ As can be seen in these two graphs, the relationship between ad spending advanta
 
 The first of these three regression models tests the relationship between the spending difference and the Democrats' two-party popular vote share. The second model tests the same relationship, but also incorporates the prior year's election results into the model. The theory behind incorporating this data is that, for example, if there are Republican-leaning states, even if Democrats have an ad spending advantage, Republicans will likely still win the state, so correcting for historical partisan performance is important. The third model tests the relationship between spending difference and vote shift. The logic behind this model is that if Democrats spend a lot of money in a state and have an ad advantage, they might suddenly do better there, potentially explaining the shifts that swing states see from cycle to cycle.
 
-This said, none of these three models find particularly compelling results, will particularly low R squared values in each and flat trendlines in all three.
+This said, none of these three models find particularly compelling results, will particularly low R squared values in each and flat trendlines in all three. The fit for the third model is slightly less bad, but with a slope of just 0.12 and an adjusted R squared value of 0.028, any relationship that exists would be small and weak.
 
 
 
 
-
-
-
-to do's:
-
-ad spending history (2000-2012)
-
-2020 ad spending by state
-
-2024 fundraising (by state, by year)
-
-State regression on ad spending and vote share using 2000-2012 and 2020 data
-^^ Add in other variables too?
 
 
 

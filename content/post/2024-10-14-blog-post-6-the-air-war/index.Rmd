@@ -1,10 +1,11 @@
 ---
 title: 'Blog Post 6: The Air War'
-author: John Kulow
-date: '2024-10-14'
-slug: blog-post-6-the-air-war
+author: "John Kulow"
+date: "2024-10-14"
+output: pdf_document
 categories: []
 tags: []
+slug: "blog-post-6-the-air-war"
 ---
 
 ```{r setup, warning = FALSE, include=FALSE}
@@ -333,271 +334,57 @@ us_states <- us_hexgrid |>
 bbox <- st_bbox(us_states)
 ```
 
-```{r, include=FALSE}
-total_state_ad_plot_2000 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2000") |>
-  mutate(total_spending = dem_spending + rep_spending) |>
-  ggplot() +
-  geom_sf(aes(fill = total_spending)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2000",
-       fill = "Total Spending",
-       x = "",
-       y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-total_state_ad_plot_2004 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2004") |>
-  mutate(total_spending = dem_spending + rep_spending) |>
-  ggplot() +
-  geom_sf(aes(fill = total_spending)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2004",
-       fill = "Total Spending",
-       x = "",
-       y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-total_state_ad_plot_2008 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2008") |>
-  mutate(total_spending = dem_spending + rep_spending) |>
-  ggplot() +
-  geom_sf(aes(fill = total_spending)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2008",
-       fill = "Total Spending",
-       x = "",
-       y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-total_state_ad_plot_2012 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2012") |>
-  mutate(total_spending = dem_spending + rep_spending) |>
-  ggplot() +
-  geom_sf(aes(fill = total_spending)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2012",
-       fill = "Total Spending",
-       x = "",
-       y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-total_state_ad_plot_2020 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2020") |>
-  mutate(total_spending = dem_spending + rep_spending) |>
-  ggplot() +
-  geom_sf(aes(fill = total_spending)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2020",
-       fill = "Total Spending",
-       x = "",
-       y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-```
 
 ```{r}
-grid.arrange(total_state_ad_plot_2000, total_state_ad_plot_2004, 
-             total_state_ad_plot_2008, total_state_ad_plot_2012, 
-             total_state_ad_plot_2020, 
-             nrow = 3, ncol = 2, 
-             heights = c(1, 1, 1))
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year %in% c(2000, 2004, 2008, 2012, 2020)) |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Presidential Ad Spending  by State",
+    fill = "Total Spending ($)",
+    x = "",
+    y = "") +
+  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+    plot.background = element_rect(fill = "#f5f5f2", color = NA),
+    panel.background = element_rect(fill = "#f5f5f2", color = NA),
+    legend.background = element_rect(fill = "#f5f5f2", color = NA)) +
+  facet_wrap(year ~ .)
 ```
 
 
-```{r, include=FALSE}
-state_ad_plot_margin_2000 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2000") |>
-  ggplot() +
-  geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2000",
-    fill = "Spending Advantage ($)",
-    x = "",
-    y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
 
-state_ad_plot_margin_2004 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2004") |>
-  ggplot() +
-  geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2004",
-    fill = "Spending Advantage ($)",
-    x = "",
-    y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-state_ad_plot_margin_2008 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2008") |>
-  ggplot() +
-  geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2008",
-    fill = "Spending Advantage ($)",
-    x = "",
-    y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-state_ad_plot_margin_2012 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2012") |>
-  ggplot() +
-  geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2012",
-    fill = "Spending Advantage ($)",
-    x = "",
-    y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-
-state_ad_plot_margin_2020 <- us_hexgrid |> 
-  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
-  filter(year == "2020") |>
-  ggplot() +
-  geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
-   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "2020",
-    fill = "Spending Advantage ($)",
-    x = "",
-    y = "") +
-  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-    plot.background = element_rect(fill = "#f5f5f2", color = NA),
-    panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.title = element_text(size = 7),  # Decrease legend title size
-          legend.text = element_text(size = 6),    # Decrease legend text size
-          legend.key.size = unit(0.25, "cm"))
-```
 
 ```{r}
-
-grid.arrange(state_ad_plot_margin_2000, state_ad_plot_margin_2004, 
-             state_ad_plot_margin_2008, state_ad_plot_margin_2012, 
-             state_ad_plot_margin_2020, 
-             nrow = 3, ncol = 2, 
-             heights = c(1, 1, 1))
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year %in% c(2000, 2004, 2008, 2012, 2020)) |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2), size = 1.5) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Presidential Ad Spending Advantage by State",
+    fill = "Spending Advantage ($)",
+    x = "",
+    y = "") +
+  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+    plot.background = element_rect(fill = "#f5f5f2", color = NA),
+    panel.background = element_rect(fill = "#f5f5f2", color = NA),
+    legend.background = element_rect(fill = "#f5f5f2", color = NA)) +
+  facet_wrap(year ~ .)
 ```
 
 As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
@@ -664,7 +451,7 @@ tab_model(diff_shift_model, show.se = TRUE,
 
 The first of these three regression models tests the relationship between the spending difference and the Democrats' two-party popular vote share. The second model tests the same relationship, but also incorporates the prior year's election results into the model. The theory behind incorporating this data is that, for example, if there are Republican-leaning states, even if Democrats have an ad spending advantage, Republicans will likely still win the state, so correcting for historical partisan performance is important. The third model tests the relationship between spending difference and vote shift. The logic behind this model is that if Democrats spend a lot of money in a state and have an ad advantage, they might suddenly do better there, potentially explaining the shifts that swing states see from cycle to cycle.
 
-This said, none of these three models find particularly compelling results, will particularly low R squared values in each and flat trendlines in all three.
+This said, none of these three models find particularly compelling results, will particularly low R squared values in each and flat trendlines in all three. The fit for the third model is slightly less bad, but with a slope of just 0.12 and an adjusted R squared value of 0.028, any relationship that exists would be small and weak.
 
 ``` {r}
 ##lm(D_pv2p ~ spending_diff + factor(state), 
@@ -675,19 +462,6 @@ This said, none of these three models find particularly compelling results, will
 ```
 
 
-
-
-
-to do's:
-
-ad spending history (2000-2012)
-
-2020 ad spending by state
-
-2024 fundraising (by state, by year)
-
-State regression on ad spending and vote share using 2000-2012 and 2020 data
-^^ Add in other variables too?
 
 
 
