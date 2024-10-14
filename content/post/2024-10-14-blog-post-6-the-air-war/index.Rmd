@@ -249,7 +249,6 @@ plist <- lapply(c(2000,2004,2008,2012), function(c) {
 cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
 ```
 
-
 ```{r, include=FALSE}
 ## Campaign Ads Aired By Issue and Party: 2000
 
@@ -276,10 +275,7 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   theme_bw()
 ```
 
-
-
-
-
+We also can trace the state-by-state expenditure over the years. 
 
 ```{r, include=FALSE}
 us_hexgrid <- read_sf("data/us_states_hexgrid.geojson") |> 
@@ -336,7 +332,7 @@ bbox <- st_bbox(us_states)
 ```
 
 ```{r}
-us_hexgrid |> 
+total_state_ad_plot_2000 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2000") |>
   mutate(total_spending = dem_spending + rep_spending) |>
@@ -350,7 +346,7 @@ us_hexgrid |>
        fill = "Total Spending",
        caption = "Advertisement Data source: Wesleyan Media Project")
 
-us_hexgrid |> 
+total_state_ad_plot_2004 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2004") |>
   mutate(total_spending = dem_spending + rep_spending) |>
@@ -364,7 +360,7 @@ us_hexgrid |>
        fill = "Total Spending",
        caption = "Advertisement Data source: Wesleyan Media Project")
 
-us_hexgrid |> 
+total_state_ad_plot_2008 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2008") |>
   mutate(total_spending = dem_spending + rep_spending) |>
@@ -378,7 +374,7 @@ us_hexgrid |>
        fill = "Total Spending",
        caption = "Advertisement Data source: Wesleyan Media Project")
 
-us_hexgrid |> 
+total_state_ad_plot_2012 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2012") |>
   mutate(total_spending = dem_spending + rep_spending) |>
@@ -392,7 +388,7 @@ us_hexgrid |>
        fill = "Total Spending",
        caption = "Advertisement Data source: Wesleyan Media Project")
 
-us_hexgrid |> 
+total_state_ad_plot_2020 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2020") |>
   mutate(total_spending = dem_spending + rep_spending) |>
@@ -408,79 +404,120 @@ us_hexgrid |>
 ```
 
 ```{r}
-us_hexgrid |> 
+total_state_ad_plot_2000
+total_state_ad_plot_2004
+total_state_ad_plot_2008
+total_state_ad_plot_2012
+total_state_ad_plot_2020
+```
+
+```{r}
+state_ad_plot_margin_2000 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2000") |>
   ggplot() +
   geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2)) +
+  geom_sf_text(aes(label = iso3166_2), size = 2) +
    scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
                        labels = label_number()) +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Television Ad Partisan Advantage by State in 2000",
+  labs(title = "2000",
     fill = "Spending Advantage ($)",
-       caption = "Advertisement Data source: Wesleyan Media Project")
+    x = "",
+    y = "") +
+  theme(legend.position = "none",axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 
-us_hexgrid |> 
+state_ad_plot_margin_2004 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2004") |>
   ggplot() +
   geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2)) +
+  geom_sf_text(aes(label = iso3166_2), size = 2) +
    scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
                        labels = label_number()) +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Television Ad Partisan Advantage by State in 2004",
+  labs(title = "2004",
     fill = "Spending Advantage ($)",
-       caption = "Advertisement Data source: Wesleyan Media Project")
+    x = "",
+    y = "") +
+  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 
-us_hexgrid |> 
+state_ad_plot_margin_2008 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2008") |>
   ggplot() +
   geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2)) +
+  geom_sf_text(aes(label = iso3166_2), size = 2) +
    scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
                        labels = label_number()) +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Television Ad Partisan Advantage by State in 2008",
+  labs(title = "2008",
     fill = "Spending Advantage ($)",
-       caption = "Advertisement Data source: Wesleyan Media Project")
+    x = "",
+    y = "") +
+  theme(legend.position = "none",axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 
-us_hexgrid |> 
+state_ad_plot_margin_2012 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2012") |>
   ggplot() +
   geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2)) +
+  geom_sf_text(aes(label = iso3166_2), size = 2) +
    scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
                        labels = label_number()) +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Television Ad Partisan Advantage by State in 2012",
+  labs(title = "2012",
     fill = "Spending Advantage ($)",
-       caption = "Advertisement Data source: Wesleyan Media Project")
+    x = "",
+    y = "") +
+  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 
-us_hexgrid |> 
+state_ad_plot_margin_2020 <- us_hexgrid |> 
   left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
   filter(year == "2020") |>
   ggplot() +
   geom_sf(aes(fill = spending_diff)) +
-  geom_sf_text(aes(label = iso3166_2)) +
+  geom_sf_text(aes(label = iso3166_2), size = 2) +
    scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
                        labels = label_number()) +
   coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Television Ad Partisan Advantage by State in 2020",
+  labs(title = "2020",
     fill = "Spending Advantage ($)",
-       caption = "Advertisement Data source: Wesleyan Media Project")
+    x = "",
+    y = "") +
+  theme(axis.text.x = element_blank(),  # Remove x-axis tick labels
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        plot.title = element_text(hjust = 0.5))
 ```
 
+```{r}
+state_ad_plot_margin_2000+state_ad_plot_margin_2004
+state_ad_plot_margin_2008+state_ad_plot_margin_2012
+state_ad_plot_margin_2020
+```
+
+As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
 
 
+## Regression Model on Ad Spending
 
-
+Knowing how much the campaigns have spent in each of the swing states every cycle and thus knowing how much of an advantage each party had in a given state, we can investigate whether these spending advantages had any impact on the election results in these states. Below are to graphs. The first depicts Democratic party spending advantage in states won or lost by less than 5 points between 2000 and 2020 (excluding 2016) compared to their two-party vote share in each said state. The second graph shows the same thing, except instead of the Democratic two-party vote share, it shows the shift towards (or against) Democrats in the two-party vote share compared to the prior election. The trendlines of each of these relationships are also shown.
 
 ```{r}
-ads_vote_merged |>
+vote_vs_ads_plot <- ads_vote_merged |>
   ggplot(aes(x = spending_diff, y = D_pv2p)) +
   geom_point() +
   scale_x_continuous(labels = label_number()) +
@@ -488,12 +525,12 @@ ads_vote_merged |>
   geom_hline(yintercept = 50, lty = 2) + 
   geom_vline(xintercept = 0.01, lty = 2) +
   theme_bw() + 
-  theme(plot.title = element_text(size = 15)) +
+  theme(plot.title = element_text(size = 10)) +
   labs(x = "Dem Campaign Ad Spending Advantage ($)",
        y = "Dem 2-Party Vote Share",
-       title = "Dem Ad Advantage vs Vote Share in Selected Key States")
+       title = "Spending Advantage vs Vote Share in Key States")
 
-ads_vote_merged |>
+shift_vs_ads_plot <- ads_vote_merged |>
   ggplot(aes(x = spending_diff, y = D_pv2p_shift1)) +
   geom_point() +
   scale_x_continuous(labels = label_number()) +
@@ -501,25 +538,37 @@ ads_vote_merged |>
   geom_hline(yintercept = 0, lty = 2) +
   geom_vline(xintercept = 0.01, lty = 2) +
   theme_bw() + 
-  theme(plot.title = element_text(size = 15)) +
+  theme(plot.title = element_text(size = 10)) +
   labs(x = "Dem Campaign Ad Spending Advantage ($)",
-       y = "Dem 2-Party Vote Share",
-       title = "Dem Ad Advantage vs Vote Share in Selected Key States")
+       y = "Dem 2-Party Vote Shift",
+       title = "Spending Advantage vs Vote Shift in Key States")
+
+vote_vs_ads_plot + shift_vs_ads_plot
 ```
 
+As can be seen in these two graphs, the relationship between ad spending advantage and vote share is very weak if at all present, and the relationship between spending advantage and shift in how a state votes is slightly stronger but still very weak. If I run three regression models below, a similar story plays out.
 
 ```{r}
-lm(D_pv2p ~ spending_diff, 
-   data = ads_vote_merged) |> summary()
+diff_vote_model <- lm(D_pv2p ~ spending_diff, 
+   data = ads_vote_merged)
 
-lm(D_pv2p ~ spending_diff + D_pv2p_lag1, 
-   data = ads_vote_merged) |> summary()
+diff_vote_model2 <- lm(D_pv2p ~ spending_diff + D_pv2p_lag1, 
+   data = ads_vote_merged)
 
-lm(D_pv2p_shift1 ~ spending_diff, 
-   data = ads_vote_merged) |> summary()
+diff_shift_model <- lm(D_pv2p_shift1 ~ spending_diff, 
+   data = ads_vote_merged)
 
-lm(D_pv2p_shift1 ~ spending_diff + factor(year), 
-   data = ads_vote_merged) |> summary()
+tab_model(diff_vote_model, show.se = TRUE, 
+          title = "Ad Spending Regression Table (2000-2020)", 
+          dv.labels = "Democratic Two-Party Vote Share")
+
+tab_model(diff_vote_model2, show.se = TRUE, 
+          title = "Ad Spending Regression Table, w/ Vote Lag (2000-2020)", 
+          dv.labels = "Democratic Two-Party Vote Share")
+
+tab_model(diff_shift_model, show.se = TRUE, 
+          title = "Ad Spending Regression Table, Vote Shift (2000-2020)", 
+          dv.labels = "Democratic Two-Party Vote Share Shift")
 ```
 
 
