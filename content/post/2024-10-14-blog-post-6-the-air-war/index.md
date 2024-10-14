@@ -24,79 +24,31 @@ First, let's look at previous cycles. As you can see in the graphs below depicti
 
 
 
-```
-## `summarise()` has grouped output by 'cycle', 'air_date'. You can override using
-## the `.groups` argument.
-```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
 
 But these graphs showing the total expenditure by each campaign on any given day do not give us the full picture. Campaign ads generally can be divided into three categories, those focused on policy issues, those focused on the candidates themselves, and those focused on both. The chart below shows us how much various campaigns spent on these different types of ads.
 
 
-```
-## Joining with `by = join_by(party, creative, cycle)`
-## `summarise()` has grouped output by 'cycle', 'party'. You can override using
-## the `.groups` argument.
-```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 
 As can be seen, candidates generally spend most of their ad spending talking about policy issues important to Americans, with the notable exception being Hillary Clinton's 2016 campaign which focused its attack ads heavily on Donald Trump's character. This said, both policy and personal types of ads can be either positive or negative.
 
 
-```
-## Joining with `by = join_by(party, creative, cycle)`
-## `summarise()` has grouped output by 'cycle', 'party'. You can override using
-## the `.groups` argument.
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-
-The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on 
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+
+The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on contrast ads and the trend towards more negative ads in the more hostile 2012 campaign between Obama and Romney. We can also track the proportion of ads that were used to attack vs promote a candidate over time in these four campaigns:
 
 
-
-
-```
-## Joining with `by = join_by(party, creative, cycle)`
-## `summarise()` has grouped output by 'cycle', 'air_date'. You can override using
-## the `.groups` argument.
-```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 
 
-```
-## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
-## can override using the `.groups` argument.
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
-
-
-```
-## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
-## can override using the `.groups` argument.
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
-
-
-
-
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+As can be seen, there is great variation between campaigns on the timing of when to attack your opponent or promote yourself. One notable moment out of these four campaigns was the anneversary of 9/11 during the 2004 campaign, at which point the campaigns switched suddenly from airing almost entirely negative ads to airing almost exclusively positive ones.
 
 
 
@@ -109,7 +61,20 @@ The above chart shows that between 2000 and 2012, both candidates in each race h
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-2.png" width="672" />
+
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-5.png" width="672" />
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-5.png" width="672" />
+
+
+
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-2.png" width="672" />
 
 
 

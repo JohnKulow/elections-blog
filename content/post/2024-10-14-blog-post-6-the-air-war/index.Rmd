@@ -105,9 +105,9 @@ party_issues2012 <- ad_campaigns |>
 ```
 
 
-```{r}
+```{r, include=FALSE}
 ## When to Buy Ads? 
-ad_campaigns |>
+timeline_total_plot <- ad_campaigns |>
   mutate(year = as.numeric(substr(air_date, 1, 4))) |>
   mutate(month = as.numeric(substr(air_date, 6, 7))) |>
   filter(year %in% c(2000, 2004, 2008, 2012), month > 7) |>
@@ -126,9 +126,14 @@ ad_campaigns |>
         strip.text.x = element_text(size = 20))
 ```
 
+```{r}
+timeline_total_plot
+```
+
+
 But these graphs showing the total expenditure by each campaign on any given day do not give us the full picture. Campaign ads generally can be divided into three categories, those focused on policy issues, those focused on the candidates themselves, and those focused on both. The chart below shows us how much various campaigns spent on these different types of ads.
 
-```{r}
+```{r, include=FALSE}
 ## The Purpose of Political Ads
 purpose_plot <- ad_campaigns |>
   left_join(ad_creative) |>
@@ -161,13 +166,13 @@ purpose_plot
 
 As can be seen, candidates generally spend most of their ad spending talking about policy issues important to Americans, with the notable exception being Hillary Clinton's 2016 campaign which focused its attack ads heavily on Donald Trump's character. This said, both policy and personal types of ads can be either positive or negative.
 
-```{r}
+```{r, include=FALSE}
 ####--------------------------------------------------------------#
 #### Descriptive statistics on ads and campaign spending over time. 
 ####--------------------------------------------------------------#
 
 # Tone and Political Ads. 
-ad_campaigns |>
+pos_vs_neg_plot <- ad_campaigns |>
   left_join(ad_creative) |>
   group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
   group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
@@ -186,57 +191,16 @@ ad_campaigns |>
 
 ```
 
-The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on 
-
 ```{r}
-## The Elections and Their Issues
-
-
-### making each plot in a grid to have its own x-axis (issue name)
-### is tricky with `facet_wrap`, so we use this package `cowplot`
-### which allows us to take a list of separate plots and grid them together
-plist <- lapply(c(2000,2004,2008,2012), function(c) {
-  top_issues |> filter(cycle == c) |> 
-    ggplot(aes(x = reorder(ad_issue, n), y = n)) +
-    geom_bar(stat = "identity") + coord_flip() + theme_bw() +
-    xlab("") + ylab("number ads aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
-  
-})
-cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
+pos_vs_neg_plot
 ```
 
 
-```{r}
-## Campaign Ads Aired By Issue and Party: 2000
+The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on contrast ads and the trend towards more negative ads in the more hostile 2012 campaign between Obama and Romney. We can also track the proportion of ads that were used to attack vs promote a candidate over time in these four campaigns:
 
-
-ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("blue", "red")) +
-  ylab("% of ads on topic from each party") + xlab("issue") + 
-  # ggtitle("Campaign Ads Aired by Topic in 2000") +
-  coord_flip() + 
-  theme_bw()
-```
-
-```{r}
-## Campaign Ads Aired By Issue and Party: 2012
-
-
-ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("blue", "red")) +
-  ylab("% of ads on topic from each party") + xlab("issue") +
-  # ggtitle("Campaign Ads Aired by Topic in 2012") +
-  coord_flip() + 
-  theme_bw()
-```
-
-
-
-```{r}
+```{r, include=FALSE}
 ## Tone in Political Ads
-ad_campaigns |>
+pos_vs_neg_timeline_plot <- ad_campaigns |>
   left_join(ad_creative) |>
   filter(ad_tone %in% c("attack", "promote")) |>
   mutate(year = as.numeric(substr(air_date, 1, 4))) |>
@@ -261,58 +225,63 @@ ad_campaigns |>
 ```
 
 ```{r}
-## The State-level Air War in 2008 (Obama vs. McCain)
-ad_campaigns |>
-  mutate(year = as.numeric(substr(air_date, 1, 4))) |>
-  mutate(month = as.numeric(substr(air_date, 6, 7))) |>
-  mutate(state = state.name[match(state, state.abb)]) |>
-  filter(cycle == 2008) |>
-  left_join(d_state_popvote |> filter(year == 2008) |> select(-year), by="state") |>
-  mutate(winner=ifelse(D_pv2p > R_pv2p, "democrat", "republican")) |>
-  group_by(cycle, state, air_date, party, winner) |>
-  summarise(total_cost = sum(total_cost)) |>
-  filter(!is.na(state)) |>
-  # ggplot(aes(x=air_date, y=log(total_cost+1), color=party)) +
-  ggplot(aes(x=party, y=total_cost, fill=party)) +
-  geom_bar(stat="identity") +
-  geom_rect(aes(fill=winner), xmin=-Inf, xmax=Inf, ymin=46.3*10^6, ymax=52*10^6) +
-  facet_geo(~ state, scales="free_x") +
-  scale_fill_manual(values = c("blue", "red")) +
-  scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6)) +
-  xlab("") + ylab("ad spend") +
-  theme_bw() +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+pos_vs_neg_timeline_plot
 ```
 
-```{r}
-## The State-level Air War in 2012 (Obama vs. Romnet)
-ad_campaigns |>
-  mutate(year = as.numeric(substr(air_date, 1, 4))) |>
-  mutate(month = as.numeric(substr(air_date, 6, 7))) |>
-  mutate(state = state.name[match(state, state.abb)]) |>
-  filter(cycle == 2012) |>
-  left_join(d_state_popvote |> filter(year == 2012) |> select(-year), by="state") |>
-  mutate(winner=ifelse(D_pv2p > R_pv2p, "democrat", "republican")) |>
-  group_by(cycle, state, air_date, party, winner) |>
-  summarise(total_cost = sum(total_cost)) |>
-  filter(!is.na(state)) |>
-  # ggplot(aes(x=air_date, y=log(total_cost+1), color=party)) +
-  ggplot(aes(x=party, y=total_cost, fill=party)) +
-  geom_bar(stat="identity") +
-  geom_rect(aes(fill=winner), xmin=-Inf, xmax=Inf, ymin=46.3*10^6, ymax=52*10^6) +
-  facet_geo(~ state, scales="free_x") +
-  scale_fill_manual(values = c("blue", "red")) +
-  scale_y_continuous(labels = unit_format(unit = "M", scale = 1e-6)) +
-  xlab("") + ylab("ad spend") +
-  theme_bw() +
-  theme(axis.title.x=element_blank(),
-        axis.text.x=element_blank(),
-        axis.ticks.x=element_blank())
+
+As can be seen, there is great variation between campaigns on the timing of when to attack your opponent or promote yourself. One notable moment out of these four campaigns was the anneversary of 9/11 during the 2004 campaign, at which point the campaigns switched suddenly from airing almost entirely negative ads to airing almost exclusively positive ones.
+
+
+```{r, include=FALSE}
+## The Elections and Their Issues
+
+
+### making each plot in a grid to have its own x-axis (issue name)
+### is tricky with `facet_wrap`, so we use this package `cowplot`
+### which allows us to take a list of separate plots and grid them together
+plist <- lapply(c(2000,2004,2008,2012), function(c) {
+  top_issues |> filter(cycle == c) |> 
+    ggplot(aes(x = reorder(ad_issue, n), y = n)) +
+    geom_bar(stat = "identity") + coord_flip() + theme_bw() +
+    xlab("") + ylab("number ads aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
+  
+})
+cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
 ```
 
-```{r}
+
+```{r, include=FALSE}
+## Campaign Ads Aired By Issue and Party: 2000
+
+
+ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("blue", "red")) +
+  ylab("% of ads on topic from each party") + xlab("issue") + 
+  # ggtitle("Campaign Ads Aired by Topic in 2000") +
+  coord_flip() + 
+  theme_bw()
+```
+
+```{r, include=FALSE}
+## Campaign Ads Aired By Issue and Party: 2012
+
+
+ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("blue", "red")) +
+  ylab("% of ads on topic from each party") + xlab("issue") +
+  # ggtitle("Campaign Ads Aired by Topic in 2012") +
+  coord_flip() + 
+  theme_bw()
+```
+
+
+
+
+
+
+```{r, include=FALSE}
 us_hexgrid <- read_sf("data/us_states_hexgrid.geojson") |> 
   mutate(google_name = gsub(" \\(United States\\)", "", google_name))
 us_hexgrid[us_hexgrid$google_name == "District of Columbia",]$google_name <- "District Of Columbia"
@@ -322,64 +291,7 @@ us_states <- us_hexgrid |>
   filter(period_startdate == '2020-04-09')
 
 bbox <- st_bbox(us_states)
-```
 
-```{r}
- theme_ryan <- function(base_size = 16) {
-   theme_bw(base_size = base_size) %+replace%
-     theme(
-       plot.margin = unit(c(0, 0, 0, 0), "cm"),
-       plot.title = element_text(size = rel(1), face = "bold", margin = margin(0,0,0,0), hjust = 0),
-       text = element_text(size = rel(1.75)),  # Set default text size for all text elements
-       panel.border = element_blank(),
-       axis.title = element_text(size = rel(1.25), face = "bold"),
-       axis.text = element_text(size = rel(0.90), face = "italic"),
-       axis.line = element_line(color = "black"),
-       legend.title = element_text(size = rel(1.25), face = "bold"),
-       legend.text = element_text(size = rel(1), face = "italic"),
-       legend.key = element_rect(fill = "transparent", colour = NA),
-       legend.key.size = unit(1.5, "lines"),
-       legend.background = element_rect(fill = "transparent", colour = NA),
-       strip.background = element_rect(fill = "#17252D", color = "#17252D"),
-       strip.text = element_text(size = rel(0.85), face = "bold", color = "white", margin = margin(5,0,5,0))
-     )
- }
-```
-
-
-```{r}
-ggplot(data = us_states) +
-  geom_sf(aes(fill = total_airings)) +
-  geom_sf_text(aes(label = iso3166_2)) +
-   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Biden and Trump Television Advertisements by State in 2020",
-       fill = "Total Advertisements",
-       caption = "Advertisement Data source: Wesleyan Media Project")
-  
-```
-
-```{r}
-ggplot(data = us_states) +
-  geom_sf(aes(fill = trump_airings-biden_airings)) +
-  geom_sf_text(aes(label = iso3166_2)) +
-   scale_fill_gradient2(low = "#00008B", mid = "#FFFFFF", high = "#8B0000", midpoint = 0, 
-                       labels = label_number()) +
-  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
-  labs(title = "Trump - Biden Television Advertisements by State in 2020",
-    fill = "Trump Advertisement Margin",
-       caption = "Advertisement Data source: Wesleyan Media Project")
-```
-
-
-
-
-
-
-
-
-```{r}
 adjusted_ads_2020 <- ads_2020 |>
   mutate(state = state.name[match(state, state.abb)]) |>
   filter(period_startdate == '2020-04-09') |>
@@ -402,19 +314,170 @@ merged_ad_data <- ad_campaigns |>
   bind_rows(adjusted_ads_2020) |>
   select(state, year, dem_spending, rep_spending) |>
   filter(!is.na(state))
-```
 
-```{r}
-ads_vote_merged <- d_state_popvote |> 
+ads_vote_merged_nonfiltered <- d_state_popvote |> 
   left_join(merged_ad_data, by = c("year", "state")) |>
-  filter(year >= 2000,
-         margin >= -5,
-         margin <= 5) |>
+  filter(year >= 2000) |>
   mutate(spending_diff = dem_spending - rep_spending,
          D_pv2p_shift1 = D_pv2p - D_pv2p_lag1)
 
+
+ads_vote_merged <- ads_vote_merged_nonfiltered |>
+  filter(margin >= -5,
+         margin <= 5)
+
 ## state %in% c("Arizona", "Florida", "Georgia", "Michigan", "Nevada", "North Carolina", "Ohio", "Pennsylvania", "Texas", "Wisconsin", "Iowa", "Virginia", "New Hampshire", "Maine", "Minnesota", "New Mexico", "Colorado")
+
+us_states <- us_hexgrid |> 
+  left_join(ads_2020, by = c("iso3166_2" = "state")) |>
+  filter(period_startdate == '2020-04-09')
+
+bbox <- st_bbox(us_states)
 ```
+
+```{r}
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2000") |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Television Ad Spending by State in 2000",
+       fill = "Total Spending",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2004") |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Television Ad Spending by State in 2004",
+       fill = "Total Spending",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2008") |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Television Ad Spending by State in 2008",
+       fill = "Total Spending",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2012") |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Television Ad Spending by State in 2012",
+       fill = "Total Spending",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2020") |>
+  mutate(total_spending = dem_spending + rep_spending) |>
+  ggplot() +
+  geom_sf(aes(fill = total_spending)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradientn(colors = c('#FFFFFF','#fee6ce','#fdd0a2','#fdae6b','#fd8d3c','#f16913','#d94801','#a63603','#7f2704'), 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Total Television Ad Spending by State in 2020",
+       fill = "Total Spending",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+```
+
+```{r}
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2000") |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Television Ad Partisan Advantage by State in 2000",
+    fill = "Spending Advantage ($)",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2004") |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Television Ad Partisan Advantage by State in 2004",
+    fill = "Spending Advantage ($)",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2008") |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Television Ad Partisan Advantage by State in 2008",
+    fill = "Spending Advantage ($)",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2012") |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Television Ad Partisan Advantage by State in 2012",
+    fill = "Spending Advantage ($)",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+
+us_hexgrid |> 
+  left_join(ads_vote_merged_nonfiltered, by = c("google_name" = "state")) |>
+  filter(year == "2020") |>
+  ggplot() +
+  geom_sf(aes(fill = spending_diff)) +
+  geom_sf_text(aes(label = iso3166_2)) +
+   scale_fill_gradient2(high = "#00008B", mid = "#FFFFFF", low = "#8B0000", midpoint = 0, 
+                       labels = label_number()) +
+  coord_sf(xlim = c(bbox["xmin"], bbox["xmax"]), ylim = c(bbox["ymin"], bbox["ymax"]), expand = FALSE) +
+  labs(title = "Television Ad Partisan Advantage by State in 2020",
+    fill = "Spending Advantage ($)",
+       caption = "Advertisement Data source: Wesleyan Media Project")
+```
+
+
+
+
+
 
 ```{r}
 ads_vote_merged |>
