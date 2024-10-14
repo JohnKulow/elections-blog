@@ -387,7 +387,7 @@ us_hexgrid |>
   facet_wrap(year ~ .)
 ```
 
-As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
+As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024). In the maps showing total expenditure, you can also see how total spending has increased over time, with even the most heavily targeted states in 2000, namely Ohio, Pennsylvania, and Florida, saw much less expenditure than the most hotly contested states in 2020.
 
 ## Regression Model on Ad Spending
 
