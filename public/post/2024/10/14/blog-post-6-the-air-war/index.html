@@ -41,8 +41,8 @@
 <img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 <p>As can be seen, there is great variation between campaigns on the timing of when to attack your opponent or promote yourself. One notable moment out of these four campaigns was the anneversary of 9/11 during the 2004 campaign, at which point the campaigns switched suddenly from airing almost entirely negative ads to airing almost exclusively positive ones.</p>
 <p>We also can trace the state-by-state expenditure over the years.</p>
-<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-2.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-3.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-4.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-5.png" width="672" /></p>
-<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-2.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-3.png" width="672" /></p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 <p>As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).</p>
 <h2 id="regression-model-on-ad-spending">Regression Model on Ad Spending</h2>
 <p>Knowing how much the campaigns have spent in each of the swing states every cycle and thus knowing how much of an advantage each party had in a given state, we can investigate whether these spending advantages had any impact on the election results in these states. Below are to graphs. The first depicts Democratic party spending advantage in states won or lost by less than 5 points between 2000 and 2020 (excluding 2016) compared to their two-party vote share in each said state. The second graph shows the same thing, except instead of the Democratic two-party vote share, it shows the shift towards (or against) Democrats in the two-party vote share compared to the prior election. The trendlines of each of these relationships are also shown.</p>
@@ -69,10 +69,10 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff adjusted</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.06&nbsp;&ndash;&nbsp;0.06</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.893</td>
 </tr>
 <tr>
@@ -105,10 +105,10 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.05&nbsp;&ndash;&nbsp;0.07</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.664</td>
 </tr>
 <tr>
@@ -148,10 +148,10 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.848</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.12</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.05&nbsp;&ndash;&nbsp;0.29</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.160</td>
 </tr>
 <tr>
@@ -163,6 +163,8 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.054 / 0.028</td>
 </tr>
 </table>
+<p>The first of these three regression models tests the relationship between the spending difference and the Democrats&rsquo; two-party popular vote share. The second model tests the same relationship, but also incorporates the prior year&rsquo;s election results into the model. The theory behind incorporating this data is that, for example, if there are Republican-leaning states, even if Democrats have an ad spending advantage, Republicans will likely still win the state, so correcting for historical partisan performance is important. The third model tests the relationship between spending difference and vote shift. The logic behind this model is that if Democrats spend a lot of money in a state and have an ad advantage, they might suddenly do better there, potentially explaining the shifts that swing states see from cycle to cycle.</p>
+<p>This said, none of these three models find particularly compelling results, will particularly low R squared values in each and flat trendlines in all three.</p>
 <p>to do&rsquo;s:</p>
 <p>ad spending history (2000-2012)</p>
 <p>2020 ad spending by state</p>
