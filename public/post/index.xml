@@ -13,7 +13,7 @@
       <link>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</link>
       <pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</guid>
-      <description>Introduction Past Campaign Ad Spending ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;air_date&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;party&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;party&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;air_date&#39;.</description>
+      <description>Introduction Every election cycle, billions of dollars are spent on political campaigns up and down the ballot. But for all of the paid staffers, internal polls, and pricey consultants, presidential campaigns&amp;rsquo; largest expense is almost always campaign ad spending. Every year, these campaigns battle it out with their ads in the so-called &amp;ldquo;Air War,&amp;rdquo; spending hundreds of millions of dollars in key swing states trying to promote themselves and destroy the reputation of their opponents.</description>
     </item>
     <item>
       <title>Blog Post 5: Demographics</title>
