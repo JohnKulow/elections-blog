@@ -40,92 +40,129 @@
 <p>The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008&rsquo;s heavy focus on contrast ads and the trend towards more negative ads in the more hostile 2012 campaign between Obama and Romney. We can also track the proportion of ads that were used to attack vs promote a candidate over time in these four campaigns:</p>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 <p>As can be seen, there is great variation between campaigns on the timing of when to attack your opponent or promote yourself. One notable moment out of these four campaigns was the anneversary of 9/11 during the 2004 campaign, at which point the campaigns switched suddenly from airing almost entirely negative ads to airing almost exclusively positive ones.</p>
-<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-2.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-3.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-4.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-5.png" width="672" /></p>
+<p>We also can trace the state-by-state expenditure over the years.</p>
 <p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-2.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-3.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-4.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-5.png" width="672" /></p>
-<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
-<pre><code>## 
-## Call:
-## lm(formula = D_pv2p ~ spending_diff, data = ads_vote_merged)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -2.55179 -0.77890 -0.01225  1.04017  2.16948 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   5.018e+01  2.192e-01 228.926   &lt;2e-16 ***
-## spending_diff 3.972e-09  2.934e-08   0.135    0.893    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.273 on 36 degrees of freedom
-##   (13 observations deleted due to missingness)
-## Multiple R-squared:  0.000509,	Adjusted R-squared:  -0.02725 
-## F-statistic: 0.01833 on 1 and 36 DF,  p-value: 0.893
-</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = D_pv2p ~ spending_diff + D_pv2p_lag1, data = ads_vote_merged)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -2.28631 -0.55950  0.07694  1.02109  2.30173 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   4.627e+01  2.847e+00  16.251   &lt;2e-16 ***
-## spending_diff 1.300e-08  2.971e-08   0.438    0.664    
-## D_pv2p_lag1   7.761e-02  5.645e-02   1.375    0.178    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.258 on 35 degrees of freedom
-##   (13 observations deleted due to missingness)
-## Multiple R-squared:  0.05173,	Adjusted R-squared:  -0.002455 
-## F-statistic: 0.9547 on 2 and 35 DF,  p-value: 0.3947
-</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = D_pv2p_shift1 ~ spending_diff, data = ads_vote_merged)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -5.763 -2.280 -0.162  1.703  9.817 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)   -1.208e-01  6.271e-01  -0.193    0.848
-## spending_diff  1.203e-07  8.393e-08   1.434    0.160
-## 
-## Residual standard error: 3.643 on 36 degrees of freedom
-##   (13 observations deleted due to missingness)
-## Multiple R-squared:  0.054,	Adjusted R-squared:  0.02772 
-## F-statistic: 2.055 on 1 and 36 DF,  p-value: 0.1603
-</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = D_pv2p_shift1 ~ spending_diff + factor(year), data = ads_vote_merged)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.0049 -1.0512  0.0169  0.8235  4.7740 
-## 
-## Coefficients:
-##                    Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)      -4.345e+00  5.465e-01  -7.951 4.48e-09 ***
-## spending_diff    -1.690e-08  4.557e-08  -0.371  0.71324    
-## factor(year)2004  4.851e+00  7.799e-01   6.220 5.75e-07 ***
-## factor(year)2008  1.069e+01  8.914e-01  11.994 2.22e-13 ***
-## factor(year)2012  3.170e+00  1.041e+00   3.045  0.00463 ** 
-## factor(year)2020  5.419e+00  8.104e-01   6.687 1.51e-07 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.639 on 32 degrees of freedom
-##   (13 observations deleted due to missingness)
-## Multiple R-squared:  0.8298,	Adjusted R-squared:  0.8032 
-## F-statistic:  31.2 on 5 and 32 DF,  p-value: 2.061e-11
-</code></pre>
+<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-2.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-19-3.png" width="672" /></p>
+<p>As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).</p>
+<h2 id="regression-model-on-ad-spending">Regression Model on Ad Spending</h2>
+<p>Knowing how much the campaigns have spent in each of the swing states every cycle and thus knowing how much of an advantage each party had in a given state, we can investigate whether these spending advantages had any impact on the election results in these states. Below are to graphs. The first depicts Democratic party spending advantage in states won or lost by less than 5 points between 2000 and 2020 (excluding 2016) compared to their two-party vote share in each said state. The second graph shows the same thing, except instead of the Democratic two-party vote share, it shows the shift towards (or against) Democrats in the two-party vote share compared to the prior election. The trendlines of each of these relationships are also shown.</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<p>As can be seen in these two graphs, the relationship between ad spending advantage and vote share is very weak if at all present, and the relationship between spending advantage and shift in how a state votes is slightly stronger but still very weak. If I run three regression models below, a similar story plays out.</p>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Ad Spending Regression Table (2000-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Two-Party Vote Share</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">50.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.22</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">49.73&nbsp;&ndash;&nbsp;50.62</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.893</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">38</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.001 / -0.027</td>
+</tr>
+</table>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Ad Spending Regression Table, w/ Vote Lag (2000-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Two-Party Vote Share</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">46.27</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.85</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">40.49&nbsp;&ndash;&nbsp;52.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.664</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag1</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.08</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.04&nbsp;&ndash;&nbsp;0.19</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.178</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">38</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.052 / -0.002</td>
+</tr>
+</table>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">Ad Spending Regression Table, Vote Shift (2000-2020)</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Democratic Two-Party Vote Share Shift</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.12</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.63</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.39&nbsp;&ndash;&nbsp;1.15</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.848</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">spending diff</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.00&nbsp;&ndash;&nbsp;0.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.160</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">38</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.054 / 0.028</td>
+</tr>
+</table>
 <p>to do&rsquo;s:</p>
 <p>ad spending history (2000-2012)</p>
 <p>2020 ad spending by state</p>
