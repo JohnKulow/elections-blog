@@ -106,7 +106,6 @@ party_issues2012 <- ad_campaigns |>
   group_by(cycle, ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
 ```
 
-
 ```{r, include=FALSE}
 ## When to Buy Ads? 
 timeline_total_plot <- ad_campaigns |>
@@ -115,13 +114,14 @@ timeline_total_plot <- ad_campaigns |>
   filter(year %in% c(2000, 2004, 2008, 2012), month > 7) |>
   group_by(cycle, air_date, party) |>
   summarise(total_cost = sum(total_cost)) |>
+  mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
   ggplot(aes(x=air_date, y=total_cost, color=party)) +
-  # scale_x_date(date_labels = "%b, %Y") +
+  scale_x_date(date_labels = "%b") +
   scale_y_continuous(labels = dollar_format()) +
   scale_color_manual(values = c("blue","red"), name = "") +
   geom_line() + geom_point(size=0.5) +
   facet_wrap(cycle ~ ., scales="free") +
-  xlab("") + ylab("ad spend") +
+  xlab("") + ylab("Ad Spending") +
   theme_bw() +
   theme(axis.title = element_text(size=20),
         axis.text = element_text(size=11),
@@ -150,12 +150,13 @@ purpose_plot <- ad_campaigns |>
     data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
     data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
   ) |>
+  mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
   ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
   geom_bar(stat = "identity") +
   scale_x_continuous(breaks = seq(2000, 2016, 4)) +
   # ggtitle("Campaign Ads Aired By Purpose") +
-  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "purpose") +
-  xlab("") + ylab("%") +
+  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "Purpose") +
+  xlab("") + ylab("Percentage (%)") +
   facet_wrap(~ party) + theme_minimal() +
   theme(axis.title = element_text(size=20),
         axis.text = element_text(size=15),
@@ -179,16 +180,18 @@ pos_vs_neg_plot <- ad_campaigns |>
   group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
   group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
   filter(!is.na(ad_tone)) |>
+  mutate(party = if_else(party == "democrat", "Democrat", "Republican")) |>
   ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
   geom_bar(stat = "identity") +
   scale_x_continuous(breaks = seq(2000, 2012, 4)) +
   ggtitle("Campaign Ads Aired By Tone") +
-  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "tone") +
-  xlab("") + ylab("%") +
+  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "Tone") +
+  xlab("") + ylab("Percentage (%)") +
   facet_wrap(~ party) + theme_minimal() +
   theme(axis.title = element_text(size=20),
         axis.text = element_text(size=15),
-        strip.text.x = element_text(size = 20))
+        strip.text.x = element_text(size = 20),
+        plot.title = element_text(hjust = 0.5))
 
 
 ```
@@ -214,12 +217,12 @@ pos_vs_neg_timeline_plot <- ad_campaigns |>
   mutate(total_cost = total_cost/sum(total_cost)) |>
   ungroup() |>
   ggplot(aes(x=air_date, y=total_cost, fill=ad_tone, color=ad_tone)) +
-  # scale_x_date(date_labels = "%b") +
-  scale_fill_manual(values = c("purple","green"), name = "ad tone") +
-  scale_color_manual(values = c("purple","green"), name = "ad tone") +
+  scale_x_date(date_labels = "%b") +
+  scale_fill_manual(values = c("purple","green"), name = "Ad Tone") +
+  scale_color_manual(values = c("purple","green"), name = "Ad Tone") +
   geom_bar(stat = "identity") +
   facet_wrap(cycle ~ ., scales="free") +
-  xlab("") + ylab("% of ads bought on day") +
+  xlab("") + ylab("% of Ads Bought on Day") +
   theme_bw() +
   theme(axis.title = element_text(size=20),
         axis.text = element_text(size=10),
@@ -356,7 +359,8 @@ us_hexgrid |>
         plot.title = element_text(hjust = 0.5),
     plot.background = element_rect(fill = "#f5f5f2", color = NA),
     panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA)) +
+    legend.background = element_rect(fill = "#f5f5f2", color = NA),
+    strip.text.x = element_text(size = 13)) +
   facet_wrap(year ~ .)
 ```
 
@@ -383,7 +387,8 @@ us_hexgrid |>
         plot.title = element_text(hjust = 0.5),
     plot.background = element_rect(fill = "#f5f5f2", color = NA),
     panel.background = element_rect(fill = "#f5f5f2", color = NA),
-    legend.background = element_rect(fill = "#f5f5f2", color = NA)) +
+    legend.background = element_rect(fill = "#f5f5f2", color = NA),
+    strip.text.x = element_text(size = 13)) +
   facet_wrap(year ~ .)
 ```
 
@@ -403,7 +408,7 @@ vote_vs_ads_plot <- ads_vote_merged |>
   geom_vline(xintercept = 0.01, lty = 2) +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +
-  labs(x = "Dem Campaign Ad Spending Advantage ($ million)",
+  labs(x = "Dem Ad Spending Advantage ($ million)",
        y = "Dem 2-Party Vote Share",
        title = "Spending Advantage vs Vote Share in Key States")
 
@@ -416,7 +421,7 @@ shift_vs_ads_plot <- ads_vote_merged |>
   geom_vline(xintercept = 0.01, lty = 2) +
   theme_bw() + 
   theme(plot.title = element_text(size = 10)) +
-  labs(x = "Dem Campaign Ad Spending Advantage ($ million)",
+  labs(x = "Dem Ad Spending Advantage ($ million)",
        y = "Dem 2-Party Vote Shift",
        title = "Spending Advantage vs Vote Shift in Key States")
 

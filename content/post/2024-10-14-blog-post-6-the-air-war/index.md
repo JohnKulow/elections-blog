@@ -25,7 +25,6 @@ First, let's look at previous cycles. As you can see in the graphs below depicti
 
 
 
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
 
