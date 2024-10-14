@@ -460,7 +460,6 @@ total_state_ad_plot_2020 <- us_hexgrid |>
           legend.key.size = unit(0.25, "cm"))
 ```
 
-
 ```{r}
 grid.arrange(total_state_ad_plot_2000, total_state_ad_plot_2004, 
              total_state_ad_plot_2008, total_state_ad_plot_2012, 
@@ -601,10 +600,7 @@ grid.arrange(state_ad_plot_margin_2000, state_ad_plot_margin_2004,
              heights = c(1, 1, 1))
 ```
 
-
-
 As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
-
 
 ## Regression Model on Ad Spending
 

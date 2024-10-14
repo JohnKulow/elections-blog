@@ -63,7 +63,6 @@ We also can trace the state-by-state expenditure over the years.
 
 
 
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 
@@ -71,10 +70,7 @@ We also can trace the state-by-state expenditure over the years.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
 
-
-
 As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024).
-
 
 ## Regression Model on Ad Spending
 
