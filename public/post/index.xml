@@ -6,8 +6,15 @@
     <description>Recent content in Posts on John Kulow Gov 1347 Election Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://johnkulow.github.io/elections-blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 6: The Air War</title>
+      <link>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</link>
+      <pubDate>Mon, 14 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/</guid>
+      <description>Introduction Past Campaign Ad Spending ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;air_date&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;party&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;party&#39;. You can override using ## the `.groups` argument. ## Joining with `by = join_by(party, creative, cycle)` ## `summarise()` has grouped output by &#39;cycle&#39;, &#39;air_date&#39;.</description>
+    </item>
     <item>
       <title>Blog Post 5: Demographics</title>
       <link>https://johnkulow.github.io/elections-blog/post/2024/10/07/blog-post-5-demographics/</link>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog Post 6: The Air War | John Kulow Gov 1347 Election Blog</title>
+    <link rel="stylesheet" href="/elections-blog/css/style.css" />
+    <link rel="stylesheet" href="/elections-blog/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/elections-blog/">Home</a></li>
+      
+      <li><a href="/elections-blog/about/">About</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Blog Post 6: The Air War</span></h1>
+<h2 class="author">John Kulow</h2>
+<h2 class="date">2024/10/14</h2>
+</div>
+
+<main>
+<h2 id="introduction">Introduction</h2>
+<h2 id="past-campaign-ad-spending">Past Campaign Ad Spending</h2>
+<pre><code>## `summarise()` has grouped output by 'cycle', 'air_date'. You can override using
+## the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<pre><code>## Joining with `by = join_by(party, creative, cycle)`
+## `summarise()` has grouped output by 'cycle', 'party'. You can override using
+## the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<pre><code>## Joining with `by = join_by(party, creative, cycle)`
+## `summarise()` has grouped output by 'cycle', 'party'. You can override using
+## the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-8-2.png" width="672" />
+<pre><code>## Joining with `by = join_by(party, creative, cycle)`
+## `summarise()` has grouped output by 'cycle', 'air_date'. You can override using
+## the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<pre><code>## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
+## can override using the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<pre><code>## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
+## can override using the `.groups` argument.
+</code></pre>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+<p><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<pre><code>## 
+## Call:
+## lm(formula = D_pv2p ~ spending_diff, data = ads_vote_merged)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.55179 -0.77890 -0.01225  1.04017  2.16948 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   5.018e+01  2.192e-01 228.926   &lt;2e-16 ***
+## spending_diff 3.972e-09  2.934e-08   0.135    0.893    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.273 on 36 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.000509,	Adjusted R-squared:  -0.02725 
+## F-statistic: 0.01833 on 1 and 36 DF,  p-value: 0.893
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = D_pv2p ~ spending_diff + D_pv2p_lag1, data = ads_vote_merged)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.28631 -0.55950  0.07694  1.02109  2.30173 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   4.627e+01  2.847e+00  16.251   &lt;2e-16 ***
+## spending_diff 1.300e-08  2.971e-08   0.438    0.664    
+## D_pv2p_lag1   7.761e-02  5.645e-02   1.375    0.178    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.258 on 35 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.05173,	Adjusted R-squared:  -0.002455 
+## F-statistic: 0.9547 on 2 and 35 DF,  p-value: 0.3947
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = D_pv2p_shift1 ~ spending_diff, data = ads_vote_merged)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.763 -2.280 -0.162  1.703  9.817 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)   -1.208e-01  6.271e-01  -0.193    0.848
+## spending_diff  1.203e-07  8.393e-08   1.434    0.160
+## 
+## Residual standard error: 3.643 on 36 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.054,	Adjusted R-squared:  0.02772 
+## F-statistic: 2.055 on 1 and 36 DF,  p-value: 0.1603
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = D_pv2p_shift1 ~ spending_diff + factor(year), data = ads_vote_merged)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.0049 -1.0512  0.0169  0.8235  4.7740 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      -4.345e+00  5.465e-01  -7.951 4.48e-09 ***
+## spending_diff    -1.690e-08  4.557e-08  -0.371  0.71324    
+## factor(year)2004  4.851e+00  7.799e-01   6.220 5.75e-07 ***
+## factor(year)2008  1.069e+01  8.914e-01  11.994 2.22e-13 ***
+## factor(year)2012  3.170e+00  1.041e+00   3.045  0.00463 ** 
+## factor(year)2020  5.419e+00  8.104e-01   6.687 1.51e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.639 on 32 degrees of freedom
+##   (13 observations deleted due to missingness)
+## Multiple R-squared:  0.8298,	Adjusted R-squared:  0.8032 
+## F-statistic:  31.2 on 5 and 32 DF,  p-value: 2.061e-11
+</code></pre>
+<p>to do&rsquo;s:</p>
+<p>ad spending history (2000-2012)</p>
+<p>2020 ad spending by state</p>
+<p>2024 fundraising (by state, by year)</p>
+<p>State regression on ad spending and vote share using 2000-2012 and 2020 data
+^^ Add in other variables too?</p>
+
+</main>
+
+  <footer>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<script src="//cdn.jsdelivr.net/combine/npm/katex/dist/katex.min.js,npm/katex/dist/contrib/auto-render.min.js,npm/@xiee/utils/js/render-katex.js" defer></script>
+
+<script src="//cdn.jsdelivr.net/npm/@xiee/utils/js/center-img.min.js" defer></script>
+
+  
+  <hr/>
+  Theme from Yihui Xie.
+  
+  </footer>
+  </body>
+</html>
+
