@@ -10,9 +10,11 @@ tags: []
 
 
 ## Introduction
-
+Every election cycle, billions of dollars are spent on political campaigns up and down the ballot. But for all of the paid staffers, internal polls, and pricey consultants, presidential campaigns' largest expense is almost always campaign ad spending. Every year, these campaigns battle it out with their ads in the so-called "Air War," spending hundreds of millions of dollars in key swing states trying to promote themselves and destroy the reputation of their opponents. But questions remain as to how much of an effect these campaign ads actually have in these states. For this week's blog post, I will investigate this issue of campaign ad spending, looking at past trends to understand what impact ad spending will have in 2024, which is shaping up to easily be the most expensive presidential campaign in history. 
 
 ## Past Campaign Ad Spending
+
+First, let's look at previous cycles. As you can see in the graphs below depicting how many ads were spent each day during the 2000, 2004, 2008, and 2012 campaigns, ad spending generally rises as the election progresses, with campaigns particularly ramping up their spending in the final month or two.
 
 
 
@@ -29,17 +31,18 @@ tags: []
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
+But these graphs showing the total expenditure by each campaign on any given day do not give us the full picture. Campaign ads generally can be divided into three categories, those focused on policy issues, those focused on the candidates themselves, and those focused on both. The chart below shows us how much various campaigns spent on these different types of ads.
 
 
-
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-
+```
+## Joining with `by = join_by(party, creative, cycle)`
+## `summarise()` has grouped output by 'cycle', 'party'. You can override using
+## the `.groups` argument.
+```
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+As can be seen, candidates generally spend most of their ad spending talking about policy issues important to Americans, with the notable exception being Hillary Clinton's 2016 campaign which focused its attack ads heavily on Donald Trump's character. This said, both policy and personal types of ads can be either positive or negative.
 
 
 ```
@@ -47,16 +50,19 @@ tags: []
 ## `summarise()` has grouped output by 'cycle', 'party'. You can override using
 ## the `.groups` argument.
 ```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+
+The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-```
-## Joining with `by = join_by(party, creative, cycle)`
-## `summarise()` has grouped output by 'cycle', 'party'. You can override using
-## the `.groups` argument.
-```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-2.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+
+
 
 
 ```
@@ -65,36 +71,32 @@ tags: []
 ## the `.groups` argument.
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-
-
-```
-## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
-## can override using the `.groups` argument.
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
-
-
-```
-## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
-## can override using the `.groups` argument.
-```
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 
 
+```
+## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
+## can override using the `.groups` argument.
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+
+```
+## `summarise()` has grouped output by 'cycle', 'state', 'air_date', 'party'. You
+## can override using the `.groups` argument.
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
 
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
-
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 
 
@@ -103,7 +105,11 @@ tags: []
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-2.png" width="672" />
+
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-20-2.png" width="672" />
 
 
 

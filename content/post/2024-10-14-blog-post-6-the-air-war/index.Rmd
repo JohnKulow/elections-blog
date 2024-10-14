@@ -12,9 +12,11 @@ knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 ```
 
 ## Introduction
-
+Every election cycle, billions of dollars are spent on political campaigns up and down the ballot. But for all of the paid staffers, internal polls, and pricey consultants, presidential campaigns' largest expense is almost always campaign ad spending. Every year, these campaigns battle it out with their ads in the so-called "Air War," spending hundreds of millions of dollars in key swing states trying to promote themselves and destroy the reputation of their opponents. But questions remain as to how much of an effect these campaign ads actually have in these states. For this week's blog post, I will investigate this issue of campaign ad spending, looking at past trends to understand what impact ad spending will have in 2024, which is shaping up to easily be the most expensive presidential campaign in history. 
 
 ## Past Campaign Ad Spending
+
+First, let's look at previous cycles. As you can see in the graphs below depicting how many ads were spent each day during the 2000, 2004, 2008, and 2012 campaigns, ad spending generally rises as the election progresses, with campaigns particularly ramping up their spending in the final month or two.
 
 ```{r, include=FALSE}
 library(blogdown)
@@ -124,10 +126,67 @@ ad_campaigns |>
         strip.text.x = element_text(size = 20))
 ```
 
+But these graphs showing the total expenditure by each campaign on any given day do not give us the full picture. Campaign ads generally can be divided into three categories, those focused on policy issues, those focused on the candidates themselves, and those focused on both. The chart below shows us how much various campaigns spent on these different types of ads.
+
+```{r}
+## The Purpose of Political Ads
+purpose_plot <- ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_purpose) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_purpose)) |>
+  bind_rows( ##2016 raw data not public yet! This was entered manually
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "democrat", pct = 67),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "democrat", pct = 12),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "democrat", pct = 21),
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "republican", pct = 11),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
+  ) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
+  # ggtitle("Campaign Ads Aired By Purpose") +
+  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "purpose") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) + theme_minimal() +
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=15),
+        strip.text.x = element_text(size = 20))
+```
+
+```{r}
+purpose_plot
+```
+
+As can be seen, candidates generally spend most of their ad spending talking about policy issues important to Americans, with the notable exception being Hillary Clinton's 2016 campaign which focused its attack ads heavily on Donald Trump's character. This said, both policy and personal types of ads can be either positive or negative.
+
+```{r}
+####--------------------------------------------------------------#
+#### Descriptive statistics on ads and campaign spending over time. 
+####--------------------------------------------------------------#
+
+# Tone and Political Ads. 
+ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_tone)) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2012, 4)) +
+  ggtitle("Campaign Ads Aired By Tone") +
+  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "tone") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) + theme_minimal() +
+  theme(axis.title = element_text(size=20),
+        axis.text = element_text(size=15),
+        strip.text.x = element_text(size = 20))
 
 
+```
 
-
+The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008's heavy focus on 
 
 ```{r}
 ## The Elections and Their Issues
@@ -173,53 +232,7 @@ ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)
   theme_bw()
 ```
 
-```{r}
-####--------------------------------------------------------------#
-#### Descriptive statistics on ads and campaign spending over time. 
-####--------------------------------------------------------------#
 
-# Tone and Political Ads. 
-ad_campaigns |>
-  left_join(ad_creative) |>
-  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
-  group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
-  filter(!is.na(ad_tone)) |>
-  ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(breaks = seq(2000, 2012, 4)) +
-  ggtitle("Campaign Ads Aired By Tone") +
-  scale_fill_manual(values = c("red","orange","gray","darkgreen","white"), name = "tone") +
-  xlab("") + ylab("%") +
-  facet_wrap(~ party) + theme_minimal() +
-  theme(axis.title = element_text(size=20),
-        axis.text = element_text(size=15),
-        strip.text.x = element_text(size = 20))
-
-## The Purpose of Political Ads
-ad_campaigns |>
-  left_join(ad_creative) |>
-  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
-  group_by(cycle, party, ad_purpose) |> summarise(pct=n()*100/first(tot_n)) |>
-  filter(!is.na(ad_purpose)) |>
-  bind_rows( ##2016 raw data not public yet! This was entered manually
-    data.frame(cycle = 2016, ad_purpose = "personal", party = "democrat", pct = 67),
-    data.frame(cycle = 2016, ad_purpose = "policy", party = "democrat", pct = 12),
-    data.frame(cycle = 2016, ad_purpose = "both", party = "democrat", pct = 21),
-    data.frame(cycle = 2016, ad_purpose = "personal", party = "republican", pct = 11),
-    data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
-    data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
-  ) |>
-  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
-  # ggtitle("Campaign Ads Aired By Purpose") +
-  scale_fill_manual(values = c("grey","red","darkgreen","black","white"), name = "purpose") +
-  xlab("") + ylab("%") +
-  facet_wrap(~ party) + theme_minimal() +
-  theme(axis.title = element_text(size=20),
-        axis.text = element_text(size=15),
-        strip.text.x = element_text(size = 20))
-```
 
 ```{r}
 ## Tone in Political Ads
