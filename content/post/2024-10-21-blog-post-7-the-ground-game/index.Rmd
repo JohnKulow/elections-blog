@@ -183,7 +183,7 @@ tr16 <- ggplot() +
 ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
 ```
 
-```{r}
+```{r, include=FALSE}
 # Effects of field offices on turnout and vote share. 
 fo_dem <- read_csv("data/fieldoffice_2004-2012_dems.csv")
 
@@ -280,7 +280,7 @@ fo_add %>%
 ```
 
 
-```{r}
+```{r, include=FALSE}
 # Case Study: Wisconsin Field Offices in 2012 and 2016 
 obama12_wi <- subset(fo_add, year == 2012 & candidate == "Obama" & state == "WI") %>%
   select(longitude, latitude)
@@ -313,7 +313,7 @@ ggarrange(obama_wi, clinton_wi)
 ```
 
 
-```{r}
+```{r, include=FALSE}
 pvcounty_wi <- read_csv("data/popvote_bycounty_2012-2016_WI.csv")
 pv12_wi <- subset(pvcounty_wi, year == 2012) 
 pv16_wi <- subset(pvcounty_wi, year == 2016) 
@@ -356,7 +356,7 @@ ggarrange(obama_wis, clinton_wis)
 ### Campaign Events
 
 
-```{r}
+```{r, include=FALSE}
 # Visualizing campaign events. 
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
@@ -370,7 +370,7 @@ ggarrange(p.ev.1, p.ev.2, p.ev.3)
 ```
 
 
-```{r}
+```{r, include=FALSE}
 # Mapping campaign events. 
 
 
@@ -416,7 +416,7 @@ ggarrange(ev16, ev20, ev24)
 ## Updating Models
 ### National 2-Party Popular Vote Model
 
-```{r}
+```{r, include=FALSE}
 d_pollav_nat <- read_csv("data/national_polls_1968-2024.csv")
 d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
 
@@ -445,9 +445,11 @@ d_nat_model <- d_popvote |>
   mutate(incumbent = as.numeric(incumbent)) |>
   left_join(d_poll_nat, by = c("year", "party"))
 
-d_nat_reg <- lm(pv2p ~ sept_poll + oct_poll +GDP_growth_quarterly + incumbent, 
+d_nat_reg <- lm(pv2p ~ sept_poll + oct_poll + GDP_growth_quarterly + incumbent, 
                 data = d_nat_model)
+```
 
+```{r}
 tab_model(d_nat_reg, show.se = TRUE, 
           title = "National Model Regression Table", 
           dv.labels = "National 2-Party Vote Share for Incumbent Party")
@@ -455,22 +457,100 @@ tab_model(d_nat_reg, show.se = TRUE,
 
 
 
-```{r}
+```{r, include=FALSE}
 d_nat_model_2024 <- d_nat_model |>
   filter(year == 2024) |>
   select(sept_poll, oct_poll, GDP_growth_quarterly) |>
   mutate(incumbent = 0)
 
 nat_pred_2024 <- predict(d_nat_reg, d_nat_model_2024, interval = "prediction")
+```
 
+```{r}
 knitr::kable(nat_pred_2024, 
              col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
+```
+
+### State 2-Party Model and Electoral College
+
+
+
+```{r, include=FALSE}
+d_poll_state <- d_pollav_state |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "DEM", 
+         year > 2007) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year, state, month_9, month_10, D_pv2p) |>
+  drop_na() |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0))
+
+d_state_reg <- lm(D_pv2p ~ sept_poll + oct_poll + GDP_growth_quarterly + d_incumbent, 
+                data = d_poll_state)
+```
+
+```{r}
+tab_model(d_state_reg, show.se = TRUE, 
+          title = "State Model Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
 ```
 
 
 
 
-### State 2-Party Model and Electoral College
+```{r, include=FALSE}
+d_state_model_2024 <- d_pollav_state |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "DEM", 
+         year == 2024) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year, state, month_9, month_10, D_pv2p) |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0)) |>
+  mutate(across(everything(), ~ replace_na(., 0)))
+
+state_pred_2024 <- predict(d_state_reg, d_state_model_2024, interval = "prediction")
+
+d_state_model_2024 <- d_state_model_2024 |>
+  mutate(predicted_values = state_pred_2024[, "fit"],
+         lower_bounds = state_pred_2024[, "lwr"],
+         upper_bounds = state_pred_2024[, "upr"])
+```
+
+```{r}
+knitr::kable(d_state_model_2024 |> 
+               select(state, predicted_values, lower_bounds, upper_bounds), 
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound")) |>
+  row_spec(which(d_state_model_2024$predicted_values >= 50), background = "#D0EFFF") |>
+  row_spec(which(d_state_model_2024$predicted_values < 50), background = "#FFDDDD")   
+
+```
+
+
+
 
 
 Things to do:
