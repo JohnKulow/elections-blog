@@ -14,7 +14,12 @@ knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 
 ## Introduction
 
+Insert intro writing here
 
+## The Ground Game
+### Field Offices
+
+Insert analysis here
 
 ```{r, include=FALSE}
 library(blogdown)
@@ -24,6 +29,8 @@ library(curl)
 library(CVXR)
 library(foreign)
 library(geofacet)
+library(ggpubr)
+library(ggthemes)
 library(glmnet)
 library(gridExtra)
 library(haven)
@@ -31,6 +38,8 @@ library(janitor)
 library(kableExtra)
 library(knitr)
 library(maps)
+library(mgcv)
+library(mgcViz)
 library(mlr3)
 library(patchwork)
 library(randomForest)
@@ -42,13 +51,387 @@ library(scales)
 library(sf)
 library(shinystan)
 library(sjPlot)
+library(spData)
 library(stargazer)
+library(tidygeocoder)
 library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
 library(viridis)
+```
 
+```{r, include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data.
+####----------------------------------------------------------#
 
+# Read popular vote datasets. 
+d_popvote <- read_csv("data/popvote_1948_2020.csv")
+d_state_popvote <- read_csv("data/state_popvote_1948_2020.csv")
+d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("data/corrected_ec_1948_2024.csv")
+
+# Read polling data. 
+d_polls <- read_csv("data/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("data/state_polls_1968-2024.csv")
+
+# Read turnout data. 
+d_turnout <- read_csv("data/state_turnout_1980_2022.csv")
+
+# Read county turnout. 
+d_county_turnout <- read_csv("data/county_turnout.csv")
+
+# Read state-level demographics.
+d_state_demog <- read_csv("data/demographics.csv")
+
+# Read county demographics. 
+d_county_demog <- read_csv("data/county_demographics.csv")
+
+# Read campaign events datasets. 
+d_campaign_events <- read_csv("data/campaigns_2016_2024.csv")[,-1]
+```
+
+```{r}
+
+####----------------------------------------------------------#
+#### Ground Game: Field offices and campaign events. 
+####----------------------------------------------------------#
+
+# Where should campaigns build field offices? 
+fo_2012 <- read_csv("data/fieldoffice_2012_bycounty.csv")
 
 ```
+
+```{r, include=FALSE}
+# Effects of field offices on turnout and vote share. 
+fo_dem <- read_csv("data/fieldoffice_2004-2012_dems.csv")
+
+
+# Field Strategies of Obama, Romney, Clinton, and Trump in 2016. 
+fo_add <- read_csv("data/fieldoffice_2012-2016_byaddress.csv")
+
+us_geo <- states(cb = TRUE) |> 
+  shift_geometry() |> 
+  filter(STUSPS %in% unique(fo_add$state))
+
+obama12 <- subset(fo_add, year == 2012 & candidate == "Obama") %>%
+  select(longitude, latitude)
+romney12 <- subset(fo_add, year == 2012 & candidate == "Romney") %>%
+  select(longitude, latitude)
+clinton16 <- subset(fo_add, year == 2016 & candidate == "Clinton") %>%
+  select(longitude, latitude)
+trump16 <- subset(fo_add, year == 2016 & candidate == "Trump") %>%
+  select(longitude, latitude)
+
+obama12transformed <- st_as_sf(obama12, coords = c("longitude", "latitude"), crs = 4326) |> 
+  st_transform(crs = st_crs(us_geo)) |> 
+  shift_geometry() |>
+  st_make_valid()
+romney12transformed <- st_as_sf(romney12, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+clinton16transformed <- st_as_sf(clinton16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+trump16transformed <- st_as_sf(trump16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+
+ob12 <- ggplot() +
+  geom_sf(data = us_geo) + 
+  geom_sf(data = obama12transformed, color = "dodgerblue4", size = 1, alpha = 0.5, pch = 16) +
+  ggtitle("Obama 2012 Field Offices") +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.7, size = 14, vjust = 2)
+  ) 
+
+ro12 <- ggplot() +
+  geom_sf(data = us_geo) + 
+  geom_sf(data = romney12transformed, color = "firebrick", size = 1, alpha = 0.5, pch = 16) +
+  ggtitle("Romney 2012 Field Offices") +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.7, size = 14, vjust = 2)
+  ) 
+
+cl16 <- ggplot() + 
+  geom_sf(data = us_geo) + 
+  geom_sf(data = clinton16transformed, color = "dodgerblue4", size = 1, alpha = 0.5, pch = 16) +
+  ggtitle("Clinton 2016 Field Offices") +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.7, size = 14, vjust = 2)
+  ) 
+
+tr16 <- ggplot() +
+  geom_sf(data = us_geo) + 
+  geom_sf(data = trump16transformed, color = "firebrick", size = 1, alpha = 0.5, pch = 16) +
+  ggtitle("Trump 2016 Field Offices") +
+  theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.7, size = 14, vjust = 2)
+  ) 
+```
+
+
+```{r}
+
+ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
+```
+
+```{r}
+# Effects of field offices on turnout and vote share. 
+fo_dem <- read_csv("data/fieldoffice_2004-2012_dems.csv")
+
+
+# Field Strategies of Obama, Romney, Clinton, and Trump in 2016. 
+fo_add <- read_csv("data/fieldoffice_2012-2016_byaddress.csv")
+
+us_geo <- counties(cb = TRUE) |> 
+  shift_geometry() |> 
+  filter(STUSPS %in% unique(fo_add$state))
+
+us_geo_states <- states(cb = TRUE) |> 
+  shift_geometry() |> 
+  filter(STUSPS %in% unique(fo_add$state))
+
+obama12 <- subset(fo_add, year == 2012 & candidate == "Obama") %>%
+  select(longitude, latitude)
+romney12 <- subset(fo_add, year == 2012 & candidate == "Romney") %>%
+  select(longitude, latitude)
+clinton16 <- subset(fo_add, year == 2016 & candidate == "Clinton") %>%
+  select(longitude, latitude)
+trump16 <- subset(fo_add, year == 2016 & candidate == "Trump") %>%
+  select(longitude, latitude)
+
+obama12transformed <- st_as_sf(obama12, coords = c("longitude", "latitude"), crs = 4326) |> 
+  st_transform(crs = st_crs(us_geo)) |> 
+  shift_geometry() |>
+  st_make_valid()
+romney12transformed <- st_as_sf(romney12, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+clinton16transformed <- st_as_sf(clinton16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+trump16transformed <- st_as_sf(trump16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+
+obama12_with_county <- st_join(obama12transformed, us_geo, left = FALSE)
+romney12_with_county <- st_join(romney12transformed, us_geo, left = FALSE)
+clinton16_with_county <- st_join(clinton16transformed, us_geo, left = FALSE)
+trump16_with_county <- st_join(trump16transformed, us_geo, left = FALSE)
+
+all_events <- bind_rows(obama12_with_county, romney12_with_county, clinton16_with_county, trump16_with_county)
+
+fo_count <- all_events |>
+  group_by(STUSPS, NAME) |>
+  summarise(event_count = n()) |>
+  st_drop_geometry()
+
+us_geo_merged <- us_geo %>%
+  left_join(fo_count, by = c("STUSPS", "NAME"))
+```
+
+
+```{r}
+ggplot() +
+  geom_sf(data = us_geo_states, fill = NA, color = "black", size = 0.1) +
+  geom_sf(data = us_geo, fill = NA, color = "black", size = 0.1) +
+  geom_sf(data = us_geo_merged, aes(fill = event_count), color = NA) +
+  scale_fill_viridis_c(option = "C", breaks = c(1, 3, 12, 38), trans = "log", na.value = "lightgrey", name = "Field Offices ") +
+  ggtitle("Field Offices by County (2012-2016)") +
+  theme_void()
+```
+
+
+
+
+
+
+
+
+
+```{r}
+# Clinton 2016 Field Offices - Obama 2008 Field Offices. 
+fo_add %>%
+  subset(candidate %in% c("Clinton", "Obama") &
+           state %in% c("CO", "FL", "IA", "MI", "NV", "NH", "NC", "OH", "PA", "VA", "WI")) %>%
+  group_by(state, candidate) %>%
+  summarize(fo = n()) %>%
+  spread(key = candidate, value = fo) %>%
+  mutate(diff = Clinton - Obama) %>%
+  select(state, diff) %>%
+  ggplot(aes(y = diff, x = state, fill = (diff > 0))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ylim(-50, 15) +
+  scale_y_continuous(breaks=seq(-50,10,10)) +
+  xlab("State") +
+  ylab("Clinton Field Offices - Obama '08 field offices")+
+  theme_minimal() +
+  theme(legend.position = "none",
+        text = element_text(size = 15))
+```
+
+
+```{r}
+# Case Study: Wisconsin Field Offices in 2012 and 2016 
+obama12_wi <- subset(fo_add, year == 2012 & candidate == "Obama" & state == "WI") %>%
+  select(longitude, latitude)
+clinton16_wi <- subset(fo_add, year == 2016 & candidate == "Clinton" & state == "WI") %>%
+  select(longitude, latitude)
+
+obama12_wi_transformed <- st_as_sf(obama12_wi, coords = c("longitude", "latitude"), crs = 4326) |> 
+  st_transform(crs = st_crs(us_geo)) |> 
+  shift_geometry()
+clinton16_wi_transformed <- st_as_sf(clinton16_wi, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry()
+
+obama_wi <- ggplot() +
+  geom_sf(data = us_geo |> filter(STUSPS == "WI")) + 
+  geom_sf(data = obama12_wi_transformed, color = "dodgerblue4", size = 3, alpha = 0.6, pch = 16) +
+  ggtitle("Obama 2012 Field Offices in Wisconsin") +
+  theme_void()
+
+clinton_wi <- ggplot() +
+  geom_sf(data = us_geo |> filter(STUSPS == "WI")) + 
+  geom_sf(data = clinton16_wi_transformed, color = "dodgerblue4", size = 3, alpha = 0.6, pch = 16) +
+  ggtitle("Clinton 2016 Field Offices in Wisconsin") +
+  theme_void()
+```
+
+```{r}
+
+ggarrange(obama_wi, clinton_wi)
+```
+
+
+```{r}
+pvcounty_wi <- read_csv("data/popvote_bycounty_2012-2016_WI.csv")
+pv12_wi <- subset(pvcounty_wi, year == 2012) 
+pv16_wi <- subset(pvcounty_wi, year == 2016) 
+
+us_geo_12 <- us_geo |> 
+  left_join(pv12_wi, by = c("NAME" = "county"))
+
+us_geo_16 <- us_geo |>
+  left_join(pv16_wi, by = c("NAME" = "county"))
+
+obama_wis <- 
+  ggplot() + 
+  geom_sf(data = us_geo_12 |> filter(STUSPS == "WI"), aes(fill = D_win_margin)) + 
+  geom_sf(data = obama12_wi_transformed, color = "black", size = 3, alpha = 0.6, pch = 16) +
+  ggtitle("Obama 2012 Field Offices\nand Win Margin in Wisconsin") +
+  theme_void() + 
+  scale_fill_gradient2(high = "dodgerblue4", mid = "white", low = "firebrick1",
+                       name = "Dem\nMargin") + 
+  theme(plot.title = element_text(size=16, face="bold")) + theme(legend.position = "right")
+
+
+clinton_wis <- 
+  ggplot() + 
+  geom_sf(data = us_geo_16 |> filter(STUSPS == "WI"), aes(fill = D_win_margin)) + 
+  geom_sf(data = clinton16_wi_transformed, color = "black", size = 3, alpha = 0.6, pch = 16) +
+  ggtitle("Clinton 2016 Field Offices\nand Win Margin in Wisconsin") +
+  theme_void() + 
+  scale_fill_gradient2(high = "dodgerblue4", mid = "white", low = "firebrick1",
+                       name = "Dem\nMargin") + 
+  theme(plot.title = element_text(size=16, face="bold")) + theme(legend.position = "right")
+```
+
+```{r}
+ggarrange(obama_wis, clinton_wis)
+```
+
+
+
+
+### Campaign Events
+
+
+```{r}
+# Visualizing campaign events. 
+d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
+d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
+p.ev.1 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2016) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2016") + theme_bw()
+p.ev.2 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2020) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2020") +  theme_bw()
+p.ev.3 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2024) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2024") + theme_bw()
+```
+
+```{r}
+ggarrange(p.ev.1, p.ev.2, p.ev.3)
+```
+
+
+```{r}
+# Mapping campaign events. 
+
+
+d_campaign_events <- read_csv("data/campaign_events_geocoded.csv") |> 
+  filter(between(longitude, -180, -60), between(latitude, 0, 72))
+d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
+d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
+
+us_geo <- states(cb = TRUE) |> 
+  shift_geometry() |> 
+  filter(STUSPS %in% unique(fo_add$state))
+
+d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo)) |>
+  shift_geometry() |> 
+  st_make_valid()
+
+ev16 <- ggplot() +
+   geom_sf(data = us_geo) + 
+   geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   ggtitle("2016 Campaign Events") +
+   theme_void()
+
+ev20 <- ggplot() +
+   geom_sf(data = us_geo) + 
+   geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   ggtitle("2020 Campaign Events") +
+   theme_void()
+
+ev24 <- ggplot() +
+   geom_sf(data = us_geo) + 
+   geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   ggtitle("2024 Campaign Events") +
+   theme_void()
+```
+
+```{r}
+ggarrange(ev16, ev20, ev24)
+```
+
+
+
+
+
+
+Things to do:
+
+Field Offices for 2012 and 2016
+- Nationwide map
+- State analysis chart
+- Swing State Map
+
+Campaign Events
+- Over time graphs
+- Nationwide heat map for 2016-2024
+- Swing State Analysis
+- State Analysis map
+
+National 2 party vote model
+
+State 2 party vote model/Electoral college
 
 
 
