@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head><script src="/elections-blog/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=elections-blog/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog Post 6: The Air War | John Kulow Gov 1347 Election Blog</title>
@@ -32,21 +32,21 @@
 <p>Every election cycle, billions of dollars are spent on political campaigns up and down the ballot. But for all of the paid staffers, internal polls, and pricey consultants, presidential campaigns&rsquo; largest expense is almost always campaign ad spending. Every year, these campaigns battle it out with their ads in the so-called &ldquo;Air War,&rdquo; spending hundreds of millions of dollars in key swing states trying to promote themselves and destroy the reputation of their opponents. But questions remain as to how much of an effect these campaign ads actually have in these states. For this week&rsquo;s blog post, I will investigate this issue of campaign ad spending, looking at past trends to understand what impact ad spending will have in 2024, which is shaping up to easily be the most expensive presidential campaign in history.</p>
 <h2 id="past-campaign-ad-spending">Past Campaign Ad Spending</h2>
 <p>First, let&rsquo;s look at previous cycles. As you can see in the graphs below depicting how many ads were spent each day during the 2000, 2004, 2008, and 2012 campaigns, ad spending generally rises as the election progresses, with campaigns particularly ramping up their spending in the final month or two.</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 <p>But these graphs showing the total expenditure by each campaign on any given day do not give us the full picture. Campaign ads generally can be divided into three categories, those focused on policy issues, those focused on the candidates themselves, and those focused on both. The chart below shows us how much various campaigns spent on these different types of ads.</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 <p>As can be seen, candidates generally spend most of their ad spending talking about policy issues important to Americans, with the notable exception being Hillary Clinton&rsquo;s 2016 campaign which focused its attack ads heavily on Donald Trump&rsquo;s character. This said, both policy and personal types of ads can be either positive or negative.</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 <p>The above chart shows that between 2000 and 2012, both candidates in each race had a healthy balance of types of ads, with notable exceptions being 2008&rsquo;s heavy focus on contrast ads and the trend towards more negative ads in the more hostile 2012 campaign between Obama and Romney. We can also track the proportion of ads that were used to attack vs promote a candidate over time in these four campaigns:</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 <p>As can be seen, there is great variation between campaigns on the timing of when to attack your opponent or promote yourself. One notable moment out of these four campaigns was the anneversary of 9/11 during the 2004 campaign, at which point the campaigns switched suddenly from airing almost entirely negative ads to airing almost exclusively positive ones.</p>
 <p>We also can trace the state-by-state expenditure over the years.</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 <p>As you can see in the maps above, the states that campaigns have targeted with ad spending has changed considerably over time, though certain states, such as Florida, tend to be heavily contested every cycle (although that seems likely to not be the case in 2024). In the maps showing total expenditure, you can also see how total spending has increased over time, with even the most heavily targeted states in 2000, namely Ohio, Pennsylvania, and Florida, saw much less expenditure than the most hotly contested states in 2020.</p>
 <h2 id="regression-model-on-ad-spending">Regression Model on Ad Spending</h2>
 <p>Knowing how much the campaigns have spent in each of the swing states every cycle and thus knowing how much of an advantage each party had in a given state, we can investigate whether these spending advantages had any impact on the election results in these states. Below are to graphs. The first depicts Democratic party spending advantage in states won or lost by less than 5 points between 2000 and 2020 (excluding 2016) compared to their two-party vote share in each said state. The second graph shows the same thing, except instead of the Democratic two-party vote share, it shows the shift towards (or against) Democrats in the two-party vote share compared to the prior election. The trendlines of each of these relationships are also shown.</p>
-<img src="/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/14/blog-post-6-the-air-war/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 <p>As can be seen in these two graphs, the relationship between ad spending advantage and vote share is very weak if at all present, and the relationship between spending advantage and shift in how a state votes is slightly stronger but still very weak. If I run three regression models below, a similar story plays out.</p>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">Ad Spending Regression Table (2000-2020)</caption>

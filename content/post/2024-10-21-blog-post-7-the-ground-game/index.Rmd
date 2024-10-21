@@ -1,0 +1,66 @@
+---
+title: 'Blog Post 7: The Ground Game'
+author: John Kulow
+date: '2024-10-21'
+slug: blog-post-7-the-ground-game
+categories: []
+tags: []
+---
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+
+## Introduction
+
+
+
+```{r, include=FALSE}
+library(blogdown)
+library(car)
+library(caret)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(glmnet)
+library(gridExtra)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(knitr)
+library(maps)
+library(mlr3)
+library(patchwork)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(readxl)
+library(rstan)
+library(scales)
+library(sf)
+library(shinystan)
+library(sjPlot)
+library(stargazer)
+library(tidyverse)
+library(viridis)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
