@@ -31,39 +31,26 @@
 <script src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/kePrint/kePrint.js"></script>
 <link href="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/lightable/lightable.css" rel="stylesheet" />
 <h2 id="introduction">Introduction</h2>
-<p>Insert intro writing here</p>
+<p>Campaigns every year spend billions of dollars trying to convince registered voters to both turn out and choose their prefered candidate. While the largest campaign expense every year is the air war, which I covered last week, campaigns also spend significant resources trying to win the so-called &ldquo;Ground Game.&rdquo; This week, I will look into the role of field offices and campaign stops before then updating my national popular vote model and state by state model.</p>
 <h2 id="the-ground-game">The Ground Game</h2>
 <h3 id="field-offices">Field Offices</h3>
-<p>Insert analysis here</p>
-<pre><code>## Rows: 3113 Columns: 16
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (1): state
-## dbl (11): fips, obama12fo, romney12fo, normal, medage08, pop2008, medinc08, ...
-## lgl  (4): battle, swing, core_dem, core_rep
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-<pre><code>## `summarise()` has grouped output by 'state'. You can override using the
-## `.groups` argument.
-## Scale for y is already present. Adding another scale for y, which will replace
-## the existing scale.
-</code></pre>
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<p>To begin our analysis of the ground game, let&rsquo;s explore the role that field offices play. These offices serve as the local hubs for campaigns and their volunteers to go out and knock on doors, put up signs, and generally conduct what many people see as the on the ground element of a campaign. Obviously, not having a physical presence in an area means that you are not fighting on the ground for those voters&rsquo; support, whereas if both campaigns have numerous offices in an area it is clear how contested that region is. Let&rsquo;s look at the geographic distribution of field offices in 2012 and 2016.</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<p>Above we can see the shifting nature of where the campaigns considered to be battleground states. In 2012, Obama had numerous field offices in Dem-leaning states like New Mexico, Colorado, and Oregon while in 2016 Clinton pulled back her efforts in those states. We also can see the emergence of Arizona as a battleground, with Romney not having any Arizona field offices in 2012 but Trump ramping up efforts in the state four years later, with the inverse being true for Maine, where Obama barely had any offices and Romney did not contend, but Clinton had to defend the state heavily and only won by a 3% margin.</p>
+<p>We can also look closer within states. For example, in the perennial battleground state of Wisconsin, the 2016 Clinton campaign had notably fewer field offices, particularly in numerous rural areas in the north, northwest, and southwest. This change, as can be seen in the graphs below, correlated with a massive Democratic collapse in rural areas. Of course, this is not entirely due to the reduced ground presence, as Democratic collapse among working-class white voters in 2016 happened across the board. Even if one were to claim that there is no causal effect, it is clear that field offices are important for understanding campaigns&rsquo; strategies.</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 <h3 id="campaign-events">Campaign Events</h3>
+<p>Another crucial way that the group war is waged is with campaign events involving the candidate themselves. We can first graph these events over time. In the three graphs below, we can see how the number of these campaign events ramp up in the final month or so, and now during the 2024 cycle we can see the beginnings of this upswing in events too.</p>
 <pre><code>## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 </code></pre>
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
-<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<p>Obviously though, campaign events are tied to specific locations, meaning we can plot where on the map these events take place, which I have done below for the 2016, 2020, and 2024 (so far). Once again, and even moreso than with the field offices map, we can see how these campaigns strategically target events in the states they view as competitive, with the Midwest battlegrounds, North Carolina, Nevada, Arizona, and (to a lesser extent in 2016) Georgia featuring heavily in all three election cycles. We also can clearly see how neither campaign believes that Florida is in play this cycle, or at least not in play enough to warrent spending the principle&rsquo;s valuable time.</p>
+<img src="https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 <h2 id="updating-models">Updating Models</h2>
 <h3 id="national-2-party-popular-vote-model">National 2-Party Popular Vote Model</h3>
+<p>Finally, it is time for me to update my 2024 model. This week I am combining updated polling data but also factoring in Quarter 2 economic performance and the incumbency effect. Now that we are only about 2 weeks away from the election, we are beginning to incorporate polls that are being weighed heavily due to the historical accuracy of polls near to election day.</p>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">National Model Regression Table</caption>
 <tr>
@@ -121,6 +108,8 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.835 / 0.762</td>
 </tr>
 </table>
+<p>This model has an R squared value of 0.84 and an adjusted R squared value of 0.76, meaning that there is likely a strong predictive effect of the model. This said, these R squared values are lower than they might otherwise be because of the presence of the 2020 GDP growth outlier data point, but I made the decision to include that data point because even if it might make my trendline fit slightly less well, the chaotic nature of today&rsquo;s politics and economic realities may mean that the predictive power of Q2 GDP growth moving forward may be more in line with the 2020 effects than with prior trends, and I wanted to incorporate that uncertainty into my model.</p>
+<p>If we then use 2024 data, including 2024 polling data up until this day, we get the following national 2-party vote share result for Harris:</p>
 <table>
 <thead>
 <tr>
@@ -137,7 +126,9 @@
 </tr>
 </tbody>
 </table>
+<p>This would represent about a 5.5% 2-party national vote share victory over Trump, which although a slight decrease from Biden&rsquo;s 2020 margin, still represents a strong national popular vote victory in today&rsquo;s calcified political environment. This model also has more constrained bounds than many of my previous models, which is of note.</p>
 <h3 id="state-2-party-model-and-electoral-college">State 2-Party Model and Electoral College</h3>
+<p>Moving on to the state level, I use the same variables: polling data, GDP performance, and incumbency effect.</p>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">State Model Regression Table</caption>
 <tr>
@@ -195,6 +186,7 @@
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.921 / 0.919</td>
 </tr>
 </table>
+<p>This model seems even more predictive, with an R squared value and an adjusted R squared value of 0.92, with state level October polling being particularly predictive. When we apply 2024 data to this model we get the following results:</p>
 <table>
  <thead>
   <tr>
@@ -333,22 +325,7 @@
   </tr>
 </tbody>
 </table>
-<p>Things to do:</p>
-<p>Field Offices for 2012 and 2016</p>
-<ul>
-<li>Nationwide map</li>
-<li>State analysis chart</li>
-<li>Swing State Map</li>
-</ul>
-<p>Campaign Events</p>
-<ul>
-<li>Over time graphs</li>
-<li>Nationwide heat map for 2016-2024</li>
-<li>Swing State Analysis</li>
-<li>State Analysis map</li>
-</ul>
-<p>National 2 party vote model</p>
-<p>State 2 party vote model/Electoral college</p>
+<p>Under this model, Harris wins all 7 key swing states in addition to taking Florida and only narrowly losing Texas. This would translate to a landslide 349-139 vote victory in the Electoral College. This said, while the bounds for these results are narrower than my previous state-level results they still show a wide range of possibilities, with all seven key swing states within the range of a Trump victory even in this model that clearly is favorable to Harris.</p>
 
 </main>
 

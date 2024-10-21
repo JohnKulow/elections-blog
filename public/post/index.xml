@@ -13,7 +13,7 @@
       <link>https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/</link>
       <pubDate>Mon, 21 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://johnkulow.github.io/elections-blog/post/2024/10/21/blog-post-7-the-ground-game/</guid>
-      <description>Introduction Insert intro writing here&#xA;The Ground Game Field Offices Insert analysis here&#xA;## Rows: 3113 Columns: 16 ## ── Column specification ──────────────────────────────────────────────────────── ## Delimiter: &amp;quot;,&amp;quot; ## chr (1): state ## dbl (11): fips, obama12fo, romney12fo, normal, medage08, pop2008, medinc08, ... ## lgl (4): battle, swing, core_dem, core_rep ## ## ℹ Use `spec()` to retrieve the full column specification for this data. ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</description>
+      <description>Introduction Campaigns every year spend billions of dollars trying to convince registered voters to both turn out and choose their prefered candidate. While the largest campaign expense every year is the air war, which I covered last week, campaigns also spend significant resources trying to win the so-called &amp;ldquo;Ground Game.&amp;rdquo; This week, I will look into the role of field offices and campaign stops before then updating my national popular vote model and state by state model.</description>
     </item>
     <item>
       <title>Blog Post 6: The Air War</title>

@@ -14,12 +14,12 @@ knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 
 ## Introduction
 
-Insert intro writing here
+Campaigns every year spend billions of dollars trying to convince registered voters to both turn out and choose their prefered candidate. While the largest campaign expense every year is the air war, which I covered last week, campaigns also spend significant resources trying to win the so-called "Ground Game." This week, I will look into the role of field offices and campaign stops before then updating my national popular vote model and state by state model.
 
 ## The Ground Game
 ### Field Offices
 
-Insert analysis here
+To begin our analysis of the ground game, let's explore the role that field offices play. These offices serve as the local hubs for campaigns and their volunteers to go out and knock on doors, put up signs, and generally conduct what many people see as the on the ground element of a campaign. Obviously, not having a physical presence in an area means that you are not fighting on the ground for those voters' support, whereas if both campaigns have numerous offices in an area it is clear how contested that region is. Let's look at the geographic distribution of field offices in 2012 and 2016.
 
 ```{r, include=FALSE}
 library(blogdown)
@@ -94,7 +94,7 @@ d_county_demog <- read_csv("data/county_demographics.csv")
 d_campaign_events <- read_csv("data/campaigns_2016_2024.csv")[,-1]
 ```
 
-```{r}
+```{r, include=FALSE}
 
 ####----------------------------------------------------------#
 #### Ground Game: Field offices and campaign events. 
@@ -103,9 +103,6 @@ d_campaign_events <- read_csv("data/campaigns_2016_2024.csv")[,-1]
 # Where should campaigns build field offices? 
 fo_2012 <- read_csv("data/fieldoffice_2012_bycounty.csv")
 
-```
-
-```{r, include=FALSE}
 # Effects of field offices on turnout and vote share. 
 fo_dem <- read_csv("data/fieldoffice_2004-2012_dems.csv")
 
@@ -177,13 +174,14 @@ tr16 <- ggplot() +
   ) 
 ```
 
-
 ```{r}
 
 ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
 ```
 
-```{r, include=FALSE}
+Above we can see the shifting nature of where the campaigns considered to be battleground states. In 2012, Obama had numerous field offices in Dem-leaning states like New Mexico, Colorado, and Oregon while in 2016 Clinton pulled back her efforts in those states. We also can see the emergence of Arizona as a battleground, with Romney not having any Arizona field offices in 2012 but Trump ramping up efforts in the state four years later, with the inverse being true for Maine, where Obama barely had any offices and Romney did not contend, but Clinton had to defend the state heavily and only won by a 3% margin.
+
+```{r, include=FALSE, eval=FALSE}
 # Effects of field offices on turnout and vote share. 
 fo_dem <- read_csv("data/fieldoffice_2004-2012_dems.csv")
 
@@ -227,65 +225,128 @@ romney12_with_county <- st_join(romney12transformed, us_geo, left = FALSE)
 clinton16_with_county <- st_join(clinton16transformed, us_geo, left = FALSE)
 trump16_with_county <- st_join(trump16transformed, us_geo, left = FALSE)
 
-all_events <- bind_rows(obama12_with_county, romney12_with_county, clinton16_with_county, trump16_with_county)
+all_events_12 <- bind_rows(obama12_with_county, romney12_with_county)
 
-fo_count <- all_events |>
+all_events_16 <- bind_rows(clinton16_with_county, trump16_with_county)
+
+fo_count_12 <- all_events_12 |>
   group_by(STUSPS, NAME) |>
   summarise(event_count = n()) |>
   st_drop_geometry()
 
-us_geo_merged <- us_geo %>%
-  left_join(fo_count, by = c("STUSPS", "NAME"))
+fo_count_16 <- all_events_16 |>
+  group_by(STUSPS, NAME) |>
+  summarise(event_count = n()) |>
+  st_drop_geometry()
+
+us_geo_merged_12 <- us_geo %>%
+  left_join(fo_count_12, by = c("STUSPS", "NAME"))
+
+us_geo_merged_16 <- us_geo %>%
+  left_join(fo_count_16, by = c("STUSPS", "NAME"))
+
+
+
+obama12transformed_states <- st_as_sf(obama12, coords = c("longitude", "latitude"), crs = 4326) |> 
+  st_transform(crs = st_crs(us_geo_states)) |> 
+  shift_geometry() |>
+  st_make_valid()
+romney12transformed_states <- st_as_sf(romney12, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo_states)) |>
+  shift_geometry()
+clinton16transformed_states <- st_as_sf(clinton16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo_states)) |>
+  shift_geometry()
+trump16transformed_states <- st_as_sf(trump16, coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(crs = st_crs(us_geo_states)) |>
+  shift_geometry()
+
+obama12_with_states <- st_join(obama12transformed_states, us_geo_states, left = FALSE)
+romney12_with_states <- st_join(romney12transformed_states, us_geo_states, left = FALSE)
+clinton16_with_states <- st_join(clinton16transformed_states, us_geo_states, left = FALSE)
+trump16_with_states <- st_join(trump16transformed_states, us_geo_states, left = FALSE)
+
+all_events_states_12 <- bind_rows(obama12_with_states, romney12_with_states)
+
+all_events_states_16 <- bind_rows(clinton16_with_states, trump16_with_states)
+
+fo_count_states_12 <- all_events_states_12 |>
+  group_by(STUSPS) |>
+  summarise(event_count = n()) |>
+  st_drop_geometry()
+
+fo_count_states_16 <- all_events_states_16 |>
+  group_by(STUSPS) |>
+  summarise(event_count = n()) |>
+  st_drop_geometry()
+
+us_geo_merged_states_12 <- us_geo_states %>%
+  left_join(fo_count_states_12, by = c("STUSPS"))
+
+us_geo_merged_states_16 <- us_geo_states %>%
+  left_join(fo_count_states_16, by = c("STUSPS"))
 ```
 
-
-```{r}
-ggplot() +
+```{r, include=FALSE, eval=FALSE}
+county_map_fo_12 <- ggplot() +
   geom_sf(data = us_geo_states, fill = NA, color = "black", size = 0.1) +
   geom_sf(data = us_geo, fill = NA, color = "black", size = 0.1) +
-  geom_sf(data = us_geo_merged, aes(fill = event_count), color = NA) +
-  scale_fill_viridis_c(option = "C", breaks = c(1, 3, 12, 38), trans = "log", na.value = "lightgrey", name = "Field Offices ") +
-  ggtitle("Field Offices by County (2012-2016)") +
+  geom_sf(data = us_geo_merged_12, aes(fill = event_count), color = NA) +
+  scale_fill_viridis_c(option = "C", breaks = c(1, 3, 9, 27), trans = "log", na.value = "lightgrey", name = "Field Offices ") +
+  ggtitle("Field Offices by County (2012)") +
+  theme_void()
+
+county_map_fo_16 <- ggplot() +
+  geom_sf(data = us_geo_states, fill = NA, color = "black", size = 0.1) +
+  geom_sf(data = us_geo, fill = NA, color = "black", size = 0.1) +
+  geom_sf(data = us_geo_merged_16, aes(fill = event_count), color = NA) +
+  scale_fill_viridis_c(option = "C", breaks = c(1, 2, 5, 12), trans = "log", na.value = "lightgrey", name = "Field Offices ") +
+  ggtitle("Field Offices by County (2016)") +
+  theme_void()
+
+state_map_fo_12 <- ggplot() +
+  geom_sf(data = us_geo_merged_states_12, aes(fill = event_count), color = NA) +
+  geom_sf(data = us_geo_states, fill = NA, color = "black", size = 0.1) +
+  scale_fill_viridis_c(option = "C", breaks = c(1, 7, 40, 172),  trans = "log", na.value = "lightgrey", name = "Field Offices ") +
+  ggtitle("Field Offices by State (2012)") +
+  theme_void()
+
+state_map_fo_16 <- ggplot() +
+  geom_sf(data = us_geo_merged_states_16, aes(fill = event_count), color = NA) +
+  geom_sf(data = us_geo_states, fill = NA, color = "black", size = 0.1) +
+  scale_fill_viridis_c(option = "C", breaks = c(1, 6, 30, 109), trans = "log", na.value = "lightgrey", name = "Field Offices ") +
+  ggtitle("Field Offices by State (2016)") +
   theme_void()
 ```
 
-
-
-
-
-
-
-
-
-```{r}
-# Clinton 2016 Field Offices - Obama 2008 Field Offices. 
-fo_add %>%
-  subset(candidate %in% c("Clinton", "Obama") &
-           state %in% c("CO", "FL", "IA", "MI", "NV", "NH", "NC", "OH", "PA", "VA", "WI")) %>%
-  group_by(state, candidate) %>%
-  summarize(fo = n()) %>%
-  spread(key = candidate, value = fo) %>%
-  mutate(diff = Clinton - Obama) %>%
-  select(state, diff) %>%
-  ggplot(aes(y = diff, x = state, fill = (diff > 0))) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  ylim(-50, 15) +
-  scale_y_continuous(breaks=seq(-50,10,10)) +
-  xlab("State") +
-  ylab("Clinton Field Offices - Obama '08 field offices")+
-  theme_minimal() +
-  theme(legend.position = "none",
-        text = element_text(size = 15))
+```{r, eval=FALSE}
+ggarrange(county_map_fo_12, state_map_fo_12, county_map_fo_16, state_map_fo_16)
 ```
 
 
+We can also look closer within states. For example, in the perennial battleground state of Wisconsin, the 2016 Clinton campaign had notably fewer field offices, particularly in numerous rural areas in the north, northwest, and southwest. This change, as can be seen in the graphs below, correlated with a massive Democratic collapse in rural areas. Of course, this is not entirely due to the reduced ground presence, as Democratic collapse among working-class white voters in 2016 happened across the board. Even if one were to claim that there is no causal effect, it is clear that field offices are important for understanding campaigns' strategies.
+
 ```{r, include=FALSE}
-# Case Study: Wisconsin Field Offices in 2012 and 2016 
+pvcounty_wi <- read_csv("data/popvote_bycounty_2012-2016_WI.csv")
+pv12_wi <- subset(pvcounty_wi, year == 2012) 
+pv16_wi <- subset(pvcounty_wi, year == 2016) 
+
+us_geo <- counties(cb = TRUE) |> 
+  shift_geometry() |> 
+  filter(STUSPS %in% unique(fo_add$state))
+
+us_geo_12 <- us_geo |> 
+  left_join(pv12_wi, by = c("NAME" = "county"))
+
+us_geo_16 <- us_geo |>
+  left_join(pv16_wi, by = c("NAME" = "county"))
+
 obama12_wi <- subset(fo_add, year == 2012 & candidate == "Obama" & state == "WI") %>%
   select(longitude, latitude)
 clinton16_wi <- subset(fo_add, year == 2016 & candidate == "Clinton" & state == "WI") %>%
   select(longitude, latitude)
+
+
 
 obama12_wi_transformed <- st_as_sf(obama12_wi, coords = c("longitude", "latitude"), crs = 4326) |> 
   st_transform(crs = st_crs(us_geo)) |> 
@@ -293,36 +354,6 @@ obama12_wi_transformed <- st_as_sf(obama12_wi, coords = c("longitude", "latitude
 clinton16_wi_transformed <- st_as_sf(clinton16_wi, coords = c("longitude", "latitude"), crs = 4326) |>
   st_transform(crs = st_crs(us_geo)) |>
   shift_geometry()
-
-obama_wi <- ggplot() +
-  geom_sf(data = us_geo |> filter(STUSPS == "WI")) + 
-  geom_sf(data = obama12_wi_transformed, color = "dodgerblue4", size = 3, alpha = 0.6, pch = 16) +
-  ggtitle("Obama 2012 Field Offices in Wisconsin") +
-  theme_void()
-
-clinton_wi <- ggplot() +
-  geom_sf(data = us_geo |> filter(STUSPS == "WI")) + 
-  geom_sf(data = clinton16_wi_transformed, color = "dodgerblue4", size = 3, alpha = 0.6, pch = 16) +
-  ggtitle("Clinton 2016 Field Offices in Wisconsin") +
-  theme_void()
-```
-
-```{r}
-
-ggarrange(obama_wi, clinton_wi)
-```
-
-
-```{r, include=FALSE}
-pvcounty_wi <- read_csv("data/popvote_bycounty_2012-2016_WI.csv")
-pv12_wi <- subset(pvcounty_wi, year == 2012) 
-pv16_wi <- subset(pvcounty_wi, year == 2016) 
-
-us_geo_12 <- us_geo |> 
-  left_join(pv12_wi, by = c("NAME" = "county"))
-
-us_geo_16 <- us_geo |>
-  left_join(pv16_wi, by = c("NAME" = "county"))
 
 obama_wis <- 
   ggplot() + 
@@ -351,10 +382,9 @@ ggarrange(obama_wis, clinton_wis)
 ```
 
 
-
-
 ### Campaign Events
 
+Another crucial way that the group war is waged is with campaign events involving the candidate themselves. We can first graph these events over time. In the three graphs below, we can see how the number of these campaign events ramp up in the final month or so, and now during the 2024 cycle we can see the beginnings of this upswing in events too.
 
 ```{r, include=FALSE}
 # Visualizing campaign events. 
@@ -369,6 +399,7 @@ p.ev.3 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n()
 ggarrange(p.ev.1, p.ev.2, p.ev.3)
 ```
 
+Obviously though, campaign events are tied to specific locations, meaning we can plot where on the map these events take place, which I have done below for the 2016, 2020, and 2024 (so far). Once again, and even moreso than with the field offices map, we can see how these campaigns strategically target events in the states they view as competitive, with the Midwest battlegrounds, North Carolina, Nevada, Arizona, and (to a lesser extent in 2016) Georgia featuring heavily in all three election cycles. We also can clearly see how neither campaign believes that Florida is in play this cycle, or at least not in play enough to warrent spending the principle's valuable time.
 
 ```{r, include=FALSE}
 # Mapping campaign events. 
@@ -411,10 +442,10 @@ ev24 <- ggplot() +
 ggarrange(ev16, ev20, ev24)
 ```
 
-
-
 ## Updating Models
 ### National 2-Party Popular Vote Model
+
+Finally, it is time for me to update my 2024 model. This week I am combining updated polling data but also factoring in Quarter 2 economic performance and the incumbency effect. Now that we are only about 2 weeks away from the election, we are beginning to incorporate polls that are being weighed heavily due to the historical accuracy of polls near to election day.
 
 ```{r, include=FALSE}
 d_pollav_nat <- read_csv("data/national_polls_1968-2024.csv")
@@ -455,7 +486,9 @@ tab_model(d_nat_reg, show.se = TRUE,
           dv.labels = "National 2-Party Vote Share for Incumbent Party")
 ```
 
+This model has an R squared value of 0.84 and an adjusted R squared value of 0.76, meaning that there is likely a strong predictive effect of the model. This said, these R squared values are lower than they might otherwise be because of the presence of the 2020 GDP growth outlier data point, but I made the decision to include that data point because even if it might make my trendline fit slightly less well, the chaotic nature of today's politics and economic realities may mean that the predictive power of Q2 GDP growth moving forward may be more in line with the 2020 effects than with prior trends, and I wanted to incorporate that uncertainty into my model.
 
+If we then use 2024 data, including 2024 polling data up until this day, we get the following national 2-party vote share result for Harris:
 
 ```{r, include=FALSE}
 d_nat_model_2024 <- d_nat_model |>
@@ -471,9 +504,11 @@ knitr::kable(nat_pred_2024,
              col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
 ```
 
+This would represent about a 5.5% 2-party national vote share victory over Trump, which although a slight decrease from Biden's 2020 margin, still represents a strong national popular vote victory in today's calcified political environment. This model also has more constrained bounds than many of my previous models, which is of note.
+
 ### State 2-Party Model and Electoral College
 
-
+Moving on to the state level, I use the same variables: polling data, GDP performance, and incumbency effect.
 
 ```{r, include=FALSE}
 d_poll_state <- d_pollav_state |>
@@ -507,8 +542,7 @@ tab_model(d_state_reg, show.se = TRUE,
           dv.labels = "State 2-Party Vote Share for Democrats")
 ```
 
-
-
+This model seems even more predictive, with an R squared value and an adjusted R squared value of 0.92, with state level October polling being particularly predictive. When we apply 2024 data to this model we get the following results: 
 
 ```{r, include=FALSE}
 d_state_model_2024 <- d_pollav_state |>
@@ -549,26 +583,8 @@ knitr::kable(d_state_model_2024 |>
 
 ```
 
+Under this model, Harris wins all 7 key swing states in addition to taking Florida and only narrowly losing Texas. This would translate to a landslide 349-139 vote victory in the Electoral College. This said, while the bounds for these results are narrower than my previous state-level results they still show a wide range of possibilities, with all seven key swing states within the range of a Trump victory even in this model that clearly is favorable to Harris. 
 
-
-
-
-Things to do:
-
-Field Offices for 2012 and 2016
-- Nationwide map
-- State analysis chart
-- Swing State Map
-
-Campaign Events
-- Over time graphs
-- Nationwide heat map for 2016-2024
-- Swing State Analysis
-- State Analysis map
-
-National 2 party vote model
-
-State 2 party vote model/Electoral college
 
 
 
