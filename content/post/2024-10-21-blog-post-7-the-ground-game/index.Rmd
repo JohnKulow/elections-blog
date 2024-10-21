@@ -390,19 +390,19 @@ d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitu
 
 ev16 <- ggplot() +
    geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
    ggtitle("2016 Campaign Events") +
    theme_void()
 
 ev20 <- ggplot() +
    geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
    ggtitle("2020 Campaign Events") +
    theme_void()
 
 ev24 <- ggplot() +
    geom_sf(data = us_geo) + 
-   geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 1, alpha = 0.5, pch = 16) +
+   geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
    ggtitle("2024 Campaign Events") +
    theme_void()
 ```
@@ -413,7 +413,64 @@ ggarrange(ev16, ev20, ev24)
 
 
 
+## Updating Models
+### National 2-Party Popular Vote Model
 
+```{r}
+d_pollav_nat <- read_csv("data/national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
+
+d_poll_nat <- d_pollav_nat |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10)) |>
+  group_by(year, party, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  drop_na() |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10)
+
+d_fred <- read_csv("data/fred_econ.csv")
+
+d_fred_2 <- d_fred |>
+  filter(quarter == 2)
+
+d_nat_model <- d_popvote |> 
+  mutate(party = if_else(party == "democrat", "DEM", "REP")) |>
+  left_join(d_fred_2, by = "year") |> 
+  filter(year > 1967, 
+         incumbent_party) |>
+  mutate(incumbent = as.numeric(incumbent)) |>
+  left_join(d_poll_nat, by = c("year", "party"))
+
+d_nat_reg <- lm(pv2p ~ sept_poll + oct_poll +GDP_growth_quarterly + incumbent, 
+                data = d_nat_model)
+
+tab_model(d_nat_reg, show.se = TRUE, 
+          title = "National Model Regression Table", 
+          dv.labels = "National 2-Party Vote Share for Incumbent Party")
+```
+
+
+
+```{r}
+d_nat_model_2024 <- d_nat_model |>
+  filter(year == 2024) |>
+  select(sept_poll, oct_poll, GDP_growth_quarterly) |>
+  mutate(incumbent = 0)
+
+nat_pred_2024 <- predict(d_nat_reg, d_nat_model_2024, interval = "prediction")
+
+knitr::kable(nat_pred_2024, 
+             col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
+```
+
+
+
+
+### State 2-Party Model and Electoral College
 
 
 Things to do:
