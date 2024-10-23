@@ -390,9 +390,40 @@ Another crucial way that the group war is waged is with campaign events involvin
 # Visualizing campaign events. 
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
-p.ev.1 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2016) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2016") + theme_bw()
-p.ev.2 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2020) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2020") +  theme_bw()
-p.ev.3 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2024) |> ggplot(aes(x = date, y = n_events, color = party)) + geom_point() + geom_smooth() + ggtitle("2024") + theme_bw()
+p.ev.1 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2016) |> 
+  ggplot(aes(x = date, y = n_events, color = party)) +
+  geom_point() + 
+  geom_smooth() + 
+  labs(title = "2016",
+       x = "",
+       y = "Number of Events",
+       color = "Party") +
+  scale_x_date(date_labels = "%b") + 
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
+p.ev.2 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2020) |> ggplot(aes(x = date, y = n_events, color = party)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title = "2020",
+       x = "",
+       y = "Number of Events",
+       color = "Party") +
+  scale_x_date(date_labels = "%b") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
+p.ev.3 <- d_campaign_events |> group_by(date, party) |> summarize(n_events = n(), year) |> filter(year == 2024) |> ggplot(aes(x = date, y = n_events, color = party)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title = "2024",
+       x = "",
+       y = "Number of Events",
+       color = "Party") +
+  scale_x_date(date_labels = "%b") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
 ```
 
 ```{r}
@@ -422,20 +453,29 @@ d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitu
 ev16 <- ggplot() +
    geom_sf(data = us_geo) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2016), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
-   ggtitle("2016 Campaign Events") +
-   theme_void()
+   labs(title = "2016 Campaign Events",
+        color = "Party") +
+   theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
 
 ev20 <- ggplot() +
    geom_sf(data = us_geo) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2020), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
-   ggtitle("2020 Campaign Events") +
-   theme_void()
+   labs(title = "2020 Campaign Events",
+        color = "Party") +
+   theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
 
 ev24 <- ggplot() +
    geom_sf(data = us_geo) + 
    geom_sf(data = d_ev_transformed |> filter(year == 2024), aes(color = party), size = 1, alpha = 0.75, pch = 16) +
-   ggtitle("2024 Campaign Events") +
-   theme_void()
+   labs(title = "2024 Campaign Events",
+        color = "Party") +
+   theme_void() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12))
 ```
 
 ```{r}
