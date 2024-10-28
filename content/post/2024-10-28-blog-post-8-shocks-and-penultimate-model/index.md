@@ -43,45 +43,38 @@ tags: []
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">34.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">4.34</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">23.79&nbsp;&ndash;&nbsp;44.30</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">30.87</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.75</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">22.22&nbsp;&ndash;&nbsp;39.52</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.09</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.36</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.75&nbsp;&ndash;&nbsp;0.93</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.811</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.87&nbsp;&ndash;&nbsp;0.45</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.484</td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">oct poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.27</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.36</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.59&nbsp;&ndash;&nbsp;1.13</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.478</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.61</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.26</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01&nbsp;&ndash;&nbsp;1.22</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.048</strong></td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">GDP growth quarterly</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.32&nbsp;&ndash;&nbsp;0.78</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.357</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">juneapp</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.08</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.07&nbsp;&ndash;&nbsp;0.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.232</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.45</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.17</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.07&nbsp;&ndash;&nbsp;0.83</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.025</strong></td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">incumbent</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.41</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.30</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.67&nbsp;&ndash;&nbsp;3.48</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.764</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.27</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.94&nbsp;&ndash;&nbsp;3.93</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.456</td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
@@ -89,7 +82,7 @@ tags: []
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.912 / 0.849</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.891 / 0.836</td>
 </tr>
 
 </table>
@@ -100,29 +93,13 @@ tags: []
 
 | Harris Vote Share| Lower Bound| Upper Bound|
 |-----------------:|-----------:|-----------:|
-|          50.33077|    44.43646|    56.22509|
+|           51.8823|    46.60423|    57.16036|
 
 
 ### State 2-Party Model and Electoral College
 
 
 
-```
-## # A tibble: 334 × 5
-##     year state                month_9 month_10 D_pv2p
-##    <dbl> <chr>                  <dbl>    <dbl>  <dbl>
-##  1  2000 Alabama                 34.2     36.8   42.4
-##  2  2000 Alaska                  25.7     25.7   32.1
-##  3  2000 Arizona                 35.8     40.5   46.7
-##  4  2000 Arkansas                38.0     41.4   47.2
-##  5  2000 California              45.7     47.3   56.2
-##  6  2000 Colorado                38.1     37     45.5
-##  7  2000 Connecticut             42.9     46.4   59.3
-##  8  2000 Delaware                41.8     45.8   56.7
-##  9  2000 District of Columbia    72.7     72.7   NA  
-## 10  2000 Florida                 41.4     43.6   50.0
-## # ℹ 324 more rows
-```
 
 
 
@@ -343,6 +320,78 @@ tags: []
   </tr>
 </tbody>
 </table>
+
+
+
+
+
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">State Model (Without Polls) Regression Table</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">State 2-Party Vote Share for Democrats</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.57</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.51&nbsp;&ndash;&nbsp;5.62</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag1</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag2</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.13</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.24&nbsp;&ndash;&nbsp;-0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.016</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">GDP growth quarterly</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.02&nbsp;&ndash;&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.490</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">d incumbent</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;4.63</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.53</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;5.67&nbsp;&ndash;&nbsp;-3.58</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">255</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.918 / 0.917</td>
+</tr>
+
+</table>
+
+
+
+
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
 
 To do:
 

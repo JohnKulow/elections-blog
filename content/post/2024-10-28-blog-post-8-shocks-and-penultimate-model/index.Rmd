@@ -125,7 +125,7 @@ d_nat_model <- d_popvote |>
   mutate(incumbent = as.numeric(incumbent)) |>
   left_join(d_poll_nat, by = c("year", "party"))
 
-d_nat_reg <- lm(pv2p ~ sept_poll + oct_poll + GDP_growth_quarterly + juneapp + incumbent, 
+d_nat_reg <- lm(pv2p ~ sept_poll + oct_poll + GDP_growth_quarterly + incumbent, 
                 data = d_nat_model)
 ```
 
@@ -154,20 +154,7 @@ knitr::kable(nat_pred_2024,
 ### State 2-Party Model and Electoral College
 
 
-```{r}
-d_pollav_state |>
-  select(year, state, weeks_left, poll_date, poll_support, party) |>
-  filter(month(poll_date) %in% c(9, 10),
-         party == "DEM", 
-         year > 1999) |>
-  group_by(year, state, month = month(poll_date)) |>
-  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
-  pivot_wider(names_from = month, 
-              values_from = poll_support, 
-              names_prefix = "month_") |>
-  left_join(d_state_popvote, by = c("year", "state")) |>
-  select(year, state, month_9, month_10, D_pv2p)
-```
+
 
 
 
@@ -257,6 +244,137 @@ knitr::kable(d_state_model_2024 |>
   row_spec(which(d_state_model_2024$predicted_values < 50), background = "#FFDDDD")   
 
 ```
+
+```{r, include=FALSE}
+d_nopoll_states <- d_state_popvote |>
+  select(year, state, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "1948" ~ 1,
+                                 year == "1952" ~ 1,
+                                 year == "1956" ~ 0,
+                                 year == "1960" ~ 0,
+                                 year == "1964" ~ 1,
+                                 year == "1968" ~ 1,
+                                 year == "1972" ~ 0,
+                                 year == "1976" ~ 0,
+                                 year == "1980" ~ 1,
+                                 year == "1984" ~ 0,
+                                 year == "1988" ~ 0,
+                                 year == "1992" ~ 0,
+                                 year == "1996" ~ 1,
+                                 year == "2000" ~ 1,
+                                 year == "2004" ~ 0,
+                                 year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1),
+         d_incumbent_cand = case_when(year == "1948" ~ 1,
+                                 year == "1952" ~ 0,
+                                 year == "1956" ~ -1,
+                                 year == "1960" ~ 0,
+                                 year == "1964" ~ 1,
+                                 year == "1968" ~ 0,
+                                 year == "1972" ~ -1,
+                                 year == "1976" ~ -1,
+                                 year == "1980" ~ 1,
+                                 year == "1984" ~ -1,
+                                 year == "1988" ~ 0,
+                                 year == "1992" ~ -1,
+                                 year == "1996" ~ 1,
+                                 year == "2000" ~ 0,
+                                 year == "2004" ~ -1,
+                                 year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 0,
+                                 year == "2020" ~ -1,
+                                 year == "2024" ~ 0)) |>
+  filter(year > 2000)
+
+d_nopoll_state_reg <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + GDP_growth_quarterly + d_incumbent, 
+                data = d_nopoll_states)
+```
+
+
+
+```{r}
+tab_model(d_nopoll_state_reg, show.se = TRUE, 
+          title = "State Model (Without Polls) Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
+```
+
+```{r, include=FALSE}
+states <- unique(d_state_popvote$state)  # List of all 50 states
+year_2024 <- 2024
+new_rows <- expand.grid(year = year_2024, state = states)
+
+# Join with historical data to get D_pv2p_lag1 and D_pv2p_lag2
+new_rows <- new_rows |>
+  left_join(d_state_popvote |>
+              filter(year %in% c(2020, 2016)) |>
+              select(state, year, D_pv2p) |>
+              arrange(state, year) |>
+              group_by(state) |>
+              summarize(
+                D_pv2p_lag1 = D_pv2p[year == 2020],  # Lag 1 from 2020
+                D_pv2p_lag2 = D_pv2p[year == 2016]   # Lag 2 from 2016
+              ),
+            by = "state")
+
+# Add new rows to the original dataset
+d_state_popvote_2024 <- bind_rows(d_state_popvote, new_rows)
+
+d_nopoll_state_model_2024 <- d_state_popvote_2024 |>
+  select(year, state, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1),
+         d_incumbent_cand = case_when(year == "2016" ~ 0,
+                                 year == "2020" ~ -1,
+                                 year == "2024" ~ 0)) |>
+  filter(year == 2024)
+
+nopoll_state_pred_2024 <- predict(d_nopoll_state_reg, d_nopoll_state_model_2024, interval = "prediction")
+
+d_nopoll_state_model_2024 <- d_nopoll_state_model_2024 |>
+  mutate(predicted_values = nopoll_state_pred_2024[, "fit"],
+         lower_bounds = nopoll_state_pred_2024[, "lwr"],
+         upper_bounds = nopoll_state_pred_2024[, "upr"])
+```
+
+```{r, include=FALSE}
+##knitr::kable(d_nopoll_state_model_2024 |> 
+##               select(state, predicted_values, lower_bounds, upper_bounds), 
+##             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound")) |>
+##  row_spec(which(d_nopoll_state_model_2024$predicted_values >= 50), background = "#D0EFFF") |>
+##  row_spec(which(d_nopoll_state_model_2024$predicted_values < 50), background = "#FFDDDD")
+```
+
+```{r, include=FALSE}
+states_map <- map_data("state")
+d_nopoll_state_model_2024$region <- tolower(d_nopoll_state_model_2024$state)
+```
+
+```{r}
+d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2) |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Margin), color = "black") +
+  scale_fill_gradient2(high = "dodgerblue4",
+                       mid = "white",
+                       low = "firebrick1",
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50, 50)) +
+  theme_void() +
+  ggtitle("Predicted Presidential Vote by State for the 2024 Election") +
+  labs(fill = "Harris Margin") +
+  theme(aspect.ratio = .60)
+```
+
 
 To do:
 
