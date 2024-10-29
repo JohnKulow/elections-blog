@@ -9,11 +9,11 @@
     <lastBuildDate>Mon, 28 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://johnkulow.github.io/elections-blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Blog Post 8: Shocks and Penultimate Model</title>
+      <title>Blog Post 8: Shocks</title>
       <link>https://johnkulow.github.io/elections-blog/post/2024/10/28/blog-post-8-shocks-and-penultimate-model/</link>
       <pubDate>Mon, 28 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://johnkulow.github.io/elections-blog/post/2024/10/28/blog-post-8-shocks-and-penultimate-model/</guid>
-      <description>Introduction Shocks Electoral Model National 2-Party Popular Vote Model National Model Regression Table &amp;nbsp; National 2-Party Vote Share for Incumbent Party Predictors Estimates std. Error CI p (Intercept) 30.87 3.75 22.22&amp;nbsp;&amp;ndash;&amp;nbsp;39.52 &amp;lt;0.001 sept poll &amp;#45;0.21 0.28 &amp;#45;0.87&amp;nbsp;&amp;ndash;&amp;nbsp;0.45 0.484 oct poll 0.61 0.26 0.01&amp;nbsp;&amp;ndash;&amp;nbsp;1.22 0.048 GDP growth quarterly 0.45 0.17 0.07&amp;nbsp;&amp;ndash;&amp;nbsp;0.83 0.025 incumbent 1.00 1.27 &amp;#45;1.94&amp;nbsp;&amp;ndash;&amp;nbsp;3.93 0.456 Observations 13 R2 / R2 adjusted 0.891 / 0.836 Harris Vote Share Lower Bound Upper Bound 51.</description>
+      <description>Introduction We are now only one week away from the election. Thus, this week I will first briefly explore the role that so-called &amp;ldquo;shocks&amp;rdquo; and &amp;ldquo;October Surprises&amp;rdquo; have on elections. Every election year, unexpected events happen that may or may not significantly affect the election, but they are usually near impossible to predict and/or equally hard to quantify, which is why I will discuss their role generally in elections and discuss some events in the 2024 campaign that could be considered &amp;ldquo;shocks&amp;rdquo; before then dedicating more time to updating my model and expanding it to all 50 states.</description>
     </item>
     <item>
       <title>Blog Post 7: The Ground Game</title>

@@ -1,5 +1,5 @@
 ---
-title: 'Blog Post 8: Shocks and Penultimate Model'
+title: 'Blog Post 8: Shocks'
 author: John Kulow
 date: '2024-10-28'
 slug: blog-post-8-shocks-and-penultimate-model
@@ -13,9 +13,14 @@ knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 
 ## Introduction
 
+We are now only one week away from the election. Thus, this week I will first briefly explore the role that so-called "shocks" and "October Surprises" have on elections. Every election year, unexpected  events happen that may or may not significantly affect the election, but they are usually near impossible to predict and/or equally hard to quantify, which is why I will discuss their role generally in elections and discuss some events in the 2024 campaign that could be considered "shocks" before then dedicating more time to updating my model and expanding it to all 50 states. 
 
 
 ## Shocks
+
+Historically, people have argued that things as seemingly small and apolitical as high school football game victories and shark attacks and that things as monumental and/or calamitous as hurricanes and pandemics should be considered "shocks." As we have discussed in class, the actual effects of smaller, more localized events, like the first two examples, is heavily disputed. However, many larger apolitical events like natural disasters and, predictably, many notable political events (particularly those that occur in the final month of the campaign) clearly have impacts.
+
+Obviously, it is almost impossible to determine any causal effects from these shocks and October surprises, but let's briefly explore some key events from the 2024 election that we may consider to be shocks. In terms of political events, we can definitively say that Biden's performance in the first presidential debate and his subsequent withdrawal from the race were sudden shocks that upended the race. There were also some political shocks whose effects are unclear, such as the two assassination attempts against Trump. There also have, and in the next week likely will be more, political shocks happening in the home stretch, such as the anti-Puerto Rican joke made at Trump's Madison Square Garden rally the night of the 27th, and we will not know the effects of the these late-emerging shocks until after the election, if ever. In terms of apolitical shocks from this cycle, the clear frontrunner is Hurricane Helene, which wroght destruction to much of western North Carolina and parts of Georgia, two crucial swing states in the election. Already, there are reports of lower turnout in the affected regions, which, in a close election, might prove decisive.
 
 ```{r, include=FALSE}
 library(blogdown)
@@ -61,6 +66,8 @@ library(viridis)
 
 ## Electoral Model
 ### National 2-Party Popular Vote Model
+
+For my national model, I have updated it to include new polling additions from the last week. I played around with adding certain other variable, such as the incumbent president's approval rating and quarter 2 RDI growth, but I decided against including these because, in the case of the former, I believe President Biden's approval numbers are disproportionately dragged down by perceived ineffectiveness of his age and that Harris, who enjoys on average an even (if not positive) approval rating is uniquely insulated from this outlier data point compared to prior elections. In the case of the latter, I chose not to include RDI growth given previously concerns about how predictive it is and whether it overlaps too much with GDP growth. I also made the decision, unlike my model from last week, to exclude the 2020 election from my model. This is because I believe that the economic outlier situation in 2020 was unrepresentitve of typical trends. As such, below is the regression table for my updated model:
 
 ```{r, include=FALSE}
 ####----------------------------------------------------------#
@@ -135,6 +142,7 @@ tab_model(d_nat_reg, show.se = TRUE,
           dv.labels = "National 2-Party Vote Share for Incumbent Party")
 ```
 
+As can be seen, my model is still a significant predictor of past election results, with an adjusted R squared value of 0.917. When applied to 2024 polling data, GDP growth, and incumbency, I predict the following share of the two party national popular vote for Harris:
 
 ```{r, include=FALSE}
 d_nat_model_2024 <- d_nat_model |>
@@ -150,12 +158,11 @@ knitr::kable(nat_pred_2024,
              col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound")) 
 ```
 
+This represents about a 1 point decrease in her share of the 2-party national popular vote compared to my model last week, though the upper and lower bounds clearly show that it is clearly possible for Harris to win by more come next Tuesday night or to outright lose the national popular vote.
 
 ### State 2-Party Model and Electoral College
 
-
-
-
+Moving on to my state-level model, I have made a few changes this week. First, I have added in electoral lag into my model, adding in variables that factor in how states voted in 2020 and 2016. In addition to that, I have continued to include the September and October polling numbers, the GDP quarter 2 growth, and the incumbency factor into my model below:
 
 
 ```{r, include=FALSE}
@@ -192,7 +199,7 @@ tab_model(d_state_reg, show.se = TRUE,
           dv.labels = "State 2-Party Vote Share for Democrats")
 ```
 
-
+As can be seen above, my model is one again highly predictive, with an adjusted R squared value of 0.934. When applying this to the 2024 election for states that we have polling for, we get the following:
 
 ```{r, include=FALSE}
 d_state_model_2024 <- d_pollav_state |>
@@ -245,6 +252,10 @@ knitr::kable(d_state_model_2024 |>
 
 ```
 
+As can be seen, not only do we have a few more states represented here than my model from last week, but we also have some shifts. Notably, Florida has now shifted out of Harris' column into Trump's, with Texas and Ohio falling deeper into his column and the 7 key swing states all falling back within a 5-point margin, with Arizona now under a 2-point margin.
+
+Another key change I have made to my model this week is that I have added in a secondary model for states that do not have polling available for the 2024 election. This model thus includes the other four variables I put into my first state-level model. The regression table for this second model is below:
+
 ```{r, include=FALSE}
 d_nopoll_states <- d_state_popvote |>
   select(year, state, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
@@ -295,13 +306,13 @@ d_nopoll_state_reg <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + GDP_growth_quarter
                 data = d_nopoll_states)
 ```
 
-
-
 ```{r}
 tab_model(d_nopoll_state_reg, show.se = TRUE, 
           title = "State Model (Without Polls) Regression Table", 
           dv.labels = "State 2-Party Vote Share for Democrats")
 ```
+
+As can be seen, this model is still highly predictive of results, albeit slightly less than the first model and relying heavily on the 1-cycle lag variable. Nonetheless, it is a useful indicator, and when I apply this to 2024 numbers for the states without polling numbers and map the results of the results of the two models, we get the below electoral map:
 
 ```{r, include=FALSE}
 states <- unique(d_state_popvote$state)  # List of all 50 states
@@ -375,18 +386,7 @@ d_nopoll_state_model_2024 |>
   theme(aspect.ratio = .60)
 ```
 
-
-To do:
-
-- Discuss Shocks
-- Discuss 2024 impact of shocks (including graphic?)
-
-- Update model to include: Polls (sept and oct), GDP growth, RDI growth, 2pv lag (1 year and 2 year), incumbency.
-- Do presidential level
-- Do swing states
-- Update to do every state
-- Make graphics
-
+This map (which does not show Trump-won Alaska or Harris-won Hawaii or DC, and which does also not show margins in NE02 or ME02, which would go to Harris and Trump respectively) shows a Harris electoral college victory 319-219 over Trump.
 
 
 
