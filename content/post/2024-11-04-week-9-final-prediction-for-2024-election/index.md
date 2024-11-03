@@ -8,6 +8,14 @@ tags: []
 ---
 <script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+
+## Introduction
+
+
+- Overview (Nat model, state model(s), etc.)
+
 
 
 
@@ -409,11 +417,11 @@ tags: []
 
 
 
+
+
+
 <img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map-1.png" width="672" />
 
-
-## Introduction
-- Overview (Nat model, state model(s), etc.)
 
 
 

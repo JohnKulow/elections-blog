@@ -7,6 +7,12 @@ categories: []
 tags: []
 ---
 
+## Introduction
+
+
+- Overview (Nat model, state model(s), etc.)
+
+
 
 ```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
@@ -395,6 +401,16 @@ states_map <- map_data("state")
 d_nopoll_state_model_2024$region <- tolower(d_nopoll_state_model_2024$state)
 ```
 
+```{r list of state model 2 results, include=FALSE}
+knitr::kable(d_nopoll_state_model_2024 |> 
+               select(state, predicted_values, lower_bounds, upper_bounds), 
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound")) |>
+  row_spec(which(d_state_model_2024$predicted_values >= 50), background = "#D0EFFF") |>
+  row_spec(which(d_state_model_2024$predicted_values < 50), background = "#FFDDDD")   
+
+```
+
+
 ```{r combined state pred map}
 d_nopoll_state_model_2024 |>
   left_join(states_map, by = "region") |> 
@@ -414,9 +430,6 @@ d_nopoll_state_model_2024 |>
   theme(aspect.ratio = .60)
 ```
 
-
-## Introduction
-- Overview (Nat model, state model(s), etc.)
 
 
 
