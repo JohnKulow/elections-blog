@@ -79,8 +79,7 @@ tags: []
 
 
 
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/nat model validation graph-1.png" width="672" />
 
 
 
@@ -172,7 +171,7 @@ tags: []
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/state validation graph-1.png" width="672" />
 
 
 
@@ -410,8 +409,7 @@ tags: []
 
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
-
+<img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map-1.png" width="672" />
 
 
 ## Introduction
