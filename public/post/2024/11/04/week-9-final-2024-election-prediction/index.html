@@ -44,6 +44,7 @@
 <li><em><strong>Incumbency</strong></em>: If the candidate is the incumbent president or not (in addition to being from the incumbent party).</li>
 </ul>
 <p>Thus together, the equation for my model is:</p>
+<p><strong>National Two-Party Vote Share for the Inc. Party = <code>\(\boldsymbol{\beta}_0 + \boldsymbol{\beta}_1 \text{ Sept. National Polling Average} + \boldsymbol{\beta}_2 \text{ Oct. National Polling Average} + \boldsymbol{\beta}_3 \text{ Q2 GDP Growth} + \boldsymbol{\beta}_4 \text{ Incumbency} + \boldsymbol{\epsilon}\)</code></strong></p>
 <p><strong>National Two-Party Vote Share for the Inc. Party = β<del>0</del> + β<del>1</del>Sept. National Polling Average + β<del>2</del>Oct. National Polling Average + β<del>3</del>Q2 GDP Growth + β<del>4</del>Incumbency + ε</strong></p>
 <h3 id="justification-of-national-model">Justification of National Model</h3>
 <p><strong>October Polling Average</strong>:
@@ -121,27 +122,31 @@ Although literature and expert opinions on the role of incumbency are split on w
 <p><strong>Quarter 2 GDP Growth</strong>: For every 1% increase in Quarter 2 GDP growth, there is an associated 0.45-point increase in the incumbent party candidate&rsquo;s November national two-party vote share. With a p-value of 0.025, this is the second of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
 <p><strong>Incumbency</strong>: For every 1% increase in &ldquo;incumbency&rdquo; there is an associated 1.00-point increase in the incumbent party candidate&rsquo;s national two-party vote share. This may not initially make much sense, but consider that, of course, there is no such thing as a &ldquo;1% increase in incumbency&rdquo; as this is a binary variable. With a p-value of 0.456, this too is not statistically significant at a 95% confidence interval, but just like the September polling average, that does not mean it does not add value to my model.</p>
 <h3 id="validation">Validation</h3>
-<ul>
-<li>out of sample validation</li>
-</ul>
+<p>For in-sample error, my model&rsquo;s R-squared value of 0.89 means that 89% of changes in national two-party popular vote share is explained by my model, representing a pretty strong correlation. This correlation holds strong when adjusted, with an adjusted R-squared value of 0.84.</p>
+<p>To understand my out-of-sample error, I performed 1,000 repetitions of random sampling, with each sample using 7 elections, which is slightly over half of the 13 total in the time frame of my data set. The average mean out-of-sample error, as shown by the black line in the graph below, is ~3.81%, a reasonably low number.</p>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/04/week-9-final-2024-election-prediction/index_files/figure-html/nat model validation graph-1.png" width="672" />
+<p>The above histogram shows the distribution of these mean errors. I have limited the x-axis of this graph to a reasonable range, so there are one or two outlier data points not shown above, though they are incorporated into the calculation of the average mean absolute error. I have restricted the x-axis so that we can better see that this graph is right-skewed. While there certainly are some outlier data points where my model failed to accurately predict the election, those are far outnumbered by instances of my model accurately capturing the state of the race.</p>
+<h3 id="final-national-two-party-vote-prediction">Final National Two-Party Vote Prediction</h3>
+<p>Given this model, when we apply this result to the 2024 election between Vice President Harris and Former President Trump, we get the following prediction:</p>
 <table>
 <thead>
 <tr>
-<th style="text-align:right">Harris Vote Share</th>
-<th style="text-align:right">Lower Bound</th>
-<th style="text-align:right">Upper Bound</th>
+<th style="text-align:center">Harris Vote Share</th>
+<th style="text-align:center">Lower Bound</th>
+<th style="text-align:center">Upper Bound</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:right">51.82711</td>
-<td style="text-align:right">46.55055</td>
-<td style="text-align:right">57.10367</td>
+<td style="text-align:center">51.82711</td>
+<td style="text-align:center">46.55055</td>
+<td style="text-align:center">57.10367</td>
 </tr>
 </tbody>
 </table>
-<p>** INSERT PRETTIER GRAPHIC **</p>
+<p>As can be seen, my model predicts that Vice President Harris will win the national popular vote with <strong>51.83%</strong> of the vote, a <strong>3.66% margin</strong> over Former President Trump and his <strong>48.17%</strong> share. There is still a relatively large range of possibilities considering today&rsquo;s polarized political climate, with the upper bound of Harris&rsquo; vote share with a 95% confidence interval being 57.1% and the lower bound being 46.55%, meaning Harris could win by up to a 14.2% margin or lose by up to a 6.9% margin. Thus, to get an even better sense of the state of the race, it is important to now turn to the state level.</p>
+<h2 id="state-level-model-and-predictions">State-Level Model and Predictions</h2>
+<h3 id="equation-and-variables-1">Equation and Variables</h3>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">State Model Regression Table</caption>
 <tr>
@@ -441,9 +446,6 @@ Although literature and expert opinions on the role of incumbency are split on w
 </tr>
 </table>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/04/week-9-final-2024-election-prediction/index_files/figure-html/combined state pred map-1.png" width="672" />
-<h3 id="final-national-two-party-vote-prediction">Final National Two-Party Vote Prediction</h3>
-<h2 id="state-level-model-and-predictions">State-Level Model and Predictions</h2>
-<h3 id="equation-and-variables-1">Equation and Variables</h3>
 <ul>
 <li>Do for both state-level models</li>
 </ul>

@@ -26,8 +26,9 @@ Let's begin with my national popular vote prediction. This model is built to pre
 
 Thus together, the equation for my model is:
 
-**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**
+**National Two-Party Vote Share for the Inc. Party = `\(\boldsymbol{\beta}_0 + \boldsymbol{\beta}_1 \text{ Sept. National Polling Average} + \boldsymbol{\beta}_2 \text{ Oct. National Polling Average} + \boldsymbol{\beta}_3 \text{ Q2 GDP Growth} + \boldsymbol{\beta}_4 \text{ Incumbency} + \boldsymbol{\epsilon}\)`**
 
+**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**
 
 
 ### Justification of National Model
@@ -44,6 +45,7 @@ As always, the economy is front and center in politics in 2024. Voters care abou
 
 **Incumbency**:
 Although literature and expert opinions on the role of incumbency are split on whether it has an affect and, if so, whether such an effect is positive or negative. Some claim that the President's superior ability to fund-raise, to gain free media attention, and to otherwise wield the powers of the Presidency to the advantage of them or of their constituents/potential supporters gives the incumbent president an advantage going into reelection. Others claim that voters can blame the president for any problems facing the country. Others believe any such impact one way or the other is minute, irrelevant, or self-balanced. I believe that the role of incumbency does matter, which is why I have included it in my model, and that we need to look no further than President Biden's dramatic exit from the 2024 race this past summer to see the importance of whether an incumbent president, for all their faults or strengths, runs for reelection.
+
 
 ### Regression Table
 I based my model off of data spanning from 1968, when polling data from 538 begins, to the 2016 election. I made the decision to exclude the 2020 election because the economic data from Quarter 2 is such an outlier due to the Covid pandemic that it substantively, and in my opinion unrepresentatively, changed my model when included. Thus, based off of the aforementioned four independent variables and the 13 elections spanning 1968-2016, below is the regression table for my model:
@@ -124,22 +126,37 @@ In terms of how we interpret the above coefficients for each of the four IV's:
 
 **Incumbency**: For every 1% increase in "incumbency" there is an associated 1.00-point increase in the incumbent party candidate's national two-party vote share. This may not initially make much sense, but consider that, of course, there is no such thing as a "1% increase in incumbency" as this is a binary variable. With a p-value of 0.456, this too is not statistically significant at a 95% confidence interval, but just like the September polling average, that does not mean it does not add value to my model.
 
-### Validation
-- out of sample validation
 
+### Validation
+For in-sample error, my model's R-squared value of 0.89 means that 89% of changes in national two-party popular vote share is explained by my model, representing a pretty strong correlation. This correlation holds strong when adjusted, with an adjusted R-squared value of 0.84.
+
+To understand my out-of-sample error, I performed 1,000 repetitions of random sampling, with each sample using 7 elections, which is slightly over half of the 13 total in the time frame of my data set. The average mean out-of-sample error, as shown by the black line in the graph below, is ~3.81%, a reasonably low number. 
 
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/nat model validation graph-1.png" width="672" />
 
+The above histogram shows the distribution of these mean errors. I have limited the x-axis of this graph to a reasonable range, so there are one or two outlier data points not shown above, though they are incorporated into the calculation of the average mean absolute error. I have restricted the x-axis so that we can better see that this graph is right-skewed. While there certainly are some outlier data points where my model failed to accurately predict the election, those are far outnumbered by instances of my model accurately capturing the state of the race.
+
+
+### Final National Two-Party Vote Prediction
+
+Given this model, when we apply this result to the 2024 election between Vice President Harris and Former President Trump, we get the following prediction:
 
 
 
-| Harris Vote Share| Lower Bound| Upper Bound|
-|-----------------:|-----------:|-----------:|
-|          51.82711|    46.55055|    57.10367|
 
-** INSERT PRETTIER GRAPHIC **
+| Harris Vote Share | Lower Bound | Upper Bound |
+|:-----------------:|:-----------:|:-----------:|
+|     51.82711      |  46.55055   |  57.10367   |
+
+As can be seen, my model predicts that Vice President Harris will win the national popular vote with **51.83%** of the vote, a **3.66% margin** over Former President Trump and his **48.17%** share. There is still a relatively large range of possibilities considering today's polarized political climate, with the upper bound of Harris' vote share with a 95% confidence interval being 57.1% and the lower bound being 46.55%, meaning Harris could win by up to a 14.2% margin or lose by up to a 6.9% margin. Thus, to get an even better sense of the state of the race, it is important to now turn to the state level.
+
+
+
+## State-Level Model and Predictions
+### Equation and Variables
+
 
 
 
@@ -467,17 +484,6 @@ In terms of how we interpret the above coefficients for each of the four IV's:
 
 
 
-
-
-
-
-
-### Final National Two-Party Vote Prediction
-
-
-
-## State-Level Model and Predictions
-### Equation and Variables
 - Do for both state-level models
 
 ### Justrification of Model
