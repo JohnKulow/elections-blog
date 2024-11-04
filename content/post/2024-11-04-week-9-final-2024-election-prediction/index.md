@@ -26,9 +26,7 @@ Let's begin with my national popular vote prediction. This model is built to pre
 
 Thus together, the equation for my model is:
 
-**National Two-Party Vote Share for the Inc. Party = `\(\boldsymbol{\beta}_0 + \boldsymbol{\beta}_1 \text{ Sept. National Polling Average} + \boldsymbol{\beta}_2 \text{ Oct. National Polling Average} + \boldsymbol{\beta}_3 \text{ Q2 GDP Growth} + \boldsymbol{\beta}_4 \text{ Incumbency} + \boldsymbol{\epsilon}\)`**
-
-**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**
+**National Two-Party Vote Share for the Inc. Party = β**~0~ **+ β**~1~**Oct. National Polling Average + β**~2~**Sept. National Polling Average + β**~3~**Q2 GDP Growth + β**~4~**Incumbency + ε**
 
 
 ### Justification of National Model
@@ -157,14 +155,37 @@ As can be seen, my model predicts that Vice President Harris will win the nation
 ## State-Level Model and Predictions
 ### Equation and Variables
 
+For my state-level analysis, I used two models, with both being OLS regression models built to predict what percentage of the state-level two-party popular vote the Democratic nominee should receive. The first is the primary model, and it uses the following six independent variables:
+
+- **October State-Level Polling Average**: The average of state-level polls taken in October, as compiled by 538, and weighted by how many weeks were left until the election.
+- **September State-Level Polling Average**: The average of national polls taken in *September*, as compiled by 538, and weighted by how many weeks were left until the election. For the roughly 3 states (none of which considered swing states) and 1 district (Maine's 2nd) for which there were not any polls released in September but did have October polls, I set their September Polling Average to equal their October average so as to allow them to be included in the model.
+- **One Cycle Democratic Vote Lag**: The Democratic candidate's share of the two-party popular vote in the state in the presidential election immediately prior.
+- **Two Cycle Democratic Vote Lag**: The Democratic candidate's share of the two-party popular vote in the state in the presidential election two cycles (eight years) ago.
+- **Incumbent Party Status**: Whether or not Democrats held the Presidency in the term leading up to the election.
+- **National October Polling Average**: The average of *national* polls taken in October, as compiled by 538, and weighted by how many weeks were left until the election.
+
+Taken together, the equation for my primary state-level model is:
+
+**State Two-Party Vote Share for the Democratic Nominee = β**~0~ **+ β**~1~**Oct. State-Level Polling Avg. + β**~2~**Sept. State-Level Polling Avg. + β**~3~**One-Cycle Dem. Vote Lag + β**~4~**Two-Cycle Dem. Vote Lag + β**~5~**Inc. Party Status + β**~6~**Oct. National Polling Avg. + ε**
 
 
+### Justification of Model
 
+**State-Level Polling**: As you can see, there are a number of similarities between my national and state models. As previously explained, despite its flaws polling is still a strong indicator of results, and state-level polling is  a good indicator historically of how that state will vote. For the same reasons as my national model, I included variables for both October and September averages. 
+
+**Democratic Vote Lag**: I added two new variables representing past election results in that state. While states certainly swing from year to year, most voters do not change their minds, so the last election, especially in today's polarized political climate, tends to be a good indicator of future results. I included the *two cycle* lag variable for a slightly different reason. Including this variable bakes into my model how much the state shifted left or right going into the last election. While many states may only move slightly or may bounce around depending on the year, some other states (ie. Alaska, Texas, Massachusetts) have fairly consistently trended left in recent cycles, while others (ie. Arkansas, Nevada, Florida) have trended rightwards relative to the nation. These trends tend to be because of gradual demographic changes within these states (such as Texas' rapid growth and diversification) or because of gradual realignments in the composition of the two parties' political bases (such as Democrats' gradual growth among high-education suburbanites). As such, I felt it important to add a second variable to include a measurement of these trends.
+
+**Incumbency**: Here I have factored in incumbency slightly differently than in my national model. Since my national model was based around the incumbent party, it was important to test whether the candidate themselves were an incumbent running for reelection or not. Now that my model is based around *Democratic* vote share, I felt it was more important to focus on party incumbency more generally.
+
+**National Polling**: Obviously this is a state-level model, but I wanted to factor in a variable for national polling averages, since in 2024 we find ourselves in an election where the national polling environment indicates a shift rightwards from 2020, but state-level polling largely has remained stable compared to last cycle's results. Thus, I feel like it is important to test the effects of both since, although they overlap slightly, in tandem they may catch trends previously left unnoticed.
+
+
+Unfortunately however, this model only can be applied to the relatively few states for which we have publicly available polling. There are many states that are considered to be safely in Democrats' or Republicans' aisles that no polling firms has decided to invest resources in polling for non-internal purposes. Thus, knowing that these safe states will not affect my electoral college prediction I decided to make a ***second***, slightly simpler model for them. This supplementary OLS model drops the variables for October and September state-level polling averages, but it adds back in the national September polling average IV from my national model so as to replicate the potential September effects I explained above. In my primary state-level model, I decided that the inclusion of only the state-level September polling was sufficient and thus did not include the national September polling average in that primary model.
 
 
 
 <table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">State Model Regression Table</caption>
+<caption style="font-weight: bold; text-align:left;">(Primary) State Model Regression Table</caption>
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
 <th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">State 2-Party Vote Share for Democrats</th>
@@ -235,6 +256,81 @@ As can be seen, my model predicts that Vice President Harris will win the nation
 </tr>
 
 </table>
+
+
+
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">(Supplementary) State Model Regression Table</caption>
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">State 2-Party Vote Share for Democrats</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;30.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.88</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;42.41&nbsp;&ndash;&nbsp;-19.24</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag1</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99&nbsp;&ndash;&nbsp;1.20</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag2</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.22&nbsp;&ndash;&nbsp;0.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.062</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">d incumbent</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.83</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.59</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.00&nbsp;&ndash;&nbsp;-0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.63</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.08&nbsp;&ndash;&nbsp;-1.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat oct poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.26</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.71&nbsp;&ndash;&nbsp;2.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">255</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.935 / 0.934</td>
+</tr>
+
+</table>
+
+
+
+
+
+
+
 
 
 
@@ -407,74 +503,6 @@ As can be seen, my model predicts that Vice President Harris will win the nation
 
 
 
-<table style="border-collapse:collapse; border:none;">
-<caption style="font-weight: bold; text-align:left;">State Model (Without Polls) Regression Table</caption>
-<tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">State 2-Party Vote Share for Democrats</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">std. Error</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;30.82</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">5.88</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;42.41&nbsp;&ndash;&nbsp;-19.24</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag1</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.09</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99&nbsp;&ndash;&nbsp;1.20</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag2</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.06</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.22&nbsp;&ndash;&nbsp;0.01</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.062</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">d incumbent</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.83</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.59</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;3.00&nbsp;&ndash;&nbsp;-0.66</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat sept poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.63</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.08&nbsp;&ndash;&nbsp;-1.18</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat oct poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.26</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.71&nbsp;&ndash;&nbsp;2.82</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">255</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.935 / 0.934</td>
-</tr>
-
-</table>
-
-
-
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map-1.png" width="672" />
@@ -486,7 +514,7 @@ As can be seen, my model predicts that Vice President Harris will win the nation
 
 - Do for both state-level models
 
-### Justrification of Model
+
 
 ### Regression Table
 - Include interpretation of coefficients
