@@ -38,23 +38,26 @@
 <h3 id="equation-and-variables">Equation and Variables</h3>
 <p>Let&rsquo;s begin with my national popular vote prediction. This model is built to predict what percentage of the two-party national popular vote will go to the candidate from the incumbent party. This vote share is the dependent variable. In terms of independent variables for this OLS model, I used the following four:</p>
 <ul>
-<li><em><strong>October Polling Average</strong></em>: The average of national polls taken in <em>October</em>, as compiled by 538, and weighted by how many weeks were left until the election.</li>
+<li><em><strong>October Polling Average</strong></em>: The average of national polls taken in October, as compiled by 538, and weighted by how many weeks were left until the election.</li>
 <li><em><strong>September Polling Average</strong></em>: The average of national polls taken in <em>September</em>, as compiled by 538, and weighted by how many weeks were left until the election.</li>
-<li><em><strong>Quarter 2 GDP Growth</strong></em>: The percent national GDP growth in Q2 of the respective election year.</li>
+<li><em><strong>Quarter 2 GDP Growth</strong></em>: The percent national GDP growth in Q2 of the respective election year, as provided by the Federal Reserve.</li>
 <li><em><strong>Incumbency</strong></em>: If the candidate is the incumbent president or not (in addition to being from the incumbent party).</li>
 </ul>
-<p>Thus together, the equation for my model is:
-<code>\begin{center} **National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε** \end{center}</code></p>
+<p>Thus together, the equation for my model is:</p>
+<p><strong>National Two-Party Vote Share for the Inc. Party = β<del>0</del> + β<del>1</del>Sept. National Polling Average + β<del>2</del>Oct. National Polling Average + β<del>3</del>Q2 GDP Growth + β<del>4</del>Incumbency + ε</strong></p>
 <h3 id="justification-of-national-model">Justification of National Model</h3>
 <p><strong>October Polling Average</strong>:
-Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point.
-<a href="https://gking.harvard.edu/files/bj215.pdf">Gelman and King
-(1993)</a></p>
-<p><strong>September Polling Average</strong>:</p>
+Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. This said, polling tends to become more accurate as election day approaches, as found by <a href="https://gking.harvard.edu/files/bj215.pdf">Gelman and King
+(1993)</a>. This is why I have weighted my October polling average by each day, favoring polls on days closer to election day.</p>
+<p><strong>September Polling Average</strong>:
+I made the decision to include a <em>September</em> polling average, despite Gelman and King&rsquo;s findings, because of recent criticisms within the polling industry about two things. First, there are concerns about poll &ldquo;herding&rdquo; as the election gets near, with polling agencies being accused of ignoring results that would be outliers and favoring results that either align with other polls or show a closer race. Particularly after the polls supposedly missed in 2016 and 2020, some believe that polling firms are showing a tightening race between Harris and Trump in the last month because these polling agencies got burnt in the last two presidential cycles by overestimating Democrats&rsquo; strength and would rather underestimate Harris than once again overestimate Democrats. The second reason is that in recent cycles, <em>particularly</em> in 2022, we have influxes of partisan-funded polls right before the election with the accused intention of wanting to artificially change poll averages to favor their candidate. Thus, for both of these reasons, I wanted to include a September polling average independent variable, knowing that historically it was a worse predictor, because I am concerned for the above two reasons that October polling may be less accurate this time around. By including an average from September, from before polling began to herd and be biased by partisan polls supposedly, I hope to mitigate the impact on my model that any incorrect last-minute shift in the polls may bring.</p>
 <p><strong>Quarter 2 GDP Growth</strong>:
-<a href="https://press.princeton.edu/books/hardcover/9780691169446/democracy-for-realists?srsltid=AfmBOorl6iN4qgweThT5hVNygA3GYiEx8IZYUksJEgexdWLE3Es2imza">Achen and Bartels
-(2014)</a></p>
-<p><strong>Incumbency</strong>:</p>
+As always, the economy is front and center in politics in 2024. Voters care about the strength in the economy, and, as <a href="https://press.princeton.edu/books/hardcover/9780691169446/democracy-for-realists?srsltid=AfmBOorl6iN4qgweThT5hVNygA3GYiEx8IZYUksJEgexdWLE3Es2imza">Achen and Bartels
+(2014)</a> note, if the economy is weak then voters tend to blame the incumbent party. If the economy is strong, on the other hand, the incumbent party does relatively better. As explored in previous blog posts, I have settled on using Quarter 2 GDP Growth as a barometer for the economic fundamentals of a campaign both because it has a better predictive track record based off of past elections but also because I believe it is a better, more holistic measurement of strength in the economy rather than other proposed measures such as RDI growth. Quarter 2 is used here because it is recent enough to be in voter&rsquo;s memories, but long enough ago that it defines their perception of the economy under the incumbent party in a way that Q3 would not, as any sudden upswing or downturn in Q3 could likely be waved off by the incumbent party as having been out of their control, or the effects of such a change in the economy may not have had time to trickle down to voters just yet.</p>
+<p><strong>Incumbency</strong>:
+Although literature and expert opinions on the role of incumbency are split on whether it has an affect and, if so, whether such an effect is positive or negative. Some claim that the President&rsquo;s superior ability to fund-raise, to gain free media attention, and to otherwise wield the powers of the Presidency to the advantage of them or of their constituents/potential supporters gives the incumbent president an advantage going into reelection. Others claim that voters can blame the president for any problems facing the country. Others believe any such impact one way or the other is minute, irrelevant, or self-balanced. I believe that the role of incumbency does matter, which is why I have included it in my model, and that we need to look no further than President Biden&rsquo;s dramatic exit from the 2024 race this past summer to see the importance of whether an incumbent president, for all their faults or strengths, runs for reelection.</p>
+<h3 id="regression-table">Regression Table</h3>
+<p>I based my model off of data spanning from 1968, when polling data from 538 begins, to the 2016 election. I made the decision to exclude the 2020 election because the economic data from Quarter 2 is such an outlier due to the Covid pandemic that it substantively, and in my opinion unrepresentatively, changed my model when included. Thus, based off of the aforementioned four independent variables and the 13 elections spanning 1968-2016, below is the regression table for my model:</p>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">National Model Regression Table</caption>
 <tr>
@@ -76,18 +79,18 @@ Although the accuracy of political polling has been repeatedly called into quest
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.21</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.87&nbsp;&ndash;&nbsp;0.45</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.484</td>
-</tr>
-<tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">oct poll</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.61</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.26</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.01&nbsp;&ndash;&nbsp;1.22</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.048</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.21</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.87&nbsp;&ndash;&nbsp;0.45</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.484</td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">GDP growth quarterly</td>
@@ -112,6 +115,15 @@ Although the accuracy of political polling has been repeatedly called into quest
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.891 / 0.836</td>
 </tr>
 </table>
+<p>In terms of how we interpret the above coefficients for each of the four IV&rsquo;s:
+<strong>October Polling Average</strong>: For every 1-point increase in the incumbent candidate&rsquo;s weighted October national polling average, we can expect an 0.61-point increase in their eventual national two-party vote share. With a p-value of 0.048, this is one of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
+<p><strong>September Polling Average</strong>: For every 1-point increase in the incumbent candidate&rsquo;s weighted September national polling average, we can expect an 0.21-point decrease in their eventual national two-party vote share <em>when controlling for other variables including the October polling average</em>. This last point is important to note. With a p-value of 0.484, this is not statistically significant , but that does not mean that the inclusion of this variable does not add value to my model, as explained previously.</p>
+<p><strong>Quarter 2 GDP Growth</strong>: For every 1% increase in Quarter 2 GDP growth, there is an associated 0.45-point increase in the incumbent party candidate&rsquo;s November national two-party vote share. With a p-value of 0.025, this is the second of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
+<p><strong>Incumbency</strong>: For every 1% increase in &ldquo;incumbency&rdquo; there is an associated 1.00-point increase in the incumbent party candidate&rsquo;s national two-party vote share. This may not initially make much sense, but consider that, of course, there is no such thing as a &ldquo;1% increase in incumbency&rdquo; as this is a binary variable. With a p-value of 0.456, this too is not statistically significant at a 95% confidence interval, but just like the September polling average, that does not mean it does not add value to my model.</p>
+<h3 id="validation">Validation</h3>
+<ul>
+<li>out of sample validation</li>
+</ul>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/04/week-9-final-2024-election-prediction/index_files/figure-html/nat model validation graph-1.png" width="672" />
 <table>
 <thead>
@@ -429,14 +441,6 @@ Although the accuracy of political polling has been repeatedly called into quest
 </tr>
 </table>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/04/week-9-final-2024-election-prediction/index_files/figure-html/combined state pred map-1.png" width="672" />
-<h3 id="regression-table">Regression Table</h3>
-<ul>
-<li>Include interpretation of coefficients</li>
-</ul>
-<h3 id="validation">Validation</h3>
-<ul>
-<li>out of sample validation</li>
-</ul>
 <h3 id="final-national-two-party-vote-prediction">Final National Two-Party Vote Prediction</h3>
 <h2 id="state-level-model-and-predictions">State-Level Model and Predictions</h2>
 <h3 id="equation-and-variables-1">Equation and Variables</h3>
