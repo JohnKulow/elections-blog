@@ -1,0 +1,61 @@
+---
+title: 'Week 9: Final 2024 Election Prediction'
+author: John Kulow
+date: '2024-11-04'
+slug: week-9-final-2024-election-prediction
+categories: []
+tags: []
+---
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+```{r, include=FALSE}
+library(blogdown)
+library(car)
+library(caret)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(glmnet)
+library(gridExtra)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(knitr)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(mlr3)
+library(patchwork)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(readxl)
+library(rstan)
+library(scales)
+library(sf)
+library(shinystan)
+library(sjPlot)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+```
+
+
+test!!
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
+
