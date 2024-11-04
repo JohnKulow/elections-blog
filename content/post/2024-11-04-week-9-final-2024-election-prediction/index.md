@@ -12,9 +12,10 @@ tags: []
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 ## Introduction
-For this week's blog post, the day before the 2024 election, I will make my final predictions for the national two-party popular vote, state-level two-party popular vote shares, and the associated electoral college vote. Altogether, my predictions are based off of three models, all multivariate ordinary least squares (OLS) regression models, that hopefully together will paint an accurate picture of what the results will be tomorrow (or whenever we actually end up getting results).
-
-
+For this week's blog post, the day before the 2024 election, I will make my final predictions for the national two-party popular vote, state-level two-party popular vote shares, and the associated electoral college vote. Altogether, my predictions are based off of three models, all multivariate ordinary least squares (OLS) regression models, that hopefully together will paint an accurate picture of what the results will be tomorrow (or whenever we actually end up getting results).  
+  
+  
+  
 ## National Model and Prediction
 ### Equation and Variables
 Let's begin with my national popular vote prediction. This model is built to predict what percentage of the two-party national popular vote will go to the candidate from the incumbent party. This vote share is the dependent variable. In terms of independent variables for this OLS model, I used the following four:
@@ -31,7 +32,9 @@ $$
 \mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \\ 
 \mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
 $$
-
+  
+  
+  
 ### Justification of National Model
 **October Polling Average**:
 Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. This said, polling tends to become more accurate as election day approaches, as found by [Gelman and King
@@ -46,8 +49,9 @@ As always, the economy is front and center in politics in 2024. Voters care abou
 
 **Incumbency**:
 Although literature and expert opinions on the role of incumbency are split on whether it has an affect and, if so, whether such an effect is positive or negative. Some claim that the President's superior ability to fund-raise, to gain free media attention, and to otherwise wield the powers of the Presidency to the advantage of them or of their constituents/potential supporters gives the incumbent president an advantage going into reelection. Others claim that voters can blame the president for any problems facing the country. Others believe any such impact one way or the other is minute, irrelevant, or self-balanced. I believe that the role of incumbency does matter, which is why I have included it in my model, and that we need to look no further than President Biden's dramatic exit from the 2024 race this past summer to see the importance of whether an incumbent president, for all their faults or strengths, runs for reelection.
-
-
+  
+  
+  
 ### Regression Table
 I based my model off of data spanning from 1968, when polling data from 538 begins, to the 2016 election. I made the decision to exclude the 2020 election because the economic data from Quarter 2 is such an outlier due to the Covid pandemic that it substantively, and in my opinion unrepresentatively, changed my model when included. Thus, based off of the aforementioned four independent variables and the 13 elections spanning 1968-2016, below is the regression table for my model:
 
@@ -127,8 +131,9 @@ In terms of how we interpret the above coefficients for each of the four IV's:
 **Quarter 2 GDP Growth**: For every 1% increase in Quarter 2 GDP growth, there is an associated 0.45-point increase in the incumbent party candidate's November national two-party vote share. With a p-value of 0.025, this is the second of the two statistically significant IV's in my model at a 95% confidence interval.
 
 **Incumbency**: For every 1% increase in "incumbency" there is an associated 1.00-point increase in the incumbent party candidate's national two-party vote share. This may not initially make much sense, but consider that, of course, there is no such thing as a "1% increase in incumbency" as this is a binary variable. With a p-value of 0.456, this too is not statistically significant at a 95% confidence interval, but just like the September polling average, that does not mean it does not add value to my model.
-
-
+  
+  
+  
 ### Validation
 For in-sample error, my model's R-squared value of 0.89 means that 89% of changes in national two-party popular vote share is explained by my model, representing a pretty strong correlation. This correlation holds strong when adjusted, with an adjusted R-squared value of 0.84.
 
@@ -139,8 +144,9 @@ To understand my out-of-sample error, I performed 1,000 repetitions of random sa
 <img src="{{< blogdown/postref >}}index_files/figure-html/nat model validation graph-1.png" width="672" />
 
 The above histogram shows the distribution of these mean errors. I have limited the x-axis of this graph to a reasonable range, so there are one or two outlier data points not shown above, though they are incorporated into the calculation of the average mean absolute error. I have restricted the x-axis so that we can better see that this graph is right-skewed. While there certainly are some outlier data points where my model failed to accurately predict the election, those are far outnumbered by instances of my model accurately capturing the state of the race.
-
-
+  
+  
+  
 ### Final National Two-Party Vote Prediction
 
 Given this model, when we apply this result to the 2024 election between Vice President Harris and Former President Trump, we get the following prediction:
@@ -153,9 +159,9 @@ Given this model, when we apply this result to the 2024 election between Vice Pr
 |     51.82711      |  46.55055   |  57.10367   |
 
 As can be seen, my model predicts that Vice President Harris will win the national popular vote with **51.83%** of the vote, a **3.66% margin** over Former President Trump and his **48.17%** share. There is still a relatively large range of possibilities considering today's polarized political climate, with the upper bound of Harris' vote share with a 95% confidence interval being 57.1% and the lower bound being 46.55%, meaning Harris could win by up to a 14.2% margin or lose by up to a 6.9% margin. Thus, to get an even better sense of the state of the race, it is important to now turn to the state level.
-
-
-
+  
+  
+  
 ## State-Level Model and Predictions
 ### Equation and Variables
 
@@ -170,16 +176,15 @@ For my state-level analysis, I used two models, with both being OLS regression m
 
 Taken together, the equation for my primary state-level model is:
 
-**State Two-Party Vote Share for the Democratic Nominee = β**~0~ **+ β**~1~**Oct. State-Level Polling Avg. + β**~2~**Sept. State-Level Polling Avg. + β**~3~**One-Cycle Dem. Vote Lag + β**~4~**Two-Cycle Dem. Vote Lag + β**~5~**Inc. Party Status + β**~6~**Oct. National Polling Avg. + ε**
-
 $$
 \mathbf{State\ Two\ Party\ Vote\ Share\ for\ the\ Democratic\ Nominee} = \mathbf{\beta_0} + \\ 
 \mathbf{\beta_1} \textbf{ Oct.\ State\ Level\ Polling\ Avg.} + \mathbf{\beta_2} \textbf{ Sept.\ State\ Level\ Polling\ Avg.} + \\ 
 \mathbf{\beta_3} \textbf{ One\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_4} \textbf{ Two\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_5} \textbf{ Inc.\ Party\ Status } + \\
 \mathbf{\beta_6} \textbf{ Oct.\ National\ Polling\ Avg.} + \mathbf{\epsilon}
 $$
-
-
+  
+  
+  
 ### Justification of Model
 
 **State-Level Polling**: As you can see, there are a number of similarities between my national and state models. As previously explained, despite its flaws polling is still a strong indicator of results, and state-level polling is  a good indicator historically of how that state will vote. For the same reasons as my national model, I included variables for both October and September averages. 
@@ -189,11 +194,12 @@ $$
 **Incumbency**: Here I have factored in incumbency slightly differently than in my national model. Since my national model was based around the incumbent party, it was important to test whether the candidate themselves were an incumbent running for reelection or not. Now that my model is based around *Democratic* vote share, I felt it was more important to focus on party incumbency more generally.
 
 **National Polling**: Obviously this is a state-level model, but I wanted to factor in a variable for national polling averages, since in 2024 we find ourselves in an election where the national polling environment indicates a shift rightwards from 2020, but state-level polling largely has remained stable compared to last cycle's results. Thus, I feel like it is important to test the effects of both since, although they overlap slightly, in tandem they may catch trends previously left unnoticed.
-
+  
 
 Unfortunately however, this model only can be applied to the relatively few states for which we have publicly available polling. There are many states that are considered to be safely in Democrats' or Republicans' aisles that no polling firms has decided to invest resources in polling for non-internal purposes. Thus, knowing that these safe states will not affect my electoral college prediction I decided to make a ***second***, slightly simpler model for them. This supplementary OLS model drops the variables for October and September state-level polling averages, but it adds back in the national September polling average IV from my national model so as to replicate the potential September effects I explained above. In my primary state-level model, I decided that the inclusion of only the state-level September polling was sufficient and thus did not include the national September polling average in that primary model.
-
-
+  
+  
+  
 ### Regression Table
 
 For my state-level models, I based them off of elections spanning 2000-2020. I chose to start at 2000 because I felt that this was the beginning of a relatively modern, slightly more calcified era of electoral politics. Furthermore, now that I have dropped Q2 GDP growth data from my state-level prediction, I can include 2020 data again without incorporating severe outlier data points like I would have in my national model. Thus, based off of the six above independent variables and the 290 state-level elections for which we have polling for presidential elections in this time frame, below is the regression table for my primary state-level model.
@@ -356,8 +362,9 @@ In terms of my supplementary model, below is the associated regression table:
 </table>
 
 I will not go into much detail at all about these numbers since this model is supplementary in nature, but it is important to note that four out of the five independent variables are statistically significant, and with the fifth, the two-cycle Democratic party vote share, being on the border of being so and being notably more impactful on the model's outputs than it was in my primary model, indicating that it is serving its intended purpose of predicting longer-term trends.
-
-
+  
+  
+  
 ### Validation
 
 For in-sample error, my primary state-level model’s R-squared value of 0.93 means that 93% of changes in state-level Democratic two-party popular vote share is explained by my model, representing a pretty strong correlation. This correlation holds strong when adjusted, with an adjusted R-squared value also of 0.93. These numbers are very similar for my supplementary model, with R-squared and adjusted R-squared values of 0.94 and 0.93 respectively.
@@ -369,8 +376,9 @@ To understand my out-of-sample error in my primary state-level model, I performe
 <img src="{{< blogdown/postref >}}index_files/figure-html/state validation graph-1.png" width="672" />
 
 The above histogram shows the distribution of these mean errors, which is slightly right-skewed. While there certainly are some outlier data points that push above 5% where my model failed to accurately predict the election within a reasonable margin of error, most scenarios fall below that threshold, and there are no outlier data points where my model missed by an average of over 7 points. I will not bother repeating this out-of-sample validation for my supplementary model.
-
-
+  
+  
+  
 ### Final State-Level Two-Party Vote Prediction
 
 Given the primary model, when we apply this result to the 2024 election between Vice President Harris and Former President Trump, we get the following predictions for states that have had publically available polling:
@@ -550,8 +558,9 @@ When you combine these results with my supplementary model's predictions for sta
 Not visualized here are Nebraska's 2nd Congressional District and Maine's 2nd Congressional District, which go to Harris and Trump respectively, nor Trump-won Alaska or Harris-won Hawaii. Altogether, this map predicts a Harris victory in the electoral college 319-219 votes. Once again, however, this is a close election, and the table above with the predicted results for states with polling (which includes all key swing states/districts), shows that either party is easily within the confidence bounds of winning 270 electoral votes. The map below, which shows Harris and Trump's predicted margins in states, helps visualize how close this election is in those key states.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map-1.png" width="672" />
-
-
+  
+  
+  
 ## Conclusion
 
 Overall, if my models are correct Harris would narrowly win the crucial swing states and national popular vote, making her the first ever Madam President-Elect, but we will soon see whether we have to wait longer to utter those words.
