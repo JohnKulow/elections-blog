@@ -26,13 +26,10 @@ Let's begin with my national popular vote prediction. This model is built to pre
 
 Thus together, the equation for my model is:
 
-**National Two-Party Vote Share for the Inc. Party = β**~0~ **+ β**~1~**Oct. National Polling Average + β**~2~**Sept. National Polling Average + β**~3~**Q2 GDP Growth + β**~4~**Incumbency + ε**
-
-
-National Two-Party Vote Share for the Inc. Party = β0 + β1 Oct. National Polling Average + β2Sept. National Polling Average + β3Q2 GDP Growth + β4Incumbency + ε
-
 $$
-\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
+\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \\ 
+\mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \\ 
+\mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
 $$
 
 ### Justification of National Model
@@ -174,6 +171,13 @@ For my state-level analysis, I used two models, with both being OLS regression m
 Taken together, the equation for my primary state-level model is:
 
 **State Two-Party Vote Share for the Democratic Nominee = β**~0~ **+ β**~1~**Oct. State-Level Polling Avg. + β**~2~**Sept. State-Level Polling Avg. + β**~3~**One-Cycle Dem. Vote Lag + β**~4~**Two-Cycle Dem. Vote Lag + β**~5~**Inc. Party Status + β**~6~**Oct. National Polling Avg. + ε**
+
+$$
+\mathbf{State\ Two\ Party\ Vote\ Share\ for\ the\ Democratic\ Nominee} = \mathbf{\beta_0} + \\ 
+\mathbf{\beta_1} \textbf{ Oct.\ State\ Level\ Polling\ Avg.} + \mathbf{\beta_2} \textbf{ Sept.\ State\ Level\ Polling\ Avg.} + \\ 
+\mathbf{\beta_3} \textbf{ One\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_4} \textbf{ Two\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_5} \textbf{ Inc.\ Party\ Status } + \\
+\mathbf{\beta_6} \textbf{ Oct.\ National\ Polling\ Avg.} + \mathbf{\epsilon}
+$$
 
 
 ### Justification of Model

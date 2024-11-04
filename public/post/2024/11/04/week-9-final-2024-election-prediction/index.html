@@ -44,10 +44,10 @@
 <li><em><strong>Incumbency</strong></em>: If the candidate is the incumbent president or not (in addition to being from the incumbent party).</li>
 </ul>
 <p>Thus together, the equation for my model is:</p>
-<p><strong>National Two-Party Vote Share for the Inc. Party = β</strong><del>0</del> <strong>+ β</strong><del>1</del><strong>Oct. National Polling Average + β</strong><del>2</del><strong>Sept. National Polling Average + β</strong><del>3</del><strong>Q2 GDP Growth + β</strong><del>4</del><strong>Incumbency + ε</strong></p>
-<p>National Two-Party Vote Share for the Inc. Party = β0 + β1 Oct. National Polling Average + β2Sept. National Polling Average + β3Q2 GDP Growth + β4Incumbency + ε</p>
 $$
-\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
+\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \\ 
+\mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \\ 
+\mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
 $$<h3 id="justification-of-national-model">Justification of National Model</h3>
 <p><strong>October Polling Average</strong>:
 Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. This said, polling tends to become more accurate as election day approaches, as found by <a href="https://gking.harvard.edu/files/bj215.pdf">Gelman and King
@@ -160,7 +160,12 @@ Although literature and expert opinions on the role of incumbency are split on w
 </ul>
 <p>Taken together, the equation for my primary state-level model is:</p>
 <p><strong>State Two-Party Vote Share for the Democratic Nominee = β</strong><del>0</del> <strong>+ β</strong><del>1</del><strong>Oct. State-Level Polling Avg. + β</strong><del>2</del><strong>Sept. State-Level Polling Avg. + β</strong><del>3</del><strong>One-Cycle Dem. Vote Lag + β</strong><del>4</del><strong>Two-Cycle Dem. Vote Lag + β</strong><del>5</del><strong>Inc. Party Status + β</strong><del>6</del><strong>Oct. National Polling Avg. + ε</strong></p>
-<h3 id="justification-of-model">Justification of Model</h3>
+$$
+\mathbf{State\ Two\ Party\ Vote\ Share\ for\ the\ Democratic\ Nominee} = \mathbf{\beta_0} + \\ 
+\mathbf{\beta_1} \textbf{ Oct.\ State\ Level\ Polling\ Avg.} + \mathbf{\beta_2} \textbf{ Sept.\ State\ Level\ Polling\ Avg.} + \\ 
+\mathbf{\beta_3} \textbf{ One\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_4} \textbf{ Two\ Cycle\ Dem.\ Vote\ Lag} + \mathbf{\beta_5} \textbf{ Inc.\ Party\ Status } + \\
+\mathbf{\beta_6} \textbf{ Oct.\ National\ Polling\ Avg.} + \mathbf{\epsilon}
+$$<h3 id="justification-of-model">Justification of Model</h3>
 <p><strong>State-Level Polling</strong>: As you can see, there are a number of similarities between my national and state models. As previously explained, despite its flaws polling is still a strong indicator of results, and state-level polling is  a good indicator historically of how that state will vote. For the same reasons as my national model, I included variables for both October and September averages.</p>
 <p><strong>Democratic Vote Lag</strong>: I added two new variables representing past election results in that state. While states certainly swing from year to year, most voters do not change their minds, so the last election, especially in today&rsquo;s polarized political climate, tends to be a good indicator of future results. I included the <em>two cycle</em> lag variable for a slightly different reason. Including this variable bakes into my model how much the state shifted left or right going into the last election. While many states may only move slightly or may bounce around depending on the year, some other states (ie. Alaska, Texas, Massachusetts) have fairly consistently trended left in recent cycles, while others (ie. Arkansas, Nevada, Florida) have trended rightwards relative to the nation. These trends tend to be because of gradual demographic changes within these states (such as Texas&rsquo; rapid growth and diversification) or because of gradual realignments in the composition of the two parties&rsquo; political bases (such as Democrats&rsquo; gradual growth among high-education suburbanites). As such, I felt it important to add a second variable to include a measurement of these trends.</p>
 <p><strong>Incumbency</strong>: Here I have factored in incumbency slightly differently than in my national model. Since my national model was based around the incumbent party, it was important to test whether the candidate themselves were an incumbent running for reelection or not. Now that my model is based around <em>Democratic</em> vote share, I felt it was more important to focus on party incumbency more generally.</p>
