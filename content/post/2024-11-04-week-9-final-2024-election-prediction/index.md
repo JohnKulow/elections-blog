@@ -29,6 +29,12 @@ Thus together, the equation for my model is:
 **National Two-Party Vote Share for the Inc. Party = β**~0~ **+ β**~1~**Oct. National Polling Average + β**~2~**Sept. National Polling Average + β**~3~**Q2 GDP Growth + β**~4~**Incumbency + ε**
 
 
+National Two-Party Vote Share for the Inc. Party = β0 + β1 Oct. National Polling Average + β2Sept. National Polling Average + β3Q2 GDP Growth + β4Incumbency + ε
+
+$$
+\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
+$$
+
 ### Justification of National Model
 **October Polling Average**:
 Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. This said, polling tends to become more accurate as election day approaches, as found by [Gelman and King
@@ -116,6 +122,7 @@ I based my model off of data spanning from 1968, when polling data from 538 begi
 </table>
 
 In terms of how we interpret the above coefficients for each of the four IV's:
+
 **October Polling Average**: For every 1-point increase in the incumbent candidate's weighted October national polling average, we can expect an 0.61-point increase in their eventual national two-party vote share. With a p-value of 0.048, this is one of the two statistically significant IV's in my model at a 95% confidence interval.
 
 **September Polling Average**: For every 1-point increase in the incumbent candidate's weighted September national polling average, we can expect an 0.21-point decrease in their eventual national two-party vote share *when controlling for other variables including the October polling average*. This last point is important to note. With a p-value of 0.484, this is not statistically significant , but that does not mean that the inclusion of this variable does not add value to my model, as explained previously.
@@ -181,6 +188,11 @@ Taken together, the equation for my primary state-level model is:
 
 
 Unfortunately however, this model only can be applied to the relatively few states for which we have publicly available polling. There are many states that are considered to be safely in Democrats' or Republicans' aisles that no polling firms has decided to invest resources in polling for non-internal purposes. Thus, knowing that these safe states will not affect my electoral college prediction I decided to make a ***second***, slightly simpler model for them. This supplementary OLS model drops the variables for October and September state-level polling averages, but it adds back in the national September polling average IV from my national model so as to replicate the potential September effects I explained above. In my primary state-level model, I decided that the inclusion of only the state-level September polling was sufficient and thus did not include the national September polling average in that primary model.
+
+
+### Regression Table
+
+For my state-level models, I based them off of elections spanning 2000-2020. I chose to start at 2000 because I felt that this was the beginning of a relatively modern, slightly more calcified era of electoral politics. Furthermore, now that I have dropped Q2 GDP growth data from my state-level prediction, I can include 2020 data again without incorporating severe outlier data points like I would have in my national model. Thus, based off of the six above independent variables and the 290 state-level elections for which we have polling for presidential elections in this time frame, below is the regression table for my primary state-level model.
 
 
 
@@ -256,6 +268,8 @@ Unfortunately however, this model only can be applied to the relatively few stat
 </tr>
 
 </table>
+
+
 
 
 
@@ -516,7 +530,7 @@ Unfortunately however, this model only can be applied to the relatively few stat
 
 
 
-### Regression Table
+
 - Include interpretation of coefficients
 
 ### Validation

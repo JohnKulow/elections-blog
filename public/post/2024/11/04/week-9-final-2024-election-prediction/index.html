@@ -45,7 +45,10 @@
 </ul>
 <p>Thus together, the equation for my model is:</p>
 <p><strong>National Two-Party Vote Share for the Inc. Party = β</strong><del>0</del> <strong>+ β</strong><del>1</del><strong>Oct. National Polling Average + β</strong><del>2</del><strong>Sept. National Polling Average + β</strong><del>3</del><strong>Q2 GDP Growth + β</strong><del>4</del><strong>Incumbency + ε</strong></p>
-<h3 id="justification-of-national-model">Justification of National Model</h3>
+<p>National Two-Party Vote Share for the Inc. Party = β0 + β1 Oct. National Polling Average + β2Sept. National Polling Average + β3Q2 GDP Growth + β4Incumbency + ε</p>
+$$
+\mathbf{National\ Two-Party\ Vote\ Share\ for\ the\ Inc.\ Party} = \mathbf{\beta_0} + \mathbf{\beta_1} \textbf{ Oct.\ National\ Polling\ Average} + \mathbf{\beta_2} \textbf{ Sept.\ National\ Polling\ Average} + \mathbf{\beta_3} \textbf{ Q2\ GDP\ Growth} + \mathbf{\beta_4} \textbf{ Incumbency} + \mathbf{\epsilon}
+$$<h3 id="justification-of-national-model">Justification of National Model</h3>
 <p><strong>October Polling Average</strong>:
 Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. This said, polling tends to become more accurate as election day approaches, as found by <a href="https://gking.harvard.edu/files/bj215.pdf">Gelman and King
 (1993)</a>. This is why I have weighted my October polling average by each day, favoring polls on days closer to election day.</p>
@@ -115,8 +118,8 @@ Although literature and expert opinions on the role of incumbency are split on w
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">0.891 / 0.836</td>
 </tr>
 </table>
-<p>In terms of how we interpret the above coefficients for each of the four IV&rsquo;s:
-<strong>October Polling Average</strong>: For every 1-point increase in the incumbent candidate&rsquo;s weighted October national polling average, we can expect an 0.61-point increase in their eventual national two-party vote share. With a p-value of 0.048, this is one of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
+<p>In terms of how we interpret the above coefficients for each of the four IV&rsquo;s:</p>
+<p><strong>October Polling Average</strong>: For every 1-point increase in the incumbent candidate&rsquo;s weighted October national polling average, we can expect an 0.61-point increase in their eventual national two-party vote share. With a p-value of 0.048, this is one of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
 <p><strong>September Polling Average</strong>: For every 1-point increase in the incumbent candidate&rsquo;s weighted September national polling average, we can expect an 0.21-point decrease in their eventual national two-party vote share <em>when controlling for other variables including the October polling average</em>. This last point is important to note. With a p-value of 0.484, this is not statistically significant , but that does not mean that the inclusion of this variable does not add value to my model, as explained previously.</p>
 <p><strong>Quarter 2 GDP Growth</strong>: For every 1% increase in Quarter 2 GDP growth, there is an associated 0.45-point increase in the incumbent party candidate&rsquo;s November national two-party vote share. With a p-value of 0.025, this is the second of the two statistically significant IV&rsquo;s in my model at a 95% confidence interval.</p>
 <p><strong>Incumbency</strong>: For every 1% increase in &ldquo;incumbency&rdquo; there is an associated 1.00-point increase in the incumbent party candidate&rsquo;s national two-party vote share. This may not initially make much sense, but consider that, of course, there is no such thing as a &ldquo;1% increase in incumbency&rdquo; as this is a binary variable. With a p-value of 0.456, this too is not statistically significant at a 95% confidence interval, but just like the September polling average, that does not mean it does not add value to my model.</p>
@@ -163,6 +166,8 @@ Although literature and expert opinions on the role of incumbency are split on w
 <p><strong>Incumbency</strong>: Here I have factored in incumbency slightly differently than in my national model. Since my national model was based around the incumbent party, it was important to test whether the candidate themselves were an incumbent running for reelection or not. Now that my model is based around <em>Democratic</em> vote share, I felt it was more important to focus on party incumbency more generally.</p>
 <p><strong>National Polling</strong>: Obviously this is a state-level model, but I wanted to factor in a variable for national polling averages, since in 2024 we find ourselves in an election where the national polling environment indicates a shift rightwards from 2020, but state-level polling largely has remained stable compared to last cycle&rsquo;s results. Thus, I feel like it is important to test the effects of both since, although they overlap slightly, in tandem they may catch trends previously left unnoticed.</p>
 <p>Unfortunately however, this model only can be applied to the relatively few states for which we have publicly available polling. There are many states that are considered to be safely in Democrats&rsquo; or Republicans&rsquo; aisles that no polling firms has decided to invest resources in polling for non-internal purposes. Thus, knowing that these safe states will not affect my electoral college prediction I decided to make a <em><strong>second</strong></em>, slightly simpler model for them. This supplementary OLS model drops the variables for October and September state-level polling averages, but it adds back in the national September polling average IV from my national model so as to replicate the potential September effects I explained above. In my primary state-level model, I decided that the inclusion of only the state-level September polling was sufficient and thus did not include the national September polling average in that primary model.</p>
+<h3 id="regression-table-1">Regression Table</h3>
+<p>For my state-level models, I based them off of elections spanning 2000-2020. I chose to start at 2000 because I felt that this was the beginning of a relatively modern, slightly more calcified era of electoral politics. Furthermore, now that I have dropped Q2 GDP growth data from my state-level prediction, I can include 2020 data again without incorporating severe outlier data points like I would have in my national model. Thus, based off of the six above independent variables and the 290 state-level elections for which we have polling for presidential elections in this time frame, below is the regression table for my primary state-level model.</p>
 <table style="border-collapse:collapse; border:none;">
 <caption style="font-weight: bold; text-align:left;">(Primary) State Model Regression Table</caption>
 <tr>
@@ -463,11 +468,12 @@ Although literature and expert opinions on the role of incumbency are split on w
 </table>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/04/week-9-final-2024-election-prediction/index_files/figure-html/combined state pred map-1.png" width="672" />
 <ul>
-<li>Do for both state-level models</li>
-</ul>
-<h3 id="regression-table-1">Regression Table</h3>
-<ul>
-<li>Include interpretation of coefficients</li>
+<li>
+<p>Do for both state-level models</p>
+</li>
+<li>
+<p>Include interpretation of coefficients</p>
+</li>
 </ul>
 <h3 id="validation-1">Validation</h3>
 <ul>
