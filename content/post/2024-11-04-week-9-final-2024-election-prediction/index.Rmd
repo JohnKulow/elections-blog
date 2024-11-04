@@ -10,20 +10,39 @@ tags: []
 ## Introduction
 For this week's blog post, the day before the 2024 election, I will make my final predictions for the national two-party popular vote, state-level two-party popular vote shares, and the associated electoral college vote. Altogether, my predictions are based off of three models, all multivariate ordinary least squares (OLS) regression models, that hopefully together will paint an accurate picture of what the results will be tomorrow (or whenever we actually end up getting results).
 
+
 ## National Model and Prediction
 ### Equation and Variables
 Let's begin with my national popular vote prediction. This model is built to predict what percentage of the two-party national popular vote will go to the candidate from the incumbent party. This vote share is the dependent variable. In terms of independent variables for this OLS model, I used the following four:
 
-- ***September Polling Average***: The average of national polls taken in *September*, as compiled by 538, and weighted by how many weeks were left until the election.
 - ***October Polling Average***: The average of national polls taken in *October*, as compiled by 538, and weighted by how many weeks were left until the election.
+- ***September Polling Average***: The average of national polls taken in *September*, as compiled by 538, and weighted by how many weeks were left until the election.
 - ***Quarter 2 GDP Growth***: The percent national GDP growth in Q2 of the respective election year.
 - ***Incumbency***: If the candidate is the incumbent president or not (in addition to being from the incumbent party).
 
 Thus together, the equation for my model is:
+\begin{center}
+**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**
+\end{center}
 
-|:**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**:|
 
-### Justification of National ModelModel
+### Justification of National Model
+**October Polling Average**:
+Although the accuracy of political polling has been repeatedly called into question, especially over the past few years following notable mishaps in the polling industry in 2016 and 2020, they remain perhaps our best indicator of what electorates are believing at any given point. 
+[Gelman and King
+(1993)](https://gking.harvard.edu/files/bj215.pdf)
+
+**September Polling Average**:
+
+
+**Quarter 2 GDP Growth**:
+[Achen and Bartels
+(2014)](https://press.princeton.edu/books/hardcover/9780691169446/democracy-for-realists?srsltid=AfmBOorl6iN4qgweThT5hVNygA3GYiEx8IZYUksJEgexdWLE3Es2imza)
+
+**Incumbency**:
+
+
+
 
 ```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
