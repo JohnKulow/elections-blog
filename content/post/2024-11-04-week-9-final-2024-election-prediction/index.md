@@ -125,7 +125,7 @@ In terms of how we interpret the above coefficients for each of the four IV's:
 
 **October Polling Average**: For every 1-point increase in the incumbent candidate's weighted October national polling average, we can expect an 0.61-point increase in their eventual national two-party vote share. With a p-value of 0.048, this is one of the two statistically significant IV's in my model at a 95% confidence interval.
 
-**September Polling Average**: For every 1-point increase in the incumbent candidate's weighted September national polling average, we can expect an 0.21-point decrease in their eventual national two-party vote share *when controlling for other variables including the October polling average*. This last point is important to note. With a p-value of 0.484, this is not statistically significant , but that does not mean that the inclusion of this variable does not add value to my model, as explained previously.
+**September Polling Average**: For every 1-point increase in the incumbent candidate's weighted September national polling average, we can expect an 0.21-point decrease in their eventual national two-party vote share *when controlling for other variables including the October polling average*. This last point is important to note. With a p-value of 0.484, this is not statistically significant, but that does not mean that the inclusion of this variable does not add value to my model, as explained previously.
 
 **Quarter 2 GDP Growth**: For every 1% increase in Quarter 2 GDP growth, there is an associated 0.45-point increase in the incumbent party candidate's November national two-party vote share. With a p-value of 0.025, this is the second of the two statistically significant IV's in my model at a 95% confidence interval.
 
@@ -217,18 +217,18 @@ For my state-level models, I based them off of elections spanning 2000-2020. I c
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.140</td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.18</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.11</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.40&nbsp;&ndash;&nbsp;0.05</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.118</td>
-</tr>
-<tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">oct poll</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.95</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.13</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.70&nbsp;&ndash;&nbsp;1.19</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.18</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.11</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;0.40&nbsp;&ndash;&nbsp;0.05</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.118</td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">D pv2p lag1</td>
@@ -269,7 +269,19 @@ For my state-level models, I based them off of elections spanning 2000-2020. I c
 
 </table>
 
+**October State-Level Polling Average**: For every 1-point increase in the Democratic candidate's weighted October state-level polling average, we can expect an 0.95-point increase in their eventual state-level two-party vote share. With a p-value of <0.001, this is one of the three statistically significant IV's in my primary state-level model at a 95% confidence interval.
 
+**September State-Level Polling Average**: For every 1-point increase in the Democratic candidate's weighted September state-level polling average, we can expect an 0.18-point decrease in their eventual state-level two-party vote share *when controlling for other variables including the October polling average*. This last point is important to note. With a p-value of 0.118, this is not statistically significant at a 95% confidence interval, but, like the September polling average in my national model that does not mean that the inclusion of this variable does not add value to my model.
+
+**One Cycle Democratic Vote Lag**: For ever 1-point increase in Democratic share of the two-party popular vote in the state in the *last* election, we can expect a 0.38-point increase in the Democrat's eventual state-level two-party vote share for the current year. With a p-value of <0.001, this is one of the three statistically significant IV's in my primary state-level model at a 95% confidence interval.
+
+**Two Cycle Democratic Vote Lag**: For ever 1-point increase in Democratic share of the two-party popular vote in the state in the election *two cycles prior*, we can expect an 0.01-point decrease in the Democrat's eventual state-level two-party vote share for the current year. With a p-value of 0.835, this is not statistically significant at a 95% confidence interval. In fact, this variable has very little effect at all in my model, but I felt that it was important to include it both because I believe my reasoning is sound for doing so and because it plays a more important role in my supplementary model when my model will have to predict the trend of a state relative to the nation without being able to rely on state-level polling data like this primary model does. 
+
+**Democratic Incumbency**: For every 1% increase in "incumbency" there is an associated 0.95-point decrease in the Democratic party candidate's state-level two-party vote share. Like with the incumbency variable in my national model, there is, of course, no such thing as a "1% increase in incumbency" as this is a binary variable. Nonetheless, it is still important to understand that incumbency tends to hurt Democrats in this model. With a p-value of 0.07, this too is not statistically significant at a 95% confidence interval, albeit narrowly so, but just like the September polling average and two cycle democratic vote lag, that does not mean it does not add value to my model.
+
+**October National Polling Average**: For every 1-point increase in the Democratic candidate's weighted October *national* polling average, we can expect an 0.22-point decrease in their eventual state-level two-party vote share. With a p-value of 0.033, this is one of the three statistically significant IV's in my primary state-level model at a 95% confidence interval.
+
+In terms of my supplementary model, below is the associated regression table:
 
 
 
@@ -315,17 +327,17 @@ For my state-level models, I based them off of elections spanning 2000-2020. I c
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
 </tr>
 <tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat sept poll</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.63</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.08&nbsp;&ndash;&nbsp;-1.18</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat oct poll</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.26</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.28</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.71&nbsp;&ndash;&nbsp;2.82</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">nat sept poll</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;1.63</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.23</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">&#45;2.08&nbsp;&ndash;&nbsp;-1.18</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
 </tr>
 <tr>
@@ -339,215 +351,209 @@ For my state-level models, I based them off of elections spanning 2000-2020. I c
 
 </table>
 
+I will not go into much detail at all about these numbers since this model is supplementary in nature, but it is important to note that four out of the five independent variables are statistically significant, and with the fifth, the two-cycle Democratic party vote share, being on the border of being so and being notably more impactful on the model's outputs than it was in my primary model, indicating that it is serving its intended purpose of predicting longer-term trends.
 
 
+### Validation
 
+For in-sample error, my primary state-level model’s R-squared value of 0.93 means that 93% of changes in state-level Democratic two-party popular vote share is explained by my model, representing a pretty strong correlation. This correlation holds strong when adjusted, with an adjusted R-squared value also of 0.93. These numbers are very similar for my supplementary model, with R-squared and adjusted R-squared values of 0.94 and 0.93 respectively.
 
-
-
+To understand my out-of-sample error in my primary state-level model, I performed 1,000 repetitions of random sampling, with each sample using 3 election years, which is half of the 6 total in the time frame of my data set. The average mean out-of-sample error, as shown by the black line in the graph below, is ~3.98%, a reasonably low number.
 
 
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/state validation graph-1.png" width="672" />
 
+The above histogram shows the distribution of these mean errors, which is slightly right-skewed. While there certainly are some outlier data points that push above 5% where my model failed to accurately predict the election within a reasonable margin of error, most scenarios fall below that threshold, and there are no outlier data points where my model missed by an average of over 7 points. I will not bother repeating this out-of-sample validation for my supplementary model.
+
+
+### Final State-Level Two-Party Vote Prediction
+
+Given the primary model, when we apply this result to the 2024 election between Vice President Harris and Former President Trump, we get the following predictions for states that have had publically available polling:
 
 
 <table>
  <thead>
   <tr>
    <th style="text-align:left;"> State </th>
-   <th style="text-align:right;"> Harris Vote Share </th>
-   <th style="text-align:right;"> Lower Bound </th>
-   <th style="text-align:right;"> Upper Bound </th>
+   <th style="text-align:center;"> Harris Vote Share </th>
+   <th style="text-align:center;"> Lower Bound </th>
+   <th style="text-align:center;"> Upper Bound </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Arizona </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 50.17068 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 44.85019 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 55.49117 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Arizona </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 50.17068 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 44.85019 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 55.49117 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> California </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 65.17024 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.78080 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 70.55968 </td>
+   <td style="text-align:left;background-color: rgba(57, 114, 212, 255) !important;"> California </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 65.17024 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 59.78080 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 70.55968 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Florida </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 48.36540 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 43.03339 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 53.69742 </td>
+   <td style="text-align:left;background-color: rgba(255, 199, 206, 255) !important;"> Florida </td>
+   <td style="text-align:center;background-color: rgba(255, 199, 206, 255) !important;"> 48.36540 </td>
+   <td style="text-align:center;background-color: rgba(255, 199, 206, 255) !important;"> 43.03339 </td>
+   <td style="text-align:center;background-color: rgba(255, 199, 206, 255) !important;"> 53.69742 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Georgia </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 50.42399 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 45.10149 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 55.74650 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Georgia </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 50.42399 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 45.10149 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 55.74650 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Indiana </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 41.34649 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 36.02409 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 46.66890 </td>
+   <td style="text-align:left;background-color: rgba(201, 60, 76, 255) !important;"> Indiana </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 41.34649 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 36.02409 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 46.66890 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Maine Cd 2 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 46.58067 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 41.26204 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 51.89930 </td>
+   <td style="text-align:left;background-color: rgba(255, 158, 169, 255) !important;"> Maine Cd 2 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 46.58067 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 41.26204 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 51.89930 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Maryland </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 68.04048 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 62.66586 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 73.41510 </td>
+   <td style="text-align:left;background-color: rgba(57, 114, 212, 255) !important;"> Maryland </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 68.04048 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 62.66586 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 73.41510 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Massachusetts </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 66.76200 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 61.39923 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 72.12476 </td>
+   <td style="text-align:left;background-color: rgba(57, 114, 212, 255) !important;"> Massachusetts </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 66.76200 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 61.39923 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 72.12476 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Michigan </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 51.44157 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 46.11853 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 56.76461 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Michigan </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 51.44157 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 46.11853 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 56.76461 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Minnesota </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 53.89702 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 48.57408 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.21996 </td>
+   <td style="text-align:left;background-color: rgba(161, 196, 255, 255) !important;"> Minnesota </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 53.89702 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 48.57408 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 59.21996 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Missouri </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 43.16617 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 37.83319 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 48.49915 </td>
+   <td style="text-align:left;background-color: rgba(255, 110, 126, 255) !important;"> Missouri </td>
+   <td style="text-align:center;background-color: rgba(255, 110, 126, 255) !important;"> 43.16617 </td>
+   <td style="text-align:center;background-color: rgba(255, 110, 126, 255) !important;"> 37.83319 </td>
+   <td style="text-align:center;background-color: rgba(255, 110, 126, 255) !important;"> 48.49915 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Montana </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 41.09607 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 35.77414 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 46.41800 </td>
+   <td style="text-align:left;background-color: rgba(201, 60, 76, 255) !important;"> Montana </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 41.09607 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 35.77414 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 46.41800 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Nebraska </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 40.09414 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 34.76453 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 45.42374 </td>
+   <td style="text-align:left;background-color: rgba(201, 60, 76, 255) !important;"> Nebraska </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 40.09414 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 34.76453 </td>
+   <td style="text-align:center;background-color: rgba(201, 60, 76, 255) !important;"> 45.42374 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Nebraska Cd 2 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 54.57686 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 49.24191 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.91181 </td>
+   <td style="text-align:left;background-color: rgba(161, 196, 255, 255) !important;"> Nebraska Cd 2 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 54.57686 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 49.24191 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 59.91181 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Nevada </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 51.36874 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 46.04218 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 56.69530 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Nevada </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 51.36874 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 46.04218 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 56.69530 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> New Hampshire </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 54.67997 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 49.34864 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 60.01130 </td>
+   <td style="text-align:left;background-color: rgba(161, 196, 255, 255) !important;"> New Hampshire </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 54.67997 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 49.34864 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 60.01130 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> New Mexico </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 54.62405 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 49.29581 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.95228 </td>
+   <td style="text-align:left;background-color: rgba(161, 196, 255, 255) !important;"> New Mexico </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 54.62405 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 49.29581 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 59.95228 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> New York </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.86333 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 54.49855 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 65.22812 </td>
+   <td style="text-align:left;background-color: rgba(57, 114, 212, 255) !important;"> New York </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 59.86333 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 54.49855 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 65.22812 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> North Carolina </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 50.31757 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 44.98784 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 55.64730 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> North Carolina </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 50.31757 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 44.98784 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 55.64730 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Ohio </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 46.02362 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 40.70049 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 51.34675 </td>
+   <td style="text-align:left;background-color: rgba(255, 158, 169, 255) !important;"> Ohio </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 46.02362 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 40.70049 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 51.34675 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Pennsylvania </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 51.23316 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 45.90608 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 56.56025 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Pennsylvania </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 51.23316 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 45.90608 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 56.56025 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(255, 221, 221, 255) !important;"> Texas </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 47.12235 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 41.80247 </td>
-   <td style="text-align:right;background-color: rgba(255, 221, 221, 255) !important;"> 52.44224 </td>
+   <td style="text-align:left;background-color: rgba(255, 158, 169, 255) !important;"> Texas </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 47.12235 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 41.80247 </td>
+   <td style="text-align:center;background-color: rgba(255, 158, 169, 255) !important;"> 52.44224 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Virginia </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 54.64381 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 49.32428 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 59.96335 </td>
+   <td style="text-align:left;background-color: rgba(161, 196, 255, 255) !important;"> Virginia </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 54.64381 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 49.32428 </td>
+   <td style="text-align:center;background-color: rgba(161, 196, 255, 255) !important;"> 59.96335 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Washington </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 60.57076 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 55.22182 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 65.91970 </td>
+   <td style="text-align:left;background-color: rgba(57, 114, 212, 255) !important;"> Washington </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 60.57076 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 55.22182 </td>
+   <td style="text-align:center;background-color: rgba(57, 114, 212, 255) !important;"> 65.91970 </td>
   </tr>
   <tr>
-   <td style="text-align:left;background-color: rgba(208, 239, 255, 255) !important;"> Wisconsin </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 51.20178 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 45.86424 </td>
-   <td style="text-align:right;background-color: rgba(208, 239, 255, 255) !important;"> 56.53932 </td>
+   <td style="text-align:left;background-color: rgba(204, 223, 255, 255) !important;"> Wisconsin </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 51.20178 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 45.86424 </td>
+   <td style="text-align:center;background-color: rgba(204, 223, 255, 255) !important;"> 56.53932 </td>
   </tr>
 </tbody>
 </table>
 
+When you combine these results with my supplementary model's predictions for states without polling data, you get the below map of my prediction for the nation, with states shaded by whether they will have voted for or against Harris:
 
 
 
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map winner-1.png" width="672" />
+
+Not visualized here are Nebraska's 2nd Congressional District and Maine's 2nd Congressional District, which go to Harris and Trump respectively, nor Trump-won Alaska or Harris-won Hawaii. Altogether, this map predicts a Harris victory in the electoral college 319-219 votes. Once again, however, this is a close election, and the table above with the predicted results for states with polling (which includes all key swing states/districts), shows that either party is easily within the confidence bounds of winning 270 electoral votes. The map below, which shows Harris and Trump's predicted margins in states, helps visualize how close this election is in those key states.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/combined state pred map-1.png" width="672" />
 
 
-
-
-
-
-- Do for both state-level models
-
-
-
-
-- Include interpretation of coefficients
-
-### Validation
-- Out of sample validation
-
-### Final State-Level Two-Party Vote Prediction
-
-
 ## Conclusion
 
+Overall, if my models are correct Harris would narrowly win the crucial swing states and national popular vote, making her the first ever Madam President-Elect, but we will soon see whether we have to wait longer to utter those words.
 
 
 
-
-
-
-test
 
 
 
