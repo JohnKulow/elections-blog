@@ -1,5 +1,5 @@
 ---
-title: 'Week 9: Final 2024 Election Prediction'
+title: 'Blog Post 9: Final 2024 Election Prediction'
 author: John Kulow
 date: '2024-11-04'
 slug: week-9-final-2024-election-prediction
@@ -16,12 +16,18 @@ For this week's blog post, the day before the 2024 election, I will make my fina
 
 ## National Model and Prediction
 ### Equation and Variables
-Let's begin with my national popular vote prediction. For this OLS model, I used four variables:
+Let's begin with my national popular vote prediction. This model is built to predict what percentage of the two-party national popular vote will go to the candidate from the incumbent party. This vote share is the dependent variable. In terms of independent variables for this OLS model, I used the following four:
 
-- ***September Polling Average***: 
-- ***October Polling Average***:
-- ***Quarter 2 GDP Growth***:
-- ***Incumbency***:
+- ***September Polling Average***: The average of national polls taken in *September*, as compiled by 538, and weighted by how many weeks were left until the election.
+- ***October Polling Average***: The average of national polls taken in *October*, as compiled by 538, and weighted by how many weeks were left until the election.
+- ***Quarter 2 GDP Growth***: The percent national GDP growth in Q2 of the respective election year.
+- ***Incumbency***: If the candidate is the incumbent president or not (in addition to being from the incumbent party).
+
+Thus together, the equation for my model is:
+
+|:**National Two-Party Vote Share for the Inc. Party = β~0~ + β~1~Sept. National Polling Average + β~2~Oct. National Polling Average + β~3~Q2 GDP Growth + β~4~Incumbency + ε**:|
+
+### Justification of National ModelModel
 
 
 
@@ -429,7 +435,7 @@ Let's begin with my national popular vote prediction. For this OLS model, I used
 
 
 
-### Justification of Model
+
 
 ### Regression Table
 - Include interpretation of coefficients
