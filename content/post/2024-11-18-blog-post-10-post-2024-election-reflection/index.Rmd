@@ -105,8 +105,9 @@ d_state_2024 <- d_state_2024 |>
          trump_2pv = votes_trump/(votes_trump + votes_harris), 
          harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
   mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
-                            .default = "DEM")) |> 
-  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+                            .default = "DEM"),
+         state = `Geographic Name`) |> 
+  select(FIPS, state, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
          winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
 
 d_county_2024 <- d_county_2024 |>
@@ -403,20 +404,40 @@ d_nopoll_state_model_2024$region <- tolower(d_nopoll_state_model_2024$state)
 
 
 
-```{r list of state model 2 results, include=FALSE}
-knitr::kable(d_nopoll_state_model_2024 |> 
-               select(state, predicted_values, lower_bounds, upper_bounds), 
-             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound")) |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values >= 50 & d_state_model_2024$predicted_values < 52.5), background = "#ccdfff") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values >= 52.5 & d_state_model_2024$predicted_values < 55), background = "#a1c4ff") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values >= 55 & d_state_model_2024$predicted_values < 57.5), background = "#6ea3ff") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values >= 57.5), background = "#3972d4") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values < 50 & d_state_model_2024$predicted_values > 47.5), background = "#ffc7ce") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values < 47.5 & d_state_model_2024$predicted_values > 45), background = "#ff9ea9") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values <= 45 & d_state_model_2024$predicted_values > 42.5), background = "#ff6e7e") |>
-  row_spec(which(d_nopoll_state_model_2024$predicted_values <= 42.5), background = "#c93c4c")
 
+
+
+
+
+
+```{r nat model table}
+tab_model(d_nat_reg, show.se = TRUE, 
+          title = "National Model Regression Table", 
+          dv.labels = "National 2-Party Vote Share for Incumbent Party")
 ```
+
+```{r nat model validation graph}
+nat_model_valid_plot
+```
+
+
+
+```{r state model reg}
+tab_model(d_state_reg, show.se = TRUE, 
+          title = "(Primary) State Model Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
+```
+
+```{r state model 2 reg}
+tab_model(d_nopoll_state_reg, show.se = TRUE, 
+          title = "(Supplementary) State Model Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
+```
+
+```{r state validation graph}
+state_model_valid_plot
+```
+
 
 
 
@@ -428,11 +449,194 @@ knitr::kable(d_nopoll_state_model_2024 |>
 ## Recap of My Model and Predictions
 ### National Popular Vote
 talk about how I predicted a narrow harris victory, note the bounds
+```{r nat pred graphic 1}
+knitr::kable(nat_pred_2024, 
+             col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound"),
+             align = c("c", "c", "c")) 
+```
 
 ### State-Level Vote and Electoral College
 talk about how I predicted a harris sweep
 recreate the map graphics for margin and victor
 Look at key states in chart
+```{r combined state pred map winner}
+d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2,
+         Win = if_else(Margin > 0, "Harris", "Trump")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Win), color = "black") +  
+  scale_fill_manual(values = c("Harris" = "dodgerblue4", "Trump" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Predicted Presidential Vote Winner by State for the 2024 Election") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+```
+
+```{r combined state pred map}
+d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2) |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Margin), color = "black") +
+  scale_fill_gradientn(colors = c("#9e0213", "#f04658", "#ff9ea9", "#ffc7ce", "white", "#ccdfff", "#a1c4ff", "#4b50e3", "#02079e"), 
+                       values = scales::rescale(c(-50, -15, -10, -5, 0, 5, 10, 15, 50)), # Rescale to the range of your data
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50, 50)) +
+  theme_void() +
+  ggtitle("Predicted Presidential Vote Share by State for the 2024 Election") +
+  labs(fill = "Harris Margin") +
+  theme(aspect.ratio = .60)
+```
+
+```{r state pred graphic}
+knitr::kable(d_state_model_2024 |> 
+               select(state, predicted_values, lower_bounds, upper_bounds), 
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound"),
+             align = c("l", "c", "c", "c")) |>
+  row_spec(which(d_state_model_2024$predicted_values >= 50 & d_state_model_2024$predicted_values < 52.5), background = "#ccdfff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 52.5 & d_state_model_2024$predicted_values < 55), background = "#a1c4ff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 55 & d_state_model_2024$predicted_values < 57.5), background = "#6ea3ff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 57.5), background = "#3972d4") |>
+  row_spec(which(d_state_model_2024$predicted_values < 50 & d_state_model_2024$predicted_values > 47.5), background = "#ffc7ce") |>
+  row_spec(which(d_state_model_2024$predicted_values < 47.5 & d_state_model_2024$predicted_values > 45), background = "#ff9ea9") |>
+  row_spec(which(d_state_model_2024$predicted_values <= 45 & d_state_model_2024$predicted_values > 42.5), background = "#ff6e7e") |>
+  row_spec(which(d_state_model_2024$predicted_values <= 42.5), background = "#c93c4c")
+
+```
+
+
+```{r combining state-level data, include=FALSE}
+d_final_preds <- d_nopoll_state_model_2024 |>
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         final_prediction_margin = (final_prediction - 50) * 2,
+         final_lower_bounds = if_else(is.na(lower_bounds.y) == 0, lower_bounds.y, lower_bounds.x),
+         final_upper_bounds = if_else(is.na(upper_bounds.y) == 0, upper_bounds.y, upper_bounds.x),
+         state = if_else(state == "District Of Columbia", "District of Columbia", state)) |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, final_prediction, final_prediction_margin, final_lower_bounds, final_upper_bounds, harris_2pv, winner, region) |>
+  mutate(harris_2pv = harris_2pv * 100,
+         harris_margin = (harris_2pv - 50) * 2,
+         pred_error = harris_2pv - final_prediction,
+         margin_error = harris_margin - final_prediction_margin)
+```
+
+```{r state margin error map}
+d_final_preds |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = margin_error), color = "black") +
+  scale_fill_gradientn(colors = c("#9e0213", "white", "#02079e"), 
+                       limits = c(-10, 10)
+                       ) +
+  theme_void() +
+  ggtitle("Difference Between Predicted and Actual State-Level 2024 Election Margins") +
+  labs(fill = "Margin Error") +
+  theme(aspect.ratio = .60)
+```
+
+```{r two state winner maps}
+pred_state_winner_map <- d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2,
+         Win = if_else(Margin > 0, "Harris", "Trump")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Win), color = "black") +  
+  scale_fill_manual(values = c("Harris" = "dodgerblue4", "Trump" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Predicted Winner") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+
+real_state_winner_map <- d_final_preds |>
+  left_join(states_map, by = "region") |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = winner), color = "black") +  
+  scale_fill_manual(values = c("DEM" = "dodgerblue4", "REP" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Actual Winner") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+```
+
+```{r}
+pred_state_winner_map + real_state_winner_map
+```
+
+
+
+```{r state pred error graphic}
+comb_key_states <- d_state_model_2024 |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, predicted_values, harris_2pv, lower_bounds, upper_bounds) |>
+  mutate(harris_2pv = if_else(state == "Maine Cd 2", 0.45379, harris_2pv),
+         harris_2pv = if_else(state == "Nebraska Cd 2", 0.52129, harris_2pv),
+         harris_2pv = harris_2pv * 100,
+         pred_error = harris_2pv - predicted_values)
+
+knitr::kable(comb_key_states |> 
+               select(state, predicted_values, harris_2pv, lower_bounds, upper_bounds, pred_error), 
+             col.names = c("State", "Pred. Harris %", "Real Harris %", "Lower Bound", "Upper Bound", "Error"),
+             align = c("l", "c", "c", "c", "c")) |>
+ row_spec(which(comb_key_states$pred_error < 0 & comb_key_states$pred_error > -1), background = "#ffc7ce") |>
+  row_spec(which(comb_key_states$pred_error < -1 & comb_key_states$pred_error > -2), background = "#ff9ea9") |>
+  row_spec(which(comb_key_states$pred_error <= -2 & comb_key_states$pred_error > -3), background = "#ff6e7e") |>
+  row_spec(which(comb_key_states$pred_error <= -3 & comb_key_states$pred_error > -4), background = "#c93c4c") |>
+  row_spec(which(comb_key_states$pred_error <= -4), background = "firebrick")
+
+```
+
+```{r nat pred error graphic}
+nat_vote_combined <- data.frame(
+  fit = 51.83,
+  real_2pv = 48.72,
+  lwr = 46.55,
+  upr = 57.10
+)
+
+knitr::kable(nat_vote_combined, 
+             col.names = c("Pred. Harris %", "Real Harris %", "Lower Bound", "Upper Bound"),
+             align = c("c", "c", "c", "c")) 
+```
+
+
+```{r}
+d_final_preds |>
+  summarize(
+    bias = round(mean(harris_2pv - final_prediction),2),  
+    RMSE = round(sqrt(mean((harris_2pv - final_prediction)^2)),2),
+    MAE = round(mean(abs(harris_2pv - final_prediction)),2)
+  )
+
+comb_key_states |>
+  summarize(
+    bias = round(mean(harris_2pv - predicted_values),2),  
+    RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
+    MAE = round(mean(abs(harris_2pv - predicted_values)),2)
+  )
+
+
+d_nopoll_state_model_2024 |>
+  mutate(state = if_else(state == "District Of Columbia", "District of Columbia", state)) |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, predicted_values, lower_bounds, upper_bounds, harris_2pv, winner, region) |>
+  mutate(harris_2pv = harris_2pv * 100,
+         harris_margin = (harris_2pv - 50) * 2,
+         pred_error = harris_2pv - predicted_values) |>
+  summarize(
+    bias = round(mean(harris_2pv - predicted_values),2),  
+    RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
+    MAE = round(mean(abs(harris_2pv - predicted_values)),2)
+  )
+```
 
 
 ## Assessing My Accuracy
