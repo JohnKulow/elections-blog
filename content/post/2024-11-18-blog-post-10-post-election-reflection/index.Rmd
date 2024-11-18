@@ -7,8 +7,6 @@ categories: []
 tags: []
 ---
 
-test
-
 ```{r setup, warning = FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
 ```
@@ -51,10 +49,623 @@ library(tigris)
 library(tmap)
 library(tmaptools)
 library(viridis)
+library(censable)
+library(readstata13)
 ```
+
+```{r importing data, include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data.
+####----------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("data/popvote_1948_2020.csv")
+d_state_popvote <- read_csv("data/state_popvote_1948_2020.csv")
+d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("data/corrected_ec_1948_2024.csv")
+
+# Read polling data. 
+d_polls <- read_csv("data/national_polls_1968-2024.csv")
+d_state_polls <- read_csv("data/state_polls_1968-2024.csv")
+
+# Read turnout data. 
+d_turnout <- read_csv("data/state_turnout_1980_2022.csv")
+
+# Read county turnout. 
+d_county_turnout <- read_csv("data/county_turnout.csv")
+
+# Read state-level demographics.
+d_state_demog <- read_csv("data/demographics.csv")
+
+# Read county demographics. 
+d_county_demog <- read_csv("data/county_demographics.csv")
+
+# Read campaign events datasets. 
+d_campaign_events <- read_csv("data/campaigns_2016_2024.csv")[,-1]
+
+d_pollav_nat <- read_csv("data/national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("data/state_polls_1968-2024.csv")
+
+# Read 2024 results datasets. 
+d_state_2024 <- read_csv("data/state_votes_pres_2024.csv")[-1, 1:6]
+d_county_2024 <- read_csv("data/county_votes_pres_2024.csv")[-1, 1:6]
+d_county_2020 <- read_csv("data/county_votes_pres_2020.csv")[-1, 1:6]
+
+# Process 2024 state and county-level data. 
+d_state_2024 <- d_state_2024 |> 
+  mutate(FIPS = as.numeric(FIPS), 
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM"),
+         state = `Geographic Name`) |> 
+  select(FIPS, state, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2024 <- d_county_2024 |>
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2020 <- d_county_2020 |> 
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump_2020 = as.numeric(`Donald J. Trump`), 
+         votes_biden_2020 = as.numeric(`Joseph R. Biden Jr.`), 
+         votes_2020 = as.numeric(`Total Vote`), 
+         trump_pv_2020 = votes_trump_2020/votes_2020, 
+         biden_pv_2020 = votes_biden_2020/votes_2020, 
+         trump_2pv_2020 = votes_trump_2020/(votes_trump_2020 + votes_biden_2020), 
+         biden_2pv_2020 = votes_biden_2020/(votes_trump_2020 + votes_biden_2020)) |> 
+  mutate(winner_2020 = case_when(votes_trump_2020 > votes_biden_2020 ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump_2020, votes_biden_2020, votes_2020, 
+         winner_2020, trump_pv_2020, biden_pv_2020, trump_2pv_2020, biden_2pv_2020)
+```
+
+```{r nat model, include=FALSE}
+d_poll_nat <- d_pollav_nat |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10)) |>
+  group_by(year, party, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  drop_na() |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10)
+
+d_fred <- read_csv("data/fred_econ.csv")
+
+d_fred_2 <- d_fred |>
+  filter(quarter == 2)
+
+d_nat_model <- d_popvote |> 
+  mutate(party = if_else(party == "democrat", "DEM", "REP")) |>
+  left_join(d_fred_2, by = "year") |> 
+  filter(year > 1967, 
+         year != 2020,
+         incumbent_party) |>
+  mutate(incumbent = as.numeric(incumbent)) |>
+  left_join(d_poll_nat, by = c("year", "party"))
+
+d_nat_reg <- lm(pv2p ~ oct_poll + sept_poll + GDP_growth_quarterly + incumbent, 
+                data = d_nat_model)
+```
+
+```{r nat model validation, include=FALSE}
+set.seed(02138)
+
+out_samp_errors <- sapply(1:1000, function(i) {
+  years_out_samp <- sample(d_nat_model$year, 7)
+  mod <- lm(pv2p ~ sept_poll + oct_poll + GDP_growth_quarterly + incumbent, 
+            data = d_nat_model[!(d_nat_model$year %in% years_out_samp),])
+  out_samp_pred <- predict(mod, d_nat_model[d_nat_model$year %in% years_out_samp,])
+  if (any(is.na(out_samp_pred)) || any(is.na(d_nat_model$pv2p[d_nat_model$year %in% years_out_samp]))) {
+    return(NA)
+  }
+  out_samp_truth <- d_nat_model$pv2p[d_nat_model$year %in% years_out_samp]
+  mean(abs(out_samp_pred - out_samp_truth))
+})
+out_samp_errors <- na.omit(out_samp_errors)
+mean_out_samp_error <- mean(abs(out_samp_errors))
+
+nat_model_valid_plot <- ggplot() +
+  geom_histogram(aes(x = out_samp_errors), fill = "lightgray", binwidth = 0.5) + 
+  geom_vline(aes(xintercept = mean_out_samp_error), color = "black") +
+  labs(title = "Out-of-Sample Cross Validation Error Distribution",
+       x = "Mean Absolute Errors",
+       y = "") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  ) +
+  scale_x_continuous(limits = c(0, 20))
+```
+
+```{r nat pred, include=FALSE}
+d_nat_model_2024 <- d_nat_model |>
+  filter(year == 2024) |>
+  select(sept_poll, oct_poll, GDP_growth_quarterly, juneapp) |>
+  mutate(incumbent = 0)
+
+nat_pred_2024 <- predict(d_nat_reg, d_nat_model_2024, interval = "prediction", level = 0.95)
+```
+
+```{r state model, include=FALSE}
+nat_poll_d_yearly <- d_pollav_nat |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10)) |>
+  group_by(year, party, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  drop_na() |>
+  rename(nat_sept_poll = month_9, 
+         nat_oct_poll = month_10) |>
+  filter(party == "DEM")
+
+d_poll_state <- d_pollav_state |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "DEM", 
+         year > 1999) |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  select(year, state, month_9, month_10, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  drop_na() |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2000" ~ 1,
+                                 year == "2004" ~ 0,
+                                 year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1),
+         D_pv2p_lag_shift = D_pv2p_lag1 - D_pv2p_lag2) |>
+  left_join(nat_poll_d_yearly, by = "year")
+
+d_state_reg <- lm(D_pv2p ~ oct_poll + sept_poll + D_pv2p_lag1 + D_pv2p_lag2 + d_incumbent + nat_oct_poll,
+                data = d_poll_state)
+```
+
+```{r state model 2, include=FALSE}
+d_nopoll_states <- d_state_popvote |>
+  select(year, state, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "1948" ~ 1,
+                                 year == "1952" ~ 1,
+                                 year == "1956" ~ 0,
+                                 year == "1960" ~ 0,
+                                 year == "1964" ~ 1,
+                                 year == "1968" ~ 1,
+                                 year == "1972" ~ 0,
+                                 year == "1976" ~ 0,
+                                 year == "1980" ~ 1,
+                                 year == "1984" ~ 0,
+                                 year == "1988" ~ 0,
+                                 year == "1992" ~ 0,
+                                 year == "1996" ~ 1,
+                                 year == "2000" ~ 1,
+                                 year == "2004" ~ 0,
+                                 year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1)) |>
+  filter(year > 2000) |>
+  left_join(nat_poll_d_yearly, by = "year")
+
+d_nopoll_state_reg <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + d_incumbent + nat_oct_poll + nat_sept_poll,
+                data = d_nopoll_states)
+```
+
+```{r state model validation, include=FALSE}
+set.seed(02138)
+
+out_samp_errors_st <- sapply(1:1000, function(i) {
+  years_out_samp_st <- sample(d_poll_state$year, 3)
+  mod_st <- lm(D_pv2p ~ sept_poll + oct_poll + D_pv2p_lag1 + D_pv2p_lag2 + d_incumbent + nat_oct_poll, 
+            data = d_poll_state[!(d_poll_state$year %in% years_out_samp_st),])
+  out_samp_pred_st <- predict(mod_st, d_poll_state[d_poll_state$year %in% years_out_samp_st,])
+  if (any(is.na(out_samp_pred_st)) || any(is.na(d_poll_state$D_pv2p[d_poll_state$year %in% years_out_samp_st]))) {
+    return(NA)
+  }
+  out_samp_truth_st <- d_poll_state$D_pv2p[d_poll_state$year %in% years_out_samp_st]
+  mean(abs(out_samp_pred_st - out_samp_truth_st))
+})
+out_samp_errors_st <- na.omit(out_samp_errors_st)
+mean_out_samp_error_st <- mean(abs(out_samp_errors_st))
+
+state_model_valid_plot <- ggplot() +
+  geom_histogram(aes(x = out_samp_errors_st), fill = "lightgray", binwidth = 0.25) + 
+  geom_vline(aes(xintercept = mean_out_samp_error_st), color = "black") +
+  labs(title = "Out-of-Sample Cross Validation Errors",
+       x = "Mean Absolute Errors",
+       y = "") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  ) +
+  scale_x_continuous(limits = c(0, 8))
+```
+
+```{r state pred, include=FALSE}
+d_state_model_2024 <- d_pollav_state |>
+  select(year, state, weeks_left, poll_date, poll_support, party) |>
+  filter(month(poll_date) %in% c(9, 10),
+         party == "DEM") |>
+  group_by(year, state, month = month(poll_date)) |>
+  summarize(poll_support = round(weighted.mean(poll_support, weeks_left, na.rm = TRUE), 2), .groups = "drop") |>
+  pivot_wider(names_from = month, 
+              values_from = poll_support, 
+              names_prefix = "month_") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  arrange(state, year) |>
+  group_by(state) |>
+  mutate(D_pv2p_lag1 = lag(D_pv2p, n = 1),
+         D_pv2p_lag2 = lag(D_pv2p, n = 2)) |>
+  ungroup() |>
+  select(year, state, month_9, month_10, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  rename(sept_poll = month_9, 
+         oct_poll = month_10) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2008" ~ 0,
+                                 year == "2012" ~ 1,
+                                 year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1)) |>
+  filter(year == "2024") |>
+  mutate(sept_poll = case_when(is.na(sept_poll) == 1 ~ oct_poll,
+                               TRUE ~ sept_poll),
+         D_pv2p_lag1 = case_when(state == "Nebraska Cd 2" ~ 53.27,
+                                 state == "Maine Cd 2" ~ 46.86,
+                                 TRUE ~ D_pv2p_lag1),
+         D_pv2p_lag2 = case_when(state == "Nebraska Cd 2" ~ 48.99,
+                                 state == "Maine Cd 2" ~ 45.12,
+                                 TRUE ~ D_pv2p_lag2)) |>
+  left_join(nat_poll_d_yearly, by = "year")
+
+state_pred_2024 <- predict(d_state_reg, d_state_model_2024, interval = "prediction")
+
+d_state_model_2024 <- d_state_model_2024 |>
+  mutate(predicted_values = state_pred_2024[, "fit"],
+         lower_bounds = state_pred_2024[, "lwr"],
+         upper_bounds = state_pred_2024[, "upr"])
+```
+
+```{r combined state pred and graphic setup, include=FALSE}
+states <- unique(d_state_popvote$state)  # List of all 50 states
+year_2024 <- 2024
+new_rows <- expand.grid(year = year_2024, state = states)
+
+# Join with historical data to get D_pv2p_lag1 and D_pv2p_lag2
+new_rows <- new_rows |>
+  left_join(d_state_popvote |>
+              filter(year %in% c(2020, 2016)) |>
+              select(state, year, D_pv2p) |>
+              arrange(state, year) |>
+              group_by(state) |>
+              summarize(
+                D_pv2p_lag1 = D_pv2p[year == 2020],  # Lag 1 from 2020
+                D_pv2p_lag2 = D_pv2p[year == 2016]   # Lag 2 from 2016
+              ),
+            by = "state")
+
+# Add new rows to the original dataset
+d_state_popvote_2024 <- bind_rows(d_state_popvote, new_rows)
+
+d_nopoll_state_model_2024 <- d_state_popvote_2024 |>
+  select(year, state, D_pv2p, D_pv2p_lag1, D_pv2p_lag2) |>
+  left_join(d_fred_2, by = "year") |>
+  mutate(d_incumbent = case_when(year == "2016" ~ 1,
+                                 year == "2020" ~ 0,
+                                 year == "2024" ~ 1),
+         d_incumbent_cand = case_when(year == "2016" ~ 0,
+                                 year == "2020" ~ -1,
+                                 year == "2024" ~ 0)) |>
+  filter(year == 2024)|>
+  left_join(nat_poll_d_yearly, by = "year")
+
+nopoll_state_pred_2024 <- predict(d_nopoll_state_reg, d_nopoll_state_model_2024, interval = "prediction")
+
+d_nopoll_state_model_2024 <- d_nopoll_state_model_2024 |>
+  mutate(predicted_values = nopoll_state_pred_2024[, "fit"],
+         lower_bounds = nopoll_state_pred_2024[, "lwr"],
+         upper_bounds = nopoll_state_pred_2024[, "upr"])
+states_map <- map_data("state")
+d_nopoll_state_model_2024$region <- tolower(d_nopoll_state_model_2024$state)
+```
+
+
+
+
+
+
+
+
+
+
+```{r nat model table}
+tab_model(d_nat_reg, show.se = TRUE, 
+          title = "National Model Regression Table", 
+          dv.labels = "National 2-Party Vote Share for Incumbent Party")
+```
+
+```{r nat model validation graph}
+nat_model_valid_plot
+```
+
+
+
+```{r state model reg}
+tab_model(d_state_reg, show.se = TRUE, 
+          title = "(Primary) State Model Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
+```
+
+```{r state model 2 reg}
+tab_model(d_nopoll_state_reg, show.se = TRUE, 
+          title = "(Supplementary) State Model Regression Table", 
+          dv.labels = "State 2-Party Vote Share for Democrats")
+```
+
+```{r state validation graph}
+state_model_valid_plot
+```
+
+
+
+
+
+## Introduction
+
+
+
+## Recap of My Model and Predictions
+### National Popular Vote
+talk about how I predicted a narrow harris victory, note the bounds
+```{r nat pred graphic 1}
+knitr::kable(nat_pred_2024, 
+             col.names = c("Harris Vote Share", "Lower Bound", "Upper Bound"),
+             align = c("c", "c", "c")) 
+```
+
+### State-Level Vote and Electoral College
+talk about how I predicted a harris sweep
+recreate the map graphics for margin and victor
+Look at key states in chart
+```{r combined state pred map winner}
+d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2,
+         Win = if_else(Margin > 0, "Harris", "Trump")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Win), color = "black") +  
+  scale_fill_manual(values = c("Harris" = "dodgerblue4", "Trump" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Predicted Presidential Vote Winner by State for the 2024 Election") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+```
+
+```{r combined state pred map}
+d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2) |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Margin), color = "black") +
+  scale_fill_gradientn(colors = c("#9e0213", "#f04658", "#ff9ea9", "#ffc7ce", "white", "#ccdfff", "#a1c4ff", "#4b50e3", "#02079e"), 
+                       values = scales::rescale(c(-50, -15, -10, -5, 0, 5, 10, 15, 50)), # Rescale to the range of your data
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50, 50)) +
+  theme_void() +
+  ggtitle("Predicted Presidential Vote Share by State for the 2024 Election") +
+  labs(fill = "Harris Margin") +
+  theme(aspect.ratio = .60)
+```
+
+```{r state pred graphic}
+knitr::kable(d_state_model_2024 |> 
+               select(state, predicted_values, lower_bounds, upper_bounds), 
+             col.names = c("State", "Harris Vote Share", "Lower Bound", "Upper Bound"),
+             align = c("l", "c", "c", "c")) |>
+  row_spec(which(d_state_model_2024$predicted_values >= 50 & d_state_model_2024$predicted_values < 52.5), background = "#ccdfff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 52.5 & d_state_model_2024$predicted_values < 55), background = "#a1c4ff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 55 & d_state_model_2024$predicted_values < 57.5), background = "#6ea3ff") |>
+  row_spec(which(d_state_model_2024$predicted_values >= 57.5), background = "#3972d4") |>
+  row_spec(which(d_state_model_2024$predicted_values < 50 & d_state_model_2024$predicted_values > 47.5), background = "#ffc7ce") |>
+  row_spec(which(d_state_model_2024$predicted_values < 47.5 & d_state_model_2024$predicted_values > 45), background = "#ff9ea9") |>
+  row_spec(which(d_state_model_2024$predicted_values <= 45 & d_state_model_2024$predicted_values > 42.5), background = "#ff6e7e") |>
+  row_spec(which(d_state_model_2024$predicted_values <= 42.5), background = "#c93c4c")
+
+```
+
+
+```{r combining state-level data, include=FALSE}
+d_final_preds <- d_nopoll_state_model_2024 |>
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         final_prediction_margin = (final_prediction - 50) * 2,
+         final_lower_bounds = if_else(is.na(lower_bounds.y) == 0, lower_bounds.y, lower_bounds.x),
+         final_upper_bounds = if_else(is.na(upper_bounds.y) == 0, upper_bounds.y, upper_bounds.x),
+         state = if_else(state == "District Of Columbia", "District of Columbia", state)) |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, final_prediction, final_prediction_margin, final_lower_bounds, final_upper_bounds, harris_2pv, winner, region) |>
+  mutate(harris_2pv = harris_2pv * 100,
+         harris_margin = (harris_2pv - 50) * 2,
+         pred_error = harris_2pv - final_prediction,
+         margin_error = harris_margin - final_prediction_margin)
+```
+
+```{r state margin error map}
+d_final_preds |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = margin_error), color = "black") +
+  scale_fill_gradientn(colors = c("#9e0213", "white", "#02079e"), 
+                       limits = c(-10, 10)
+                       ) +
+  theme_void() +
+  ggtitle("Difference Between Predicted and Actual State-Level 2024 Election Margins") +
+  labs(fill = "Margin Error") +
+  theme(aspect.ratio = .60)
+```
+
+```{r two state winner maps}
+pred_state_winner_map <- d_nopoll_state_model_2024 |>
+  left_join(states_map, by = "region") |> 
+  left_join(d_state_model_2024, by = "state") |>
+  mutate(final_prediction = if_else(is.na(predicted_values.y) == 0, predicted_values.y, predicted_values.x),
+         Margin = (final_prediction - 50) * 2,
+         Win = if_else(Margin > 0, "Harris", "Trump")) |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = Win), color = "black") +  
+  scale_fill_manual(values = c("Harris" = "dodgerblue4", "Trump" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Predicted Winner") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+
+real_state_winner_map <- d_final_preds |>
+  left_join(states_map, by = "region") |> 
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = winner), color = "black") +  
+  scale_fill_manual(values = c("DEM" = "dodgerblue4", "REP" = "firebrick1")) +  
+  theme_void() +
+  ggtitle("Actual Winner") +
+  labs(fill = "Winner") +
+  theme(aspect.ratio = .60)
+```
+
+```{r}
+pred_state_winner_map + real_state_winner_map
+```
+
+
+
+```{r state pred error graphic}
+comb_key_states <- d_state_model_2024 |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, predicted_values, harris_2pv, lower_bounds, upper_bounds) |>
+  mutate(harris_2pv = if_else(state == "Maine Cd 2", 0.45379, harris_2pv),
+         harris_2pv = if_else(state == "Nebraska Cd 2", 0.52129, harris_2pv),
+         harris_2pv = harris_2pv * 100,
+         pred_error = harris_2pv - predicted_values)
+
+knitr::kable(comb_key_states |> 
+               select(state, predicted_values, harris_2pv, lower_bounds, upper_bounds, pred_error), 
+             col.names = c("State", "Pred. Harris %", "Real Harris %", "Lower Bound", "Upper Bound", "Error"),
+             align = c("l", "c", "c", "c", "c")) |>
+ row_spec(which(comb_key_states$pred_error < 0 & comb_key_states$pred_error > -1), background = "#ffc7ce") |>
+  row_spec(which(comb_key_states$pred_error < -1 & comb_key_states$pred_error > -2), background = "#ff9ea9") |>
+  row_spec(which(comb_key_states$pred_error <= -2 & comb_key_states$pred_error > -3), background = "#ff6e7e") |>
+  row_spec(which(comb_key_states$pred_error <= -3 & comb_key_states$pred_error > -4), background = "#c93c4c") |>
+  row_spec(which(comb_key_states$pred_error <= -4), background = "firebrick")
+
+```
+
+```{r nat pred error graphic}
+nat_vote_combined <- data.frame(
+  fit = 51.83,
+  real_2pv = 48.72,
+  lwr = 46.55,
+  upr = 57.10
+)
+
+knitr::kable(nat_vote_combined, 
+             col.names = c("Pred. Harris %", "Real Harris %", "Lower Bound", "Upper Bound"),
+             align = c("c", "c", "c", "c")) 
+```
+
+
+```{r}
+d_final_preds |>
+  summarize(
+    bias = round(mean(harris_2pv - final_prediction),2),  
+    RMSE = round(sqrt(mean((harris_2pv - final_prediction)^2)),2),
+    MAE = round(mean(abs(harris_2pv - final_prediction)),2)
+  )
+
+comb_key_states |>
+  summarize(
+    bias = round(mean(harris_2pv - predicted_values),2),  
+    RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
+    MAE = round(mean(abs(harris_2pv - predicted_values)),2)
+  )
+
+
+d_nopoll_state_model_2024 |>
+  mutate(state = if_else(state == "District Of Columbia", "District of Columbia", state)) |>
+  left_join(d_state_2024, by = "state") |>
+  select(state, predicted_values, lower_bounds, upper_bounds, harris_2pv, winner, region) |>
+  mutate(harris_2pv = harris_2pv * 100,
+         harris_margin = (harris_2pv - 50) * 2,
+         pred_error = harris_2pv - predicted_values) |>
+  summarize(
+    bias = round(mean(harris_2pv - predicted_values),2),  
+    RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
+    MAE = round(mean(abs(harris_2pv - predicted_values)),2)
+  )
+```
+
+
+## Assessing My Accuracy
+### National Popular Vote
+Graphic for popular vote vs prediction
+
+### State-Level Vote and Electoral College
+graphic for difference in margin vs prediction by state
+Side-by-side victor maps
+Chart for key states
+
+
+## Potential Explanations for Inaccuracies
+### Hypothesis 1: Incumbency
+Did not adequately consider how closely Harris was tied to Biden, should have potentially factored in approval rating.
+How do I test?
+
+### Hypothesis 2: Economics
+People clearly are still feeling the effects of inflation, and exit polls show that the economy was a top issue and that voters who cited the economy as their top issue swung towards Trump, indicating that GDP was not an accurate indicator of how Americans were viewing the state of the economy. What else should have been used? RDI growth? Inflation indicator? Consumer sentiment?
+How do I test?
+
+### Hypothesis 3: Demographics
+Won't explain my nationwide miss, but would have helped explain why I missed much more in some states like NJ, NY, FL, and TX than I did in others like WI
+How do I test?
+
+## How I Might Have Changed My Model
+
+
 
 
 ```{r, include=FALSE}
 ## build_site(build_rmd=TRUE)
 ```
-
