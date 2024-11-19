@@ -467,24 +467,57 @@
 <p>In terms of how this translates to who actually won each state, below are the maps of the predicted and actual state-level victors (with Alaska, Hawaii, DC, and the congressional districts in Nebraska and Maine not shown, but not changing between my model compared to the results):</p>
 <img src="https://johnkulow.github.io/elections-blog/post/2024/11/18/blog-post-10-post-election-reflection/index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 <p>In terms of quantifying how much my predictions were off, below are the bias, root mean squared error, and mean average error of my combined predictions:</p>
-<pre><code>## # A tibble: 1 × 3
-##    Bias  RMSE   MAE
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  -1.1  2.09  1.66
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Bias</th>
+<th style="text-align:center">RMSE</th>
+<th style="text-align:center">MAE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-1.1</td>
+<td style="text-align:center">2.09</td>
+<td style="text-align:center">1.66</td>
+</tr>
+</tbody>
+</table>
 <p>Although less than ideal, these values are not horribly far off the final results, especially given that this race ended up being less close than 2020 (although a 1-2% error still would have substantially swung the election). This said, there were differences in how accurate my two state-level models were.</p>
 <p>In terms of my model for states <em>with</em> polling, this model fared notably worse, with higher bias, RMSE, and MAE values compared to my overall state-level predictions:</p>
-<pre><code>## # A tibble: 1 × 3
-##    bias  RMSE   MAE
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 -2.49  2.79  2.49
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Bias</th>
+<th style="text-align:center">RMSE</th>
+<th style="text-align:center">MAE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-2.49</td>
+<td style="text-align:center">2.79</td>
+<td style="text-align:center">2.49</td>
+</tr>
+</tbody>
+</table>
 <p>Meanwhile, the subset of states for which I used the secondary model had almost no bias, and had notably lower RMSE and MAE values:</p>
-<pre><code>## # A tibble: 1 × 3
-##    bias  RMSE   MAE
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.02  1.24     1
-</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Bias</th>
+<th style="text-align:center">RMSE</th>
+<th style="text-align:center">MAE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0.02</td>
+<td style="text-align:center">1.24</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
 <p>I will explore potential reasons for this discrepancy below, but I preliminarily believe that the main reason behind this is that some of the largest shocking electoral shifts of the night happened in large, diverse states like California, New York, Texas, and Florida, all of which are important enough (either electorally or otherwise) for there to be public polling available for, whereas smaller, less diverse, electorally-safe states such as those in the Great Plains and Upper New England did not have polling.</p>
 <h2 id="potential-explanations-for-inaccuracies">Potential Explanations for Inaccuracies</h2>
 <h3 id="hypothesis-1-incumbency">Hypothesis 1: Incumbency</h3>

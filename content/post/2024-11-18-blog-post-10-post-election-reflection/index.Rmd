@@ -597,12 +597,16 @@ pred_state_winner_map + real_state_winner_map
 In terms of quantifying how much my predictions were off, below are the bias, root mean squared error, and mean average error of my combined predictions:
 
 ```{r}
-d_final_preds |>
+error_table_1 <- d_final_preds |>
   summarize(
     Bias = round(mean(harris_2pv - final_prediction),2),  
     RMSE = round(sqrt(mean((harris_2pv - final_prediction)^2)),2),
     MAE = round(mean(abs(harris_2pv - final_prediction)),2)
   )
+
+knitr::kable(error_table_1, 
+             col.names = c("Bias", "RMSE", "MAE"),
+             align = c("c", "c", "c")) 
 ```
 
 Although less than ideal, these values are not horribly far off the final results, especially given that this race ended up being less close than 2020 (although a 1-2% error still would have substantially swung the election). This said, there were differences in how accurate my two state-level models were.
@@ -610,18 +614,22 @@ Although less than ideal, these values are not horribly far off the final result
 In terms of my model for states *with* polling, this model fared notably worse, with higher bias, RMSE, and MAE values compared to my overall state-level predictions:
 
 ```{r}
-comb_key_states |>
+error_table_2 <- comb_key_states |>
   summarize(
     bias = round(mean(harris_2pv - predicted_values),2),  
     RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
     MAE = round(mean(abs(harris_2pv - predicted_values)),2)
   )
+
+knitr::kable(error_table_2, 
+             col.names = c("Bias", "RMSE", "MAE"),
+             align = c("c", "c", "c")) 
 ```
 
 Meanwhile, the subset of states for which I used the secondary model had almost no bias, and had notably lower RMSE and MAE values:
 
 ```{r}
-d_nopoll_state_model_2024 |>
+error_table_3 <- d_nopoll_state_model_2024 |>
   mutate(state = if_else(state == "District Of Columbia", "District of Columbia", state)) |>
   left_join(d_state_2024, by = "state") |>
   select(state, predicted_values, lower_bounds, upper_bounds, harris_2pv, winner, region) |>
@@ -633,6 +641,10 @@ d_nopoll_state_model_2024 |>
     RMSE = round(sqrt(mean((harris_2pv - predicted_values)^2)),2),
     MAE = round(mean(abs(harris_2pv - predicted_values)),2)
   )
+
+knitr::kable(error_table_3, 
+             col.names = c("Bias", "RMSE", "MAE"),
+             align = c("c", "c", "c")) 
 ```
 
 I will explore potential reasons for this discrepancy below, but I preliminarily believe that the main reason behind this is that some of the largest shocking electoral shifts of the night happened in large, diverse states like California, New York, Texas, and Florida, all of which are important enough (either electorally or otherwise) for there to be public polling available for, whereas smaller, less diverse, electorally-safe states such as those in the Great Plains and Upper New England did not have polling.

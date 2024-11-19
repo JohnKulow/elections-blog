@@ -471,34 +471,25 @@ In terms of how this translates to who actually won each state, below are the ma
 In terms of quantifying how much my predictions were off, below are the bias, root mean squared error, and mean average error of my combined predictions:
 
 
-```
-## # A tibble: 1 × 3
-##    Bias  RMSE   MAE
-##   <dbl> <dbl> <dbl>
-## 1  -1.1  2.09  1.66
-```
+| Bias | RMSE | MAE  |
+|:----:|:----:|:----:|
+| -1.1 | 2.09 | 1.66 |
 
 Although less than ideal, these values are not horribly far off the final results, especially given that this race ended up being less close than 2020 (although a 1-2% error still would have substantially swung the election). This said, there were differences in how accurate my two state-level models were.
 
 In terms of my model for states *with* polling, this model fared notably worse, with higher bias, RMSE, and MAE values compared to my overall state-level predictions:
 
 
-```
-## # A tibble: 1 × 3
-##    bias  RMSE   MAE
-##   <dbl> <dbl> <dbl>
-## 1 -2.49  2.79  2.49
-```
+| Bias  | RMSE | MAE  |
+|:-----:|:----:|:----:|
+| -2.49 | 2.79 | 2.49 |
 
 Meanwhile, the subset of states for which I used the secondary model had almost no bias, and had notably lower RMSE and MAE values:
 
 
-```
-## # A tibble: 1 × 3
-##    bias  RMSE   MAE
-##   <dbl> <dbl> <dbl>
-## 1  0.02  1.24     1
-```
+| Bias | RMSE | MAE |
+|:----:|:----:|:---:|
+| 0.02 | 1.24 |  1  |
 
 I will explore potential reasons for this discrepancy below, but I preliminarily believe that the main reason behind this is that some of the largest shocking electoral shifts of the night happened in large, diverse states like California, New York, Texas, and Florida, all of which are important enough (either electorally or otherwise) for there to be public polling available for, whereas smaller, less diverse, electorally-safe states such as those in the Great Plains and Upper New England did not have polling.
 
