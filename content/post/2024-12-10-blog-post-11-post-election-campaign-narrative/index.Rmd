@@ -54,7 +54,27 @@ library(readstata13)
 ```
 
 
+## Introduction
+For my campaign narrative analysis, I chose to focus on the state of North Carolina. One of the seven key swing states targeted by the campaigns, North Carolina could have proved crucial to a Harris victory had she been able to flip the state, the only one of the seven that Biden lost in 2020. However, this did not pan out. Donald Trump won the state by 3.2% and with 50.9% of the vote, better than his 1.3% margin and 49.9% plurality vote share victory against Biden in 2020.
 
+
+## Overview of North Carolina
+
+
+
+## Forecasts vs Results
+
+
+
+## Progression of the Campaign
+
+
+
+## Explaining Forecast Error
+
+
+
+## Conclusion
 
 
 
