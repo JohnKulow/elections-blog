@@ -1,0 +1,55 @@
+---
+title: 'Blog Post 11: North Carolina Campaign Narrative'
+author: John Kulow
+date: '2024-12-10'
+slug: blog-post-11-north-carolina-campaign-narrative
+categories: []
+tags: []
+---
+
+
+
+
+
+
+
+## Introduction
+For my campaign narrative analysis, I chose to focus on the state of North Carolina. One of the seven key swing states targeted by the campaigns, North Carolina could have proved crucial to a Harris victory had she been able to flip the state, the only one of the seven that Biden lost in 2020. However, this did not pan out. Donald Trump won the state by 3.2% and with 50.9% of the vote, winning 183,046 more votes than Harris did in the state. This was better than when he took a 49.9% plurality of the vote in 2020, giving him a 1.3% margin and 74,483 vote victory against Biden that year.
+
+
+## Overview of North Carolina
+Similar to many of its fellow southern states, North Carolina has a fairly conservative electoral history in the modern era. Other than Obama's narrow victory in 2008, North Carolina has not voted for a Democrat in a presidential election since 1976 when southerner Jimmy Carter managed to take the state.
+
+
+## Forecasts vs Results
+
+
+
+## Progression of the Campaign
+
+
+
+## Explaining Forecast Error
+
+
+
+## Conclusion
+
+
+
+
+
+
+Overview of the state
+
+Forecasted outcome vs actual results
+
+Description of campaign in the state
+
+Explain deviation using course content
+
+
+
+
+
+
