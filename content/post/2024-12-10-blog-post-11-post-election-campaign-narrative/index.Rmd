@@ -1,0 +1,78 @@
+---
+title: 'Blog Post 11: Post Election Campaign Narrative'
+author: John Kulow
+date: '2024-12-10'
+slug: blog-post-11-post-election-campaign-narrative
+categories: []
+tags: []
+---
+
+```{r setup, warning = FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, messages = FALSE, warning = FALSE)
+```
+
+```{r libraries, include=FALSE}
+library(blogdown)
+library(car)
+library(caret)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(glmnet)
+library(gridExtra)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(knitr)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(mlr3)
+library(patchwork)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(readxl)
+library(rstan)
+library(scales)
+library(sf)
+library(shinystan)
+library(sjPlot)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+library(censable)
+library(readstata13)
+```
+
+
+
+
+
+
+
+
+
+Overview of the state
+
+Forecasted outcome vs actual results
+
+Description of campaign in the state
+
+Explain deviation using course content
+
+
+
+
+
+```{r, include=FALSE}
+## build_site(build_rmd=TRUE)
+```
